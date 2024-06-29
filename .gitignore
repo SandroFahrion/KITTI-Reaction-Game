@@ -1,4 +1,6 @@
-./data
+/data
+
+/build
 
 # Prerequisites
 *.d
