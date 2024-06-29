@@ -1,0 +1,8 @@
+{
+    "cSpell.ignoreWords": [
+        "Konsolenapp"
+    ],
+    "files.associations": {
+        "iostream": "cpp"
+    }
+}

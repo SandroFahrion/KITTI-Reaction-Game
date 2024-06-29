@@ -1,0 +1,1 @@
+// abstrakte klasse mit den spiel-funktionen

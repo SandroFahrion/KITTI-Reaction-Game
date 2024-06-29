@@ -1,0 +1,1 @@
+// umgeformte unterklasse für den Mode 1 - Direct Click Reaction:

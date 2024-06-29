@@ -1,0 +1,1 @@
+// umgeformte unterklasse für den Mode 2 - Color Change Reaction
