@@ -14,4 +14,4 @@ class BoundingBox {
         int x, y, width, height;
 };
 
-#endif BOUNDING_BOX_HPP
+#endif // BOUNDING_BOX_HPP

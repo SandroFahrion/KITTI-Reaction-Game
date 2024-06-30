@@ -17,4 +17,4 @@ class Player {
         std::vector<double> reactionTimes;
 };
 
-#endif PLAYER_HPP
+#endif // PLAYER_HPP

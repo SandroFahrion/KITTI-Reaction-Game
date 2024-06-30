@@ -8,4 +8,4 @@ class GameMode {
         virtual void processClick(int x, int y) = 0;
 };
 
-#endif GAME_MODE_HPP
+#endif // GAME_MODE_HPP

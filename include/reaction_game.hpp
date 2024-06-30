@@ -23,4 +23,4 @@ class ReactionGame{
         GameMode *gameMode;     // Instanziierung mit Zeiger "*gamemode" als Instanz auf die GameMode-Basisklasse zur Kapselung der Spielmodi
 };
 
-#endif REACTION_GAME_HPP
+#endif // REACTION_GAME_HPP

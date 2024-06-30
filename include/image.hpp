@@ -20,4 +20,4 @@ class Image {
         std::vector<BoundingBox> boundingBoxes;
 };
 
-#endif IMAGE_HPP
+#endif // IMAGE_HPP

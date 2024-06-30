@@ -25,4 +25,4 @@ class StartParams{
         playerName(name), numImages(num), sequence(seq), gameMode(mode) {}
 };
 
-#endif  GUI_HPP
+#endif // GUI_HPP

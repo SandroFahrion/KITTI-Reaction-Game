@@ -17,4 +17,4 @@ class KittiDataset {
         std::vector<BoundingBox> getBoundingBoxes(size_t index);
 };
 
-#endif KITTI_DATASET_HPP
+#endif // KITTI_DATASET_HPP

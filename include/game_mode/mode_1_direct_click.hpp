@@ -16,4 +16,4 @@ class Mode1DirectClick : public GameMode {
         double startTime;
 };
 
-#endif MODE_1_DIRECTCLICK_HPP
+#endif // MODE_1_DIRECTCLICK_HPP
