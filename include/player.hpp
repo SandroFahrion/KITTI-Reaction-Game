@@ -8,13 +8,15 @@
 
 class Player {
     public:
-        Player(const std::string &name);
-        void addReactionTime(double time);
-        void printStatistics();
+        //Player(); // Standardkonstruktor
+        //~Player(); // Destruktor
+        Player(const std::string &name); // Überladener Konstruktor
+        void addReactionTime(double time);  // Wert einer Reaktionszeit verarbeiten
+        void printStatistics(); // Rückgabe von Reaktionszeiten
     
     private:
-        std::string name;
-        std::vector<double> reactionTimes;
+        std::string m_name; // Speichert den Spielernamen
+        std::vector<double> m_reactionTimes;  // Enthält die Reaktionszeiten des Spielers
 };
 
 #endif // PLAYER_HPP

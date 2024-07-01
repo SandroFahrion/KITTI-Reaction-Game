@@ -12,9 +12,9 @@
 
 class KittiDataset {
     public:
-        void loadDataset(const std::string &path);
-        Image getImage(size_t index);
-        std::vector<BoundingBox> getBoundingBoxes(size_t index);
+        void loadDataset(const std::string &path);                  // lädt einen Datensatz aus dem Verzeichnis
+        Image getImage(size_t index);                               // getter-Methode zur Rückgabe eines einzelnen Bildes (Kapselung, Abstraktion)
+        std::vector<BoundingBox> getBoundingBoxes(size_t index);    // getter-Methode zur Rückgabe einer eizelnen Bounding Box (Kapselung, Abstraktion)
 };
 
 #endif // KITTI_DATASET_HPP

@@ -12,15 +12,18 @@
 
 class ReactionGame{
     public:
-        ReactionGame(const StartParams &params); // Standardkonstruktor
-        ~ReactionGame(); // Destruktor
+        //ReactionGame(); // Standardkonstruktor
+        //~ReactionGame(); // Destruktor
 
-        void startGame(); // selbsterklärend
+        ReactionGame(const StartParams &params); // Überladener Konstruktor für die Spielinstanz, erhält Startparameter von GUI
+
+        void startGame(); // Spielablauf durch Aufruf der benötigten Funktionen
         
     private:        
-        Player player;          // Instanziierung der Player-Klasse mit der Instanz "player" zur Kapselung der Spielerdaten
-        KittiDataset dataset;   // Instanziierung der KittiDataset-Klasse mit der Instanz "dataset" zur Kapselung des KITTI Datensatzes
-        GameMode *gameMode;     // Instanziierung mit Zeiger "*gamemode" als Instanz auf die GameMode-Basisklasse zur Kapselung der Spielmodi
+        Player player;            // Instanziierung der Player-Klasse mit der Instanz / dem Objekt "player" zur Kapselung der Spielerdaten
+        KittiDataset dataset;     // Instanziierung der KittiDataset-Klasse mit "dataset" zur Kapselung des KITTI Datensatzes
+        GameMode *gameMode;       // Instanziierung mit Zeiger "*gamemode" als Instanz auf die GameMode-Basisklasse zur Kapselung der Spielmodi
+        StartParams params;       // Instanz zur Speicherung der Startparameter
 };
 
 #endif // REACTION_GAME_HPP

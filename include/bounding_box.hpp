@@ -7,11 +7,11 @@
 
 class BoundingBox {
     public:
-        BoundingBox(int x, int y, int width, int height);
-        void draw();
+        BoundingBox(int x, int y, int width, int height); // Überladener Konstruktor zur Erzeugung eines BoundingBox-Objektes
+        void draw();                                      // Verarbeitung der Daten zu einer BoundingBox        
     
     private:
-        int x, y, width, height;
+        int m_x, m_y, m_width, m_height;
 };
 
 #endif // BOUNDING_BOX_HPP

@@ -11,13 +11,17 @@
 
 class Image {
     public:
-        void loadImage(const std::string &path);
-        void display();
+        void loadImage(const std::string &path);    // Datensatz muss wahrscheinlich im Projekt zwischengespeichert werden
+        void joinDataset();                         // Bild und Box zusammenfügen. evtl nicht nötig, wenn es mit GUI displayImage() gut lösbar ist
+
+// setter-Methode
+// wichtig: bestimmt für das aktuelle Bild den Index der zugehörigen Bounding Box, fordert die Daten mit der getter-Methode von der dataset-Klasse an
+// und setzt für das BoundingBox-Objekt die aktuell benötigten Werte
         void setBoundingBoxes(const std::vector<BoundingBox> &boxes);
     
     private:
-        std::string filePath;
-        std::vector<BoundingBox> boundingBoxes;
+        std::string m_filePath;
+        std::vector<BoundingBox> m_boundingBoxes;
 };
 
 #endif // IMAGE_HPP

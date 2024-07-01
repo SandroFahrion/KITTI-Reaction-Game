@@ -1,7 +1,7 @@
 // umgeformte unterklasse für den Mode 1 - Direct Click Reaction:
 
-#ifndef MODE_1_DIRECTCLICK_HPP
-#define MODE_1_DIRECTCLICK_HPP
+#ifndef MODE_1_DIRECT_CLICK_HPP
+#define MODE_1_DIRECT_CLICK_HPP
 
 #include "game_mode.hpp"
 #include "player.hpp"
@@ -12,8 +12,8 @@ class Mode1DirectClick : public GameMode {
         void calculateReactionTime();
     
     private:
-        Player *player;
-        double startTime;
+        Player *m_player;
+        double m_startTime;
 };
 
-#endif // MODE_1_DIRECTCLICK_HPP
+#endif // MODE_1_DIRECT_CLICK_HPP
