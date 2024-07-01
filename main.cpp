@@ -25,7 +25,7 @@ int main() {
     GUI gui;    // Instanziierung des Menüs
     auto startParams = gui.showMenu(); //Aufruf des Menüs
 
-    ReactionGame game(startParams); // Instanziierung der Spielverwaltung
+    ReactionGame game(startParams); // Instanziierung der Spielverwaltung als Objekt "game" mit dem Konstruktor, der die Startparameter übergibt
     game.startGame();   //Spielstart  -> alle weitere funktionen werden über die Spielverwaltungsklasse ReactionGame aufgerufen 
     
     return 0;
