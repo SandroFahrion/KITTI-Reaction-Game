@@ -10,9 +10,8 @@ class Player {
     public:
         //Player(); // Standardkonstruktor
         //~Player(); // Destruktor
-        Player(const std::string &name); // Überladener Konstruktor
+        Player(const std::string &name);    // Überladener Konstruktor
         void addReactionTime(double time);  // Wert einer Reaktionszeit verarbeiten
-        void printStatistics(); // Rückgabe von Reaktionszeiten
     
     private:
         std::string m_name; // Speichert den Spielernamen

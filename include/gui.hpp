@@ -6,8 +6,12 @@
 
 #include "image.hpp"
 #include <string>
+#include <iostream>
 #include "player.hpp"
-
+/*
+#include <opencv/include/opencv2/opencv.hpp>
+#include <opencv2/opencv.hpp>
+*/
 class GUI {
     public:
         StartParams showMenu();                     // Instanziierung und Aufruf der Konsole als Menü, zur Abfrage der Spieleinstellungen und Ausgabe

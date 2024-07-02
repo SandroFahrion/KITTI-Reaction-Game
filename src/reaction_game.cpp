@@ -4,12 +4,12 @@
 
 #include "reaction_game.hpp"
 
-ReactionGame::ReactionGame(const StartParams &params):
+ReactionGame::ReactionGame(const StartParams &params):  //siehe header-file für doku
 player(params.m_playerName), dataset(), gameMode(nullptr), params(params) {
 
 }
 
-void startGame(){
+void ReactionGame::startGame(){
     GUI gui;
     // Spielablauf durch Aufruf der Funktionen in einer Schleife
 }

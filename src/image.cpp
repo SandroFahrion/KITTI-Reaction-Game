@@ -4,14 +4,14 @@
 
 #include "image.hpp"
 
-void loadImage(const std::string &path){
+void Image::loadImage(const std::string &path){ //siehe header-file für doku
 
 }
 
-void joinDataset(){
+void Image::joinDataset(){  //siehe header-file für doku
 
 }
 
-void setBoundingBoxes(const std::vector<BoundingBox> &boxes){
+void Image::setBoundingBoxes(const std::vector<BoundingBox> &boxes){    //siehe header-file für doku
     
 }

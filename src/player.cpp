@@ -9,10 +9,6 @@
 
 Player::Player(const std::string &name) : m_name(name){} // Überladenen Konstruktor aufrufen, Wert aus Referenz in member-Variable schreiben
 
-void Player::addReactionTime(double time){ 
+void Player::addReactionTime(double time){  //siehe header-file für doku
     m_reactionTimes.push_back(time);        // Befüllen des reactionTimes-Vektors
-}
-
-void Player::printStatistics(){
-    // entweder cout oder gui aufrufen
 }
