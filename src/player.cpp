@@ -1,11 +1,11 @@
 // spielerinformationen
 
-#include "include/player.hpp"
+#include "player.hpp"
 
 //entweder
 #include <iostream>
 // oder
-#include "include/gui.hpp"
+#include "gui.hpp"
 
 Player::Player(const std::string &name) : m_name(name){} // Überladenen Konstruktor aufrufen, Wert aus Referenz in member-Variable schreiben
 

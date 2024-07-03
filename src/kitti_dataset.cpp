@@ -10,10 +10,12 @@ void KittiDataset::loadDataset(const std::string &path) {
 
 Image KittiDataset::getImage(size_t index) {
     // Rückgabe des Bildes am angegebenen Index
+    return {};
     //return images.at(index); // 'at' verwendet, um eine Grenzenüberprüfung durchzuführen
 }
 
 std::vector<BoundingBox> KittiDataset::getBoundingBoxes(size_t index) {
-
+    
+    return {};
     //return images.at(index).getBoundingBoxes();
 }

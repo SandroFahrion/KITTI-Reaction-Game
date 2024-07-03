@@ -2,7 +2,7 @@
 // verwaltet die vorbereitete bounding box des aktuellen datensatzes
 // zusammensetzen von bild und bounding box 
 
-#include "include/image.hpp"
+#include "image.hpp"
 
 void Image::loadImage(const std::string &path){ //siehe header-file für doku
 

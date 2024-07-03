@@ -2,7 +2,7 @@
 // Spielverwaltung
 // ruft die benötigten klassen und funktionen auf zur Erstellung der Instanzen auf
 
-#include "include/reaction_game.hpp"
+#include "reaction_game.hpp"
 
 ReactionGame::ReactionGame(const StartParams &params):  //siehe header-file für doku
 player(params.m_playerName), dataset(params.m_sequence), gameMode(nullptr), params(params) {

@@ -5,10 +5,10 @@
 #ifndef REACTION_GAME_HPP
 #define REACTION_GAME_HPP
 
-#include "include/kitti_dataset.hpp"
-#include "include/player.hpp"
-#include "include/game_mode/game_mode.hpp"
-#include "include/gui.hpp"
+#include "kitti_dataset.hpp"
+#include "player.hpp"
+#include "game_mode/game_mode.hpp"
+#include "gui.hpp"
 
 class ReactionGame{
     public:

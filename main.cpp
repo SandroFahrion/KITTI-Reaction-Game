@@ -1,7 +1,7 @@
 // Programmstart
 
-#include "include/gui.hpp"
-#include "include/reaction_game.hpp"
+#include "gui.hpp"
+#include "reaction_game.hpp"
 
 int main() {
     GUI gui;    // Instanziierung des Menüs
