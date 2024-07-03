@@ -5,10 +5,10 @@
 #ifndef REACTION_GAME_HPP
 #define REACTION_GAME_HPP
 
-#include "kitti_dataset.hpp"
-#include "player.hpp"
-#include "game_mode/game_mode.hpp"
-#include "gui.hpp"
+#include "include/kitti_dataset.hpp"
+#include "include/player.hpp"
+#include "include/game_mode/game_mode.hpp"
+#include "include/gui.hpp"
 
 class ReactionGame{
     public:
@@ -21,9 +21,9 @@ class ReactionGame{
         
     private:        
         Player player;            // Instanziierung der Player-Klasse mit der Instanz / dem Objekt "player" zur Kapselung der Spielerdaten
-        KittiDataset dataset;     // Instanziierung der KittiDataset-Klasse mit "dataset" zur Kapselung des KITTI Datensatzes
+        KittiDataset dataset;     // Instanziierung der KittiDataset-Klasse mit "dataset" zur Kapselung der Datensatz-Dateizugriffe
         GameMode *gameMode;       // Instanziierung mit Zeiger "*gamemode" als Instanz auf die GameMode-Basisklasse zur Kapselung der Spielmodi
-        StartParams params;       // Instanz zur Speicherung der Startparameter
+        StartParams params;       // Instanz für Startparameter
 };
 
 #endif // REACTION_GAME_HPP

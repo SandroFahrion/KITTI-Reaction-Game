@@ -1,5 +1,4 @@
 // Attribute: Größe der Bounding Box
-
 // Funktionen: Bounding Box "zeichnen"
 
 #ifndef BOUNDING_BOX_HPP
