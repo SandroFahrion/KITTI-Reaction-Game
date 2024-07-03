@@ -12,6 +12,7 @@
 class Image {
     public:
         void loadImage(const std::string &path);    // Datensatz muss wahrscheinlich im Projekt zwischengespeichert werden
+        
         void joinDataset();                         // Bild und Box zusammenfügen. evtl nicht nötig, wenn es mit GUI displayImage() gut lösbar ist
 
 // setter-Methode
