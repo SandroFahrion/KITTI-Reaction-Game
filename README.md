@@ -6,11 +6,26 @@
 
 ```cmake --build build```
 
+To launch
+
+```cd build/Debug```
+
+```KITTIReactionGame.exe```
+
+Launch with debugging
+
+```cmake -S . -B build_debug -DENABLE_DEBUG=ON```
+```cmake --build build_debug```
+```cd build_debug/Debug```
+```KITTIReactionGame.exe --debug```
+
 ```
 └── 📁CPP_Projekt_Klos_Fahrion
     └── .gitignore
     └── CMakeLists.txt
     └── 📁data
+        └── 📁data_tracking_image_2
+        └── 📁data_tracking_label_2
     └── 📁include
         └── bounding_box.hpp
         └── 📁game_mode
@@ -37,4 +52,6 @@
         └── reaction_game.cpp
     └── 📁test
         └── CMakeLists.txt
+└── 📁opencv
+    └── ...
 ```

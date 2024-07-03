@@ -16,7 +16,7 @@
 class StartParams{
     public:
         StartParams(const std::string &name, int num, int seq, int mode); // Überladener Konstruktor
-        
+        // Member-Variablen
         std::string m_playerName;
         int m_numImages, m_gameMode, m_sequence;
 };
@@ -27,9 +27,9 @@ class GUI {
         // Rückgabewert bestimmt über Spielstart oder Programmende
         bool showMenu(StartParams &params);
 
-        Player showScoreboard();    // Instanziierung und Aufruf der Konsole zur Ausgabe an den Spieler
+        Player showScoreboard();                // Instanziierung und Aufruf der Konsole zur Ausgabe an den Spieler
         
-        void displayImage(const Image &image);      // Finale Bildausgabe mit OpenCV
+        void displayImage(const Image &image);  // Finale Bildausgabe mit OpenCV
 };
 
 #endif // GUI_HPP

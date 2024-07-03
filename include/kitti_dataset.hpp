@@ -12,11 +12,11 @@
 
 class KittiDataset {
     public:
-        KittiDataset(int seq);  // Konstruktor
+        KittiDataset(int seq);                      // Konstruktor
         
         void loadDataset(const std::string &path);  // lädt einen Datensatz aus dem Verzeichnis
         
-        Image getImage(int index);   // getter-Methode zur Rückgabe eines einzelnen Bildes (Kapselung, Abstraktion)
+        Image getImage(int index);                  // getter-Methode zur Rückgabe eines einzelnen Bildes (Kapselung, Abstraktion)
         
         std::vector<BoundingBox> getBoundingBoxes(int index);    // getter-Methode zur Rückgabe einer eizelnen Bounding Box (Kapselung, Abstraktion)
     

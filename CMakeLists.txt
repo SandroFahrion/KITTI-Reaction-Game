@@ -18,8 +18,16 @@ set(SOURCES
     src/kitti_dataset.cpp
     src/player.cpp
     src/reaction_game.cpp
+    src/debug.cpp
     main.cpp
 )
+
+# Debugging option
+option(ENABLE_DEBUG "Enable debugging" OFF)
+
+if(ENABLE_DEBUG)
+    add_definitions(-DDEBUG_MODE)
+endif()
 
 # Find OpenCV package
 #find_package(OpenCV REQUIRED)
@@ -29,4 +37,4 @@ set(SOURCES
 add_executable(KITTIReactionGame ${SOURCES})
 
 # Link OpenCV libraries
-#target_link_libraries(KITTIReactionGame ${OpenCV_LIBS})
+#target_link_libraries(KittiReactionGame ${OpenCV_LIBS})

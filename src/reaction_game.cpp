@@ -6,7 +6,6 @@
 
 ReactionGame::ReactionGame(const StartParams &params):  //siehe header-file für doku
 player(params.m_playerName), dataset(params.m_sequence), gameMode(nullptr), params(params) {
-
 }
 
 // Spielablauf durch Aufruf der Funktionen in einer Schleife
@@ -17,7 +16,21 @@ void ReactionGame::startGame(){
         image.setBoundingBoxes(dataset.getBoundingBoxes(i));
         gui.displayImage(image);
         // gameMode->processClick();
-        //reaction times
+        // reaction times
         // stats ausgeben
     }
 }
+
+// ----------------------------------------------------------
+// Debugging tools
+
+const Player &ReactionGame::getPlayer() const {
+    return player;
+}
+
+const StartParams &ReactionGame::getStartParams() const {
+    return params;
+}
+
+// Debugging tools
+// ----------------------------------------------------------
