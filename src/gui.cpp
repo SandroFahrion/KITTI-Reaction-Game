@@ -9,8 +9,8 @@ m_playerName(name), m_numImages(num), m_sequence(seq), m_gameMode(mode) { // Ini
 }
 
 bool GUI::showMenu(StartParams &params){
-    const int maxImages = 10;   // Muss noch abhängig von der Höchstzahl der spielbaren Datensätzen pro Sequenz gewählt werden
-    const int maxSeq = 5;   // im KITTI-Datensatz nachschauen!!!!
+    const int maxImages = 400;   // Muss noch abhängig von der Höchstzahl der spielbaren Datensätzen pro Sequenz gewählt werden
+    const int maxSeq = 20;   // im KITTI-Datensatz nachschauen!!!!
     const int maxMode = 2;
 
     // Spielername
@@ -20,7 +20,7 @@ bool GUI::showMenu(StartParams &params){
 
     // Spielmodus
     fflush(stdin);
-    std::cout << "Choose a game mode by entering the number. Available: \n1: Direct Click\n2:Color Change";
+    std::cout << "Choose a game mode by entering the number. Available: \n1: Direct Click\n2: Color Change\n";
     std::cin >> params.m_gameMode;
     if (params.m_gameMode > maxMode){
         std::cout << "Invalid Input: There are only " << maxMode << " game modes to choose from. The program will shut down without launching the game.";
@@ -42,7 +42,7 @@ bool GUI::showMenu(StartParams &params){
     std::cin >> params.m_numImages;
     if (params.m_numImages > maxImages){
         params.m_numImages = maxImages;
-        std::cout << "The chosen dataset only contains " << maxImages << "images. Iteration number has been set to that amount.";
+        std::cout << "The chosen dataset only contains " << maxImages << " images. Iteration number has been set to that amount.";
     }
 
     // Instanziierung des Startparameter-Objektes "params" mit dem Konstruktor und den abgefragten Werten
