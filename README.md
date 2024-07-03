@@ -1,4 +1,10 @@
 # CPP_Projekt_Klos_Fahrion
+# How to run this program
+## 1. Open a terminal in the project directory (where the main.cpp is located) and run:
+
+```cmake -S . -B build```
+
+```cmake --build build```
 
 ```
 └── 📁CPP_Projekt_Klos_Fahrion

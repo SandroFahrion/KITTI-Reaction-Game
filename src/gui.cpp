@@ -15,34 +15,34 @@ bool GUI::showMenu(StartParams &params){
 
     // Spielername
     fflush(stdin);  // Input-Buffer leeren (Anfälligkeit für Eingabefehler reduzieren)
-    std::cout << "Bitte geben Sie Ihren Namen ein: ";
+    std::cout << "Enter your name: ";
     std::cin >> params.m_playerName;
 
     // Spielmodus
     fflush(stdin);
-    std::cout << "Wählen Sie den Spielmodus (1 für Direct Click): ";
+    std::cout << "Choose a game mode by entering the number. Available: \n1: Direct Click\n2:Color Change";
     std::cin >> params.m_gameMode;
     if (params.m_gameMode > maxMode){
-        std::cout << "Es gibt nur " << maxMode << " Spielmodi, die Eingabe ist somit ungültig und das Programm wird ohne Spielstart beendet";
+        std::cout << "Invalid Input: There are only " << maxMode << " game modes to choose from. The program will shut down without launching the game.";
         return false; // Programmabbruch folgt
     }
 
     // zu spielende Sequenz
     fflush(stdin);
-    std::cout << "Bitte die zu spielende Sequenz wählen: ";
+    std::cout << "Enter the dataset/sequence you want to play. Choose between 0 and " << maxSeq << ": ";
     std::cin >> params.m_sequence;
     if (params.m_sequence > maxSeq){
-        std::cout << "Es gibt nur " << maxSeq << " verschiedene Sequenzen, die Eingabe ist somit ungültig und das Programm wird ohne Spielstart beendet";
+        std::cout << "Invalid Input: There are only " << maxSeq << " datasets. The program will shut down without launching the game.";
         return false; // Programmabbruch folgt
     }
 
     // Anzahl der "Spielzüge"
     fflush(stdin);
-    std::cout << "Anzahl der zu spielenden Bilder wählen: ";
+    std::cout << "Enter the amount of iterations you want to play: ";
     std::cin >> params.m_numImages;
     if (params.m_numImages > maxImages){
         params.m_numImages = maxImages;
-        std::cout << "Die Anzahl der spielbaren Bilder im Datensatz dieser Sequenz beträgt " << maxImages << ", die Anzahl wurde auf dieses Maximum gesetzt";
+        std::cout << "The chosen dataset only contains " << maxImages << "images. Iteration number has been set to that amount.";
     }
 
     // Instanziierung des Startparameter-Objektes "params" mit dem Konstruktor und den abgefragten Werten
