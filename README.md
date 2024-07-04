@@ -12,11 +12,14 @@ To launch
 
 ```KITTIReactionGame.exe```
 
-Launch with debugging
+Build and launch with debugging
 
 ```cmake -S . -B build_debug -DENABLE_DEBUG=ON```
+
 ```cmake --build build_debug```
+
 ```cd build_debug/Debug```
+
 ```KITTIReactionGame.exe --debug```
 
 ```

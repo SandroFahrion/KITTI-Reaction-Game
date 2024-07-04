@@ -9,21 +9,26 @@ player(params.m_playerName), dataset(params.m_sequence), gameMode(nullptr), para
 }
 
 // Spielablauf durch Aufruf der Funktionen in einer Schleife
-void ReactionGame::startGame(){
-    GUI gui; // vlt unnötig
-    for (int i = 0; i < params.m_numImages; ++i) {
+bool ReactionGame::startGame(){
+    bool end = false;
+    GUI gui;
+    
+    while (end == false){
+        for (int i = 0; i < params.m_numImages; ++i) {
         Image image = dataset.getImage(i);
         image.setBoundingBoxes(dataset.getBoundingBoxes(i));
         gui.displayImage(image);
         // gameMode->processClick();
         // reaction times
         // stats ausgeben
+        }
     }
+
+end = true;
+return end;
 }
 
-// ----------------------------------------------------------
 // Debugging tools
-
 const Player &ReactionGame::getPlayer() const {
     return player;
 }
@@ -31,6 +36,3 @@ const Player &ReactionGame::getPlayer() const {
 const StartParams &ReactionGame::getStartParams() const {
     return params;
 }
-
-// Debugging tools
-// ----------------------------------------------------------

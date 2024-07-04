@@ -14,7 +14,7 @@ class ReactionGame{
     public:
         ReactionGame(const StartParams &params); // Überladener Konstruktor für die Spielinstanz, erhält Startparameter von GUI
 
-        void startGame(); // Spielablauf durch Aufruf der benötigten Funktionen
+        bool startGame(); // Spielablauf durch Aufruf der benötigten Funktionen
 
         // Debugging tools
         const Player &getPlayer() const;

@@ -33,8 +33,12 @@ int main(int argc, char* argv[]) {
     }
 
     ReactionGame game(startParams); // Instanziierung der Spielverwaltung als Objekt "game" mit dem Konstruktor, der die Startparameter übergibt
-    game.startGame();   //Spielstart  -> alle weitere funktionen werden über die Spielverwaltungsklasse ReactionGame aufgerufen
-    
+    if (!game.startGame()){   //Spielstart  -> alle weitere funktionen werden über die Spielverwaltungsklasse ReactionGame aufgerufen
+        #ifdef DEBUG_MODE
+            if (debug) Debugger::log("startGame closed unexpectedly");
+        #endif // DEBUG_MODE
+        return 0;
+    }
     #ifdef DEBUG_MODE
         if (debug) Debugger::logReactionGame(game);
     #endif // DEBUG_MODE
