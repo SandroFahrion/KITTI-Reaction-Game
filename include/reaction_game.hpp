@@ -10,10 +10,6 @@
 #include "game_mode/game_mode.hpp"
 #include "gui.hpp"
 
-#ifdef DEBUG_MODE
-#include "debug.hpp"
-#endif // DEBUG_MODE
-
 class ReactionGame{
     public:
         ReactionGame(const StartParams &params); // Überladener Konstruktor für die Spielinstanz, erhält Startparameter von GUI

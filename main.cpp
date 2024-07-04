@@ -2,7 +2,6 @@
 
 #include "gui.hpp"
 #include "reaction_game.hpp"
-#define DEBUG_MODE
 
 #ifdef DEBUG_MODE
 #include "debug.hpp"

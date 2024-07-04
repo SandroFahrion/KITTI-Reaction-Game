@@ -6,10 +6,6 @@
 #include <string>
 #include <vector>
 
-#ifdef DEBUG_MODE
-#include "debug.hpp"
-#endif // DEBUG_MODE
-
 class Player {
     public:
         Player(const std::string &name);    // Überladener Konstruktor
