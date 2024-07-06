@@ -7,11 +7,14 @@
 
 #include <string>
 #include <vector>
+#include <filesystem>
+
 #include "bounding_box.hpp"
 #include "image.hpp"
 
 class KittiDataset {
     public:
+        KittiDataset();                             // Standardkonstruktor
         KittiDataset(int seq);                      // Konstruktor
         
         void loadDataset(const std::string &path);  // lädt einen Datensatz aus dem Verzeichnis

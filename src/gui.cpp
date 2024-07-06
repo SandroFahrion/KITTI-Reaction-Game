@@ -3,14 +3,14 @@
 
 #include "gui.hpp"
 
-StartParams::StartParams(const std::string &name, int num, int seq, int mode):   // Überladener Konstruktor
-m_playerName(name), m_numImages(num), m_sequence(seq), m_gameMode(mode) { // Initializer List
+StartParams::StartParams() {}  // Standardkonstruktor
 
-}
+StartParams::StartParams(const std::string &name, int turns, int seq, int mode)  // Überladener Konstruktor
+    : m_playerName(name), m_numTurns(turns), m_sequence(seq), m_gameMode(mode) {} // Initializer List
 
-bool GUI::showMenu(StartParams &params){
-    const int maxImages = 400;   // Muss noch abhängig von der Höchstzahl der spielbaren Datensätzen pro Sequenz gewählt werden
-    const int maxSeq = 20;   // im KITTI-Datensatz nachschauen!!!!
+bool GUI::showMenu(StartParams &params) {
+    const int maxImages = 1000;     // Muss noch abhängig von der Höchstzahl der spielbaren Datensätzen pro Sequenz gewählt werden
+    const int maxSeq = 20;          // im KITTI-Datensatz nachschauen!!!!
     const int maxMode = 2;
 
     // Spielername
@@ -22,8 +22,9 @@ bool GUI::showMenu(StartParams &params){
     fflush(stdin);
     std::cout << "Choose a game mode by entering the number. Available: \n1: Direct Click\n2: Color Change\n";
     std::cin >> params.m_gameMode;
-    if (params.m_gameMode > maxMode){
-        std::cout << "Invalid Input: There are only " << maxMode << " game modes to choose from. The program will shut down without launching the game.";
+
+    if (params.m_gameMode > maxMode || params.m_gameMode < 1) {   // Input auf Fehler prüfen
+        std::cout << "Invalid input: There are game modes from 0 - " << maxMode << " to choose from. The program will shut down without launching the game.";
         return false; // Programmabbruch folgt
     }
 
@@ -31,29 +32,29 @@ bool GUI::showMenu(StartParams &params){
     fflush(stdin);
     std::cout << "Enter the dataset/sequence you want to play. Choose between 0 and " << maxSeq << ": ";
     std::cin >> params.m_sequence;
-    if (params.m_sequence > maxSeq){
-        std::cout << "Invalid Input: There are only " << maxSeq << " datasets. The program will shut down without launching the game.";
+
+    if (params.m_sequence > maxSeq || params.m_sequence < 0) {    // Input auf Fehler prüfen
+        std::cout << "Invalid input: There are 0 - " << maxSeq << " datasets. The program will shut down without launching the game.";
         return false; // Programmabbruch folgt
     }
 
     // Anzahl der "Spielzüge"
     fflush(stdin);
-    std::cout << "Enter the amount of iterations you want to play: ";
-    std::cin >> params.m_numImages;
-    if (params.m_numImages > maxImages){
-        params.m_numImages = maxImages;
-        std::cout << "The chosen dataset only contains " << maxImages << " images. Iteration number has been set to that amount.";
+    std::cout << "Enter the amount of turns you want to play (turn = react to a box): ";
+    std::cin >> params.m_numTurns;
+
+    if (params.m_numTurns < 1) {  // Input auf Fehler prüfen
+        std::cout << "Invalid Input. The program will shut down without launching the game.";
+        return false; // Programmabbruch folgt
     }
 
-    // Instanziierung des Startparameter-Objektes "params" mit dem Konstruktor und den abgefragten Werten
-    //params = StartParams(params.m_playerName, params.m_numImages, params.m_sequence, params.m_gameMode);
     return true; // Spielstart folgt
 }
 
-Player GUI::showScoreboard(){
+Player GUI::showScoreboard() {
     return Player("DummyPlayer");
 }
 
-void GUI::displayImage(const Image &image){
+void GUI::displayImage(Image &image) {
 
 }

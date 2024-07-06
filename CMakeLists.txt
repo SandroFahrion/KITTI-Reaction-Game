@@ -31,7 +31,7 @@ endif()
 
 # Find OpenCV package
 #find_package(OpenCV REQUIRED)
-#include_directories(../opencv/cmake/OpenCVMinDepVersions.cmake)
+#include_directories()
 
 # Add executable
 add_executable(KITTIReactionGame ${SOURCES})

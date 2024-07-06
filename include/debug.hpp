@@ -3,23 +3,26 @@
 
 #include <iostream>
 #include <string>
-#include "player.hpp"
-#include "reaction_game.hpp"
-#include "gui.hpp"
+#include <type_traits>
+#include <tuple>
+#include <vector>
 
 class Debugger {
 public:
-    bool debug = false;
-    static void log(const std::string &message);    
-    // Anwendungsbeispiel
-    // Debugger::log("Message string");
+    Debugger(bool debug);
 
-    static void logPlayer(const Player &player);
+    bool m_debug_boolean = false;
 
-    static void logStartParams(const StartParams &params);
+    static void log(const std::string &message);
 
-    static void logReactionGame(const ReactionGame &game);
-
+    template<typename T>
+    static void log(const T &obj, const std::string &description);
 };
+
+#ifdef DEBUG_MODE
+extern Debugger* g_debugger; // Declare g_debugger as extern
+#endif // DEBUG_MODE
+
+#include "debug.tpp" // Include the template implementation file
 
 #endif // DEBUG_HPP

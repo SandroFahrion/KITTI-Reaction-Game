@@ -4,8 +4,12 @@
 
 #include "image.hpp"
 
-void Image::loadImage(const std::string &path){ //siehe header-file für doku
+// Image::Image(int amountImage) : // Konstruktor
+// m_images(amountImage){          // Initializer list
+// }
 
+void Image::loadImage(const std::string &path){ //siehe header-file für doku
+     
 }
 
 void Image::joinDataset(){  //siehe header-file für doku

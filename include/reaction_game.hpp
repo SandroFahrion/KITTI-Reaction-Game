@@ -9,23 +9,26 @@
 #include "player.hpp"
 #include "game_mode/game_mode.hpp"
 #include "gui.hpp"
+#include "image.hpp"
 
-class ReactionGame{
-    public:
-        ReactionGame(const StartParams &params); // Überladener Konstruktor für die Spielinstanz, erhält Startparameter von GUI
+class ReactionGame {
+public:
+    ReactionGame(const bool debug);
+    ReactionGame(const StartParams &params); // Überladener Konstruktor für die Spielinstanz, erhält Startparameter von GUI
 
-        bool startGame(); // Spielablauf durch Aufruf der benötigten Funktionen
+    bool startGame(GUI &gui); // Spielablauf durch Aufruf der benötigten Funktionen
 
-        // Debugging tools
-        const Player &getPlayer() const;
-        const StartParams &getStartParams() const;
+    // Debugging tools
+    const Player &getPlayer() const;
+    const StartParams &getStartParams() const;
 
-
-    private:        
-        Player player;            // Instanziierung der Player-Klasse mit der Instanz / dem Objekt "player" zur Kapselung der Spielerdaten
-        KittiDataset dataset;     // Instanziierung der KittiDataset-Klasse mit "dataset" zur Kapselung der Datensatz-Dateizugriffe
-        GameMode *gameMode;       // Instanziierung mit Zeiger "*gamemode" als Instanz auf die GameMode-Basisklasse zur Kapselung der Spielmodi
-        StartParams params;       // Instanz für Startparameter
+private:
+    int m_turns;
+    Player player;            // Instanziierung der Player-Klasse mit der Instanz / dem Objekt "player" zur Kapselung der Spielerdaten
+    KittiDataset dataset;     // Instanziierung der KittiDataset-Klasse mit "dataset" zur Kapselung der Datensatz-Dateizugriffe
+    GameMode *gameMode;       // Instanziierung mit Zeiger "*gamemode" als Instanz auf die GameMode-Basisklasse zur Kapselung der Spielmodi
+    StartParams params;       // Instanz für Startparameter
+    Image image;              // Instanz für einzelne Bilder
 };
 
 #endif // REACTION_GAME_HPP
