@@ -11,24 +11,32 @@
 #include "gui.hpp"
 #include "image.hpp"
 
+#include <tuple>
+#include <vector>
+#include <string>
+
 class ReactionGame {
 public:
-    ReactionGame(const bool debug);
-    ReactionGame(const StartParams &params); // Überladener Konstruktor für die Spielinstanz, erhält Startparameter von GUI
+    ReactionGame(const StartParams &params);    // Überladener Konstruktor für die Spielinstanz, erhält Startparameter von GUI
 
-    bool startGame(GUI &gui); // Spielablauf durch Aufruf der benötigten Funktionen
+    bool startGame(GUI &gui);   // Spielablauf durch Aufruf der benötigten Funktionen
 
-    // Debugging tools
-    const Player &getPlayer() const;
-    const StartParams &getStartParams() const;
+     // Debugging tools
+    auto getMembers() const {
+        return std::make_tuple(m_turns, player, dataset, gameMode, params, image);
+    }
+
+    std::vector<std::string> getMemberNames() const {
+        return {"m_turns", "player", "dataset", "gameMode", "params", "image"};
+    }
 
 private:
     int m_turns;
-    Player player;            // Instanziierung der Player-Klasse mit der Instanz / dem Objekt "player" zur Kapselung der Spielerdaten
-    KittiDataset dataset;     // Instanziierung der KittiDataset-Klasse mit "dataset" zur Kapselung der Datensatz-Dateizugriffe
-    GameMode *gameMode;       // Instanziierung mit Zeiger "*gamemode" als Instanz auf die GameMode-Basisklasse zur Kapselung der Spielmodi
-    StartParams params;       // Instanz für Startparameter
-    Image image;              // Instanz für einzelne Bilder
+    Player player;
+    KittiDataset dataset;
+    GameMode *gameMode;
+    StartParams params;
+    Image image;
 };
 
 #endif // REACTION_GAME_HPP

@@ -5,7 +5,7 @@
 
 #include <string>
 #include <vector>
-#include <tuple>
+#include <iostream>
 
 class Player {
 public:
@@ -13,7 +13,6 @@ public:
     Player(const std::string &name);    // Überladener Konstruktor
     void addReactionTime(double time);  // Wert einer Reaktionszeit verarbeiten
 
-    // Debugging tools
     const std::string &getName() const {
         return m_name;
     }
@@ -26,8 +25,11 @@ public:
     }
 
     std::vector<std::string> getMemberNames() const {
-        return { "name", "reactionTimes" };
+        return {"m_name", "m_reactionTimes"};
     }
+
+    friend std::ostream& operator<<(std::ostream& os, const Player& player);
+
 
 private:
     std::string m_name;                   // Speichert den Spielernamen

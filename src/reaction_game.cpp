@@ -16,13 +16,18 @@ bool ReactionGame::startGame(GUI &gui) {
     bool end = false;
 
     #ifdef DEBUG_MODE
-        if (g_debugger && g_debugger->m_debug_boolean) {
-            g_debugger->log(end, "Game End Status");
+        if (g_debug_mode) {
+            Debugger::log(m_turns, "m_turns");
         }
     #endif // DEBUG_MODE
 
     while (!end) {
-        for (int i = 0; i < params.m_numTurns; ++i) {
+        for (int i = 0; i < m_turns; ++i) {
+            #ifdef DEBUG_MODE
+            if (g_debug_mode) {
+                Debugger::log(end, "Game End Status");
+            }
+            #endif // DEBUG_MODE
             image = dataset.getImage(i);
             image.setBoundingBoxes(dataset.getBoundingBoxes(i));
             gui.displayImage(image);

@@ -22,6 +22,18 @@ class KittiDataset {
         Image getImage(int index);                  // getter-Methode zur Rückgabe eines einzelnen Bildes (Kapselung, Abstraktion)
         
         std::vector<BoundingBox> getBoundingBoxes(int index);    // getter-Methode zur Rückgabe einer eizelnen Bounding Box (Kapselung, Abstraktion)
+
+        // debugging
+        auto getMembers() const {
+            return std::make_tuple(m_seq);
+        }
+
+        std::vector<std::string> getMemberNames() const {
+            return {"m_seq"};
+        }
+
+        friend std::ostream& operator<<(std::ostream& os, const KittiDataset& dataset);
+
     
     private:
         int m_seq;
