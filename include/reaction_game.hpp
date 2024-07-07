@@ -10,6 +10,7 @@
 #include "game_mode/game_mode.hpp"
 #include "gui.hpp"
 #include "image.hpp"
+#include "../helpers/member_util.hpp"
 
 #include <tuple>
 #include <vector>
@@ -17,18 +18,12 @@
 
 class ReactionGame {
 public:
-    ReactionGame(const StartParams &params);    // Überladener Konstruktor für die Spielinstanz, erhält Startparameter von GUI
+    ReactionGame(const StartParams &params);    // Überladener Konstruktor für die Spielinstanz, erhält Startparameter
 
-    bool startGame(GUI &gui);   // Spielablauf durch Aufruf der benötigten Funktionen
+    bool startGame(GUI &gui);   // Spielablauf durch Funktionsaufrufe in einer Schleife
 
-     // Debugging tools
-    auto getMembers() const {
-        return std::make_tuple(m_turns, player, dataset, gameMode, params, image);
-    }
-
-    std::vector<std::string> getMemberNames() const {
-        return {"m_turns", "player", "dataset", "gameMode", "params", "image"};
-    }
+    // Debugging tool
+    GENERATE_MEMBER_FUNCTIONS(m_turns, player, dataset, gameMode, params, image)
 
 private:
     int m_turns;

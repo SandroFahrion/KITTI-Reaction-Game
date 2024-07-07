@@ -14,28 +14,36 @@ class Debugger {
 public:
     static void log(const std::string &description) {
         if (g_debug_mode) {
-            std::cout << "\n[DEBUG]: " << description << std::endl;
+            std::cout << "[DEBUG]: " << description << std::endl;
         }
     }
 
     template <typename T>
     static void log(const T &obj, const std::string &description) {
         if (g_debug_mode) {
-            std::cout << "\n[DEBUG]: " << description << std::endl;
-            if constexpr (std::is_arithmetic_v<T> || std::is_same_v<T, std::string>) {
-                std::cout << "  " << obj << std::endl;
-            } else {
-                printObject(obj);
-            }
+            std::cout << "[DEBUG]: " << description << std::endl;
+            printObject(obj);
         }
     }
 
 private:
+    template <typename T, typename = void>
+    struct has_members : std::false_type {};
+
+    template <typename T>
+    struct has_members<T, std::void_t<decltype(std::declval<T>().getMembers()), decltype(std::declval<T>().getMemberNames())>> : std::true_type {};
+
     template <typename T>
     static void printObject(const T &obj) {
-        auto members = obj.getMembers();
-        auto memberNames = obj.getMemberNames();
-        printMembers(members, memberNames, std::index_sequence_for<decltype(members)>{});
+        if constexpr (std::is_arithmetic_v<T> || std::is_same_v<T, std::string>) {
+            std::cout << "  " << obj << std::endl;
+        } else if constexpr (has_members<T>::value) {
+            auto members = obj.getMembers();
+            auto memberNames = obj.getMemberNames();
+            printMembers(members, memberNames, std::index_sequence_for<decltype(members)>{});
+        } else {
+            std::cout << "  [Object of type " << typeid(T).name() << "]" << std::endl;
+        }
     }
 
     template <typename Tuple, typename Names, std::size_t... Is>

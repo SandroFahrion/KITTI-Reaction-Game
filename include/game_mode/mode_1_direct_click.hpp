@@ -7,13 +7,14 @@
 #include "player.hpp"
 
 class Mode1DirectClick : public GameMode {
-    public:
-        void processClick(int x, int y) override;
-        void calculateReactionTime();
+public:
+    void processClick(int x, int y) override;
+    void calculateReactionTime();
     
-    private:
-        Player *m_player;
-        double m_startTime;
+private:
+    Player *m_player;
+    double m_startTime;
+
 };
 
 #endif // MODE_1_DIRECT_CLICK_HPP

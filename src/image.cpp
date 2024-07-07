@@ -8,14 +8,14 @@
 // m_images(amountImage){          // Initializer list
 // }
 
-void Image::loadImage(const std::string &path){ //siehe header-file für doku
+void Image::loadImage(const std::string &path){ 
      
 }
 
-void Image::joinDataset(){  //siehe header-file für doku
+void Image::joinDataset(){
 
 }
 
-void Image::setBoundingBoxes(const std::vector<BoundingBox> &boxes){    //siehe header-file für doku
+void Image::setBoundingBoxes(const std::vector<BoundingBox> &boxes){
     
 }

@@ -4,14 +4,14 @@
 
 #include "kitti_dataset.hpp"
 
-KittiDataset::KittiDataset(){}
+KittiDataset::KittiDataset(){}  // Standardkonstruktor
+KittiDataset::~KittiDataset(){} // Standarddestruktor
 
-KittiDataset::KittiDataset(int seq) :   // Konstruktor
-m_seq(seq){                             // Initializer list
+KittiDataset::KittiDataset(int seq) :   // überladener Konstruktor
+m_seq(seq){}                            // Initializer list
 
-}
 
-void KittiDataset::loadDataset(const std::string &path) {   // 
+void KittiDataset::loadDataset(const std::string &path) {
     
 }
 
@@ -24,9 +24,4 @@ Image KittiDataset::getImage(int index) {
 std::vector<BoundingBox> KittiDataset::getBoundingBoxes(int index) {
     
     return {};
-}
-
-std::ostream& operator<<(std::ostream& os, const KittiDataset& dataset) {
-    os << "KittiDataset: { Seq: " << dataset.m_seq << " }";
-    return os;
 }

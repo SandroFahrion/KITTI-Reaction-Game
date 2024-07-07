@@ -5,14 +5,19 @@
 
 #include <string>
 #include <vector>
-#include <iostream>
+#include "../helpers/member_util.hpp"
 
 class Player {
 public:
-    Player();
+    Player();   // Standardkonstruktor
+    ~Player();  // Standarddestruktor
+
     Player(const std::string &name);    // Überladener Konstruktor
+
+    // setter-Methode
     void addReactionTime(double time);  // Wert einer Reaktionszeit verarbeiten
 
+    // getter-Methoden
     const std::string &getName() const {
         return m_name;
     }
@@ -20,16 +25,8 @@ public:
         return m_reactionTimes;
     }
 
-    auto getMembers() const {
-        return std::make_tuple(m_name, m_reactionTimes);
-    }
-
-    std::vector<std::string> getMemberNames() const {
-        return {"m_name", "m_reactionTimes"};
-    }
-
-    friend std::ostream& operator<<(std::ostream& os, const Player& player);
-
+    // Debugging tool
+    GENERATE_MEMBER_FUNCTIONS(m_name, m_reactionTimes)
 
 private:
     std::string m_name;                   // Speichert den Spielernamen

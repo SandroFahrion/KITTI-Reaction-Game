@@ -2,6 +2,8 @@
 // zugriff auf das verzeichnis von kitti
 // stellt einzelne bildobjekte für die weitere verarbeitung im spiel zur verfügung
 
+
+
 #ifndef KITTI_DATASET_HPP
 #define KITTI_DATASET_HPP
 
@@ -9,34 +11,29 @@
 #include <vector>
 #include <filesystem>
 
+#include "../helpers/member_util.hpp"
 #include "bounding_box.hpp"
 #include "image.hpp"
 
 class KittiDataset {
-    public:
-        KittiDataset();                             // Standardkonstruktor
-        KittiDataset(int seq);                      // Konstruktor
-        
-        void loadDataset(const std::string &path);  // lädt einen Datensatz aus dem Verzeichnis
-        
-        Image getImage(int index);                  // getter-Methode zur Rückgabe eines einzelnen Bildes (Kapselung, Abstraktion)
-        
-        std::vector<BoundingBox> getBoundingBoxes(int index);    // getter-Methode zur Rückgabe einer eizelnen Bounding Box (Kapselung, Abstraktion)
+public:
+    KittiDataset();     // Standardkonstruktor
+    ~KittiDataset();    // Standarddestruktor
 
-        // debugging
-        auto getMembers() const {
-            return std::make_tuple(m_seq);
-        }
+    KittiDataset(int seq);  // überladener Konstruktor
 
-        std::vector<std::string> getMemberNames() const {
-            return {"m_seq"};
-        }
+    void loadDataset(const std::string &path);  // lädt einen Datensatz aus dem Verzeichnis
 
-        friend std::ostream& operator<<(std::ostream& os, const KittiDataset& dataset);
+    //getter-Methoden
+    Image getImage(int index);  // Rückgabe eines einzelnen Bildes
 
-    
-    private:
-        int m_seq;
+    std::vector<BoundingBox> getBoundingBoxes(int index);   // Rückgabe einer einzelnen Bounding Box 
+
+    // Debugging tool
+    GENERATE_MEMBER_FUNCTIONS(m_seq)
+
+private:
+    int m_seq;
 };
 
 #endif // KITTI_DATASET_HPP
