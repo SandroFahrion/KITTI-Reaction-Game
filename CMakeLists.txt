@@ -30,7 +30,7 @@ if(ENABLE_DEBUG)
 endif()
 
 # Set OpenCV_DIR environment variable
-set(OpenCV_DIR "C:/Git/KittiReactionGame_Projekt/opencv/build")
+set(OpenCV_DIR "C:/lib/build_opencv")
 
 # Find OpenCV package
 find_package(OpenCV REQUIRED)

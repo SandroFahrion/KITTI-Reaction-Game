@@ -3,54 +3,41 @@
 ### Prerequisites
 1. **CMake**: Install the latest version of CMake.
 2. **Compiler**: Ensure an appropriate compiler is installed:
-   - **Windows**: Visual Studio or MinGW.
-   - **Linux**: GCC.
-3. **OpenCV Source Code**: OpenCV from [GitHub](https://github.com/opencv/opencv).
+   - **Windows**: Visual Studio or MinGW(not tested, should work aswell*)
+   - **Linux**: GCC(not tested, should work aswell*)
+*all compiler selections will be automatic
+3. **OpenCV**: OpenCV from [GitHub](https://github.com/opencv/opencv)
+   - **Git Bash**
 
 ### Installing OpenCV
-1. **Clone OpenCV repository into the project workspace:**
-```
-└── KITTI_Reaction_Game_workspace (example)
-    └── 📁KittiReactionGame_Projekt
-        └── 📁CPP_Projekt_Klos_Fahrion
-            └── ...
-    └── 📁opencv
-        └── ...
-```
-2. **Set up build directory**:
-Open a command terminal in ```opencv``` and run
-```
-mkdir build && cd build
-```
-3. **Configure CMake**:
-   Run the appropriate CMake command based on your platform and compiler:
-
-   - **General (Recommended: automatic compiler detection)**:
-     ```bash
-     cmake -S .. -B .
-     ```
-
-   - **Visual Studio**:
-     ```bash
-     cmake -G "Visual Studio 17 2022" -A x64 -S .. -B .
-     ```
-
-   - **MinGW**:
-     ```bash
-     cmake -G "MinGW Makefiles" -S .. -B .
-     ```
-
-4. **Start the build**:
-   Run the build command:
-     ```bash
-     cmake --build .
-     ```
-
-5. **Installation**:
-   After a successful build, you can install the libraries:
-   ```bash
-   cmake --install .
+1. **Set up build directory**:
+   1. Choose a destination for OpenCV
+   2. Create a new directory
+   3. Copy "installOCV.sh" from "/setup_opencv/" into the directory
+<br>**It could look something like this:**
     ```
+    └── KITTI_Reaction_Game_workspace (example)
+        └── 📁KittiReactionGame_Projekt
+            └── 📁CPP_Projekt_Klos_Fahrion
+                └── ...
+        └── 📁opencv
+            └── installOCV.sh
+            └── ...
+    ```
+2. **Install OpenCV**
+    Open your chosen directory with Git Bash and run
+    ```
+    ./installOCV.sh
+    ```
+    The installation may take a while.
+3. **Adjust environment variables**
+- **CMakeLists.txt:**
+    ```
+    # Adjust OpenCV_DIR environment variable
+    set(OpenCV_DIR "path/to/build_opencv")
+    ```
+- **System Path Variable:**
+    Add ```path\to\install\opencv\x64\vc17\bin```
 ### Build KittiReactionGame
 Open a command terminal in ```CPP_Projekt_Klos_Fahrion``` and run
 ```
