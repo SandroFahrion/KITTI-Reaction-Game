@@ -10,18 +10,40 @@ KittiDataset::~KittiDataset(){} // Standarddestruktor
 KittiDataset::KittiDataset(int seq) :   // überladener Konstruktor
 m_seq(seq){}                            // Initializer list
 
-
-void KittiDataset::loadDataset(const std::string &path) {
-    
+KittiDataset::KittiDataset(const std::string& imageDir, const std::string& labelFile) {
+    currentIndex = -1;
+    loadDataset(imageDir, labelFile);
 }
 
-Image KittiDataset::getImage(int index) {
-    // Rückgabe des Bildes am angegebenen Index
-    
-    return {};
+
+// void KittiDataset::loadDataset(const std::string &path) {}
+
+void KittiDataset::loadDataset(const std::string& imageDir, const std::string& labelFile) {
+    std::ifstream file(labelFile);
+    if (!file.is_open()) {
+        throw std::runtime_error("Could not open label file");
+    }
+
+    std::string line;
+    while (std::getline(file, line)) {
+        std::stringstream iss(line);
+        std::string imagePath;
+        int x, y, width, height;
+
+        // Beispielhafte Extraktion der Daten
+        iss >> imagePath >> x >> y >> width >> height;
+        imagePaths.push_back(imageDir + "/" + imagePath);
+        boundingBoxes.emplace_back(x, y, width, height);
+    }
+
+    file.close();
 }
 
-std::vector<BoundingBox> KittiDataset::getBoundingBoxes(int index) {
-    
-    return {};
+std::string KittiDataset::getNextImage() {
+    currentIndex = (currentIndex + 1) % imagePaths.size();
+    return imagePaths[currentIndex];
+}
+
+BoundingBox KittiDataset::getBoundingBox() {
+    return boundingBoxes[currentIndex];
 }

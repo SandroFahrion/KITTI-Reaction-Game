@@ -5,15 +5,21 @@
 
 #include "game_mode.hpp"
 #include "player.hpp"
+#include "bounding_box.hpp"
+
+#include <chrono>
 
 class Mode1DirectClick : public GameMode {
 public:
+    Mode1DirectClick();
     void processClick(int x, int y) override;
-    void calculateReactionTime();
+    double calculateReactionTime();
     
 private:
-    Player *m_player;
-    double m_startTime;
+    BoundingBox boundingBox;
+    double reactionTime;
+    double penaltyTime;
+    std::chrono::high_resolution_clock::time_point startTime;
 
 };
 

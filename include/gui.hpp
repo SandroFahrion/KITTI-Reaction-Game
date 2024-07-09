@@ -5,9 +5,12 @@
 #define GUI_HPP
 
 #include <string>
-#include <iostream>
+#include <chrono>
+
+#include <opencv2/opencv.hpp>
 
 #include "image.hpp"
+#include "bounding_box.hpp"
 #include "player.hpp"
 #include "../helpers/member_util.hpp"
 
@@ -19,7 +22,7 @@ public:
     StartParams(const std::string &name, int turns, int seq, int mode); // Überladener Konstruktor
 
     // getter-Methoden
-    int getNumTurns() const { return m_numTurns; }
+    int getNumTurns() const{ return m_numTurns; }
     const std::string& getPlayerName() const { return m_playerName; }
     int getGameMode() const{ return m_gameMode; }
     int getSequence() const { return m_sequence; }
@@ -35,8 +38,10 @@ public:
 
 private:
     // Member-Variablen
+    // Startparameter
     std::string m_playerName;
     int m_numTurns, m_gameMode, m_sequence;
+    
 };
 
 class GUI {
@@ -44,13 +49,20 @@ public:
     GUI();  // Standardkonstruktor
     ~GUI(); // Standarddestruktor
 
+    void displayImageWithBoundingBox(const Image& img, const BoundingBox& box);
+    void displayImage(Image &image);  // Finale Bildausgabe mit OpenCV
+
+    double measureReactionTime(int& key, cv::Point& cursorPos);
+
     // Konsole: Abfrage der Spieleinstellungen (Parameter) als Referenz für StartParams
     // Rückgabewert bestimmt über Spielstart oder Programmende
     bool showMenu(StartParams &params);
 
     Player showScoreboard();    // Instanziierung und Aufruf der Konsole zur Ausgabe an den Spieler
-    
-    void displayImage(Image &image);  // Finale Bildausgabe mit OpenCV
+
+private:
+    // zur Berechnung der Reaktionszeit
+    std::chrono::high_resolution_clock::time_point startTime;    
 };
 
 #endif // GUI_HPP

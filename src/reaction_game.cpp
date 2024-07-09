@@ -8,8 +8,12 @@
 #include "debug.hpp"
 #endif // DEBUG_MODE
 
+//ReactionGame::ReactionGame(const StartParams &params)
+//: player(params.getPlayerName()), dataset(params.getSequence()), gameMode(nullptr), m_turns(params.getNumTurns()), params(params) {}
+
 ReactionGame::ReactionGame(const StartParams &params)
-: player(params.getPlayerName()), dataset(params.getSequence()), gameMode(nullptr), m_turns(params.getNumTurns()), params(params) {}
+: player(params.getPlayerName()), dataset("path/to/images", "path/to/0010.txt"), gameMode(nullptr), m_turns(params.getNumTurns()), params(params) {}
+
 
 bool ReactionGame::startGame(GUI &gui) {
     // wird erst true, wenn das Spiel abgeschlossen ist
@@ -31,12 +35,22 @@ bool ReactionGame::startGame(GUI &gui) {
             }
             #endif // DEBUG_MODE
             
-            image = dataset.getImage(i);
-            image.setBoundingBoxes(dataset.getBoundingBoxes(i));
-            gui.displayImage(image);
-            // gameMode->processClick();
-            // reaction times
-            // stats ausgeben
+            std::string imagePath = dataset.getNextImage();
+            BoundingBox box = dataset.getBoundingBox();
+            Image img(imagePath);
+            gui.displayImageWithBoundingBox(img, box);
+
+            // Reaction time measurement
+            int key;
+            cv::Point cursorPos;
+            double reactionTime = gui.measureReactionTime(key, cursorPos);
+
+            if (box.contains(cursorPos.x, cursorPos.y)) {
+                std::cout << "Hit! Reaction Time: " << reactionTime << " seconds" << std::endl;
+            } else {
+                std::cout << "Miss! Penalty applied." << std::endl;
+            }
+
             end = true;
         }
     }

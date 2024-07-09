@@ -29,12 +29,15 @@ if(ENABLE_DEBUG)
     add_definitions(-DDEBUG_MODE)
 endif()
 
+# Set OpenCV_DIR environment variable
+set(OpenCV_DIR "C:/Git/KittiReactionGame_Projekt/opencv/build")
+
 # Find OpenCV package
-#find_package(OpenCV REQUIRED)
-#include_directories()
+find_package(OpenCV REQUIRED)
+include_directories(${OpenCV_INCLUDE_DIRS})
 
 # Add executable
 add_executable(KITTIReactionGame ${SOURCES})
 
 # Link OpenCV libraries
-#target_link_libraries(KittiReactionGame ${OpenCV_LIBS})
+target_link_libraries(KITTIReactionGame ${OpenCV_LIBS})

@@ -10,8 +10,16 @@
 
 #include "bounding_box.hpp"
 
+#include <opencv2/opencv.hpp>
+
 class Image {
 public:
+    Image();    // Standardkonstruktor
+    ~Image();   // Standarddestruktor
+    Image(const std::string& imagePath);    // Überladener Konstruktor
+
+    cv::Mat getImage() const;
+
     void loadImage(const std::string &path);    // Datensatz muss wahrscheinlich im Projekt zwischengespeichert werden
         
     // setter-Methode
@@ -22,6 +30,8 @@ public:
     void joinDataset(); // Bild und Box zusammenfügen. evtl nicht nötig, wenn es mit GUI displayImage() gut lösbar ist
     
 private:
+    cv::Mat image;
+
     int m_images;
     std::string m_filePath;
     std::vector<BoundingBox> m_boundingBoxes;

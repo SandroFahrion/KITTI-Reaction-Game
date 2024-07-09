@@ -4,9 +4,19 @@
 
 #include "image.hpp"
 
-// Image::Image(int amountImage) : // Konstruktor
-// m_images(amountImage){          // Initializer list
-// }
+Image::Image(){}
+Image::~Image(){}
+
+Image::Image(const std::string& imagePath) {
+    image = cv::imread(imagePath);
+    if (image.empty()) {
+        throw std::runtime_error("Could not open or find the image");
+    }
+}
+
+cv::Mat Image::getImage() const {
+    return image;
+}
 
 void Image::loadImage(const std::string &path){ 
      

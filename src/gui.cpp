@@ -1,6 +1,8 @@
 // funktion zur aufruf der konsole als "menüführung" vor beginn des spiels
 // funktion zur darstellung des spielfensters
 
+#include <iostream>
+
 #include "gui.hpp"
 
 StartParams::StartParams() {}   // Standardkonstruktor
@@ -18,7 +20,29 @@ Player GUI::showScoreboard() {
 }
 
 void GUI::displayImage(Image &image) {
+    cv::imshow("Display window", image.getImage());
+}
 
+void GUI::displayImageWithBoundingBox(const Image &image, const BoundingBox &box) {
+    cv::Mat imgWithBox = image.getImage().clone();
+    cv::rectangle(imgWithBox, cv::Point(box.getCoordX(), box.getCoordY()), cv::Point(box.getCoordX() + box.getWidthX(), box.getCoordY() + box.getHeightY()), cv::Scalar(0, 0, 255), 2);
+    cv::imshow("Display window", imgWithBox);
+    cv::waitKey(1000); // Warte 1 Sekunde
+    cv::imshow("Display window", imgWithBox);
+}
+
+double GUI::measureReactionTime(int &key, cv::Point &cursorPos) {
+    startTime = std::chrono::high_resolution_clock::now();
+    key = cv::waitKey(0); // Warte unendlich lange auf einen Tastendruck
+
+    if (key == cv::EVENT_LBUTTONDOWN) {
+        // Platzhalter für Mauskoordinaten, da OpenCV solche Funktionen nicht direkt anbietet
+        cursorPos = cv::Point(0, 0); // Beispielkoordinaten, anpassen entsprechend der Implementierung
+    }
+
+    auto endTime = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> reactionTime = endTime - startTime;
+    return reactionTime.count();
 }
 
 bool GUI::showMenu(StartParams &params) {
