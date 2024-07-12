@@ -4,18 +4,25 @@
 
 #include "image.hpp"
 
+#ifdef DEBUG_MODE
+#include "debug.hpp"
+#endif // DEBUG_MODE
+
 Image::Image(){}
 Image::~Image(){}
 
-Image::Image(const std::string& imagePath) {
-    image = cv::imread(imagePath);
-    if (image.empty()) {
-        throw std::runtime_error("Could not open or find the image");
-    }
+Image::Image(const std::string &imagePath) {
+    m_cv_image = cv::imread(imagePath);
+    
+    #ifdef DEBUG_MODE
+        if (g_debug_mode) {
+            if (m_cv_image.empty()) Debugger::log(imagePath, "ERROR loading image");
+        }
+    #endif // DEBUG_MODE
 }
 
 cv::Mat Image::getImage() const {
-    return image;
+    return m_cv_image;
 }
 
 void Image::loadImage(const std::string &path){ 

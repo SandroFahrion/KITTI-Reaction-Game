@@ -21,7 +21,7 @@ public:
     template <typename T>
     static void log(const T &obj, const std::string &description) {
         if (g_debug_mode) {
-            std::cout << "[DEBUG]: " << description << std::endl;
+            std::cout << "[DEBUG]: " << description;
             printObject(obj);
         }
     }

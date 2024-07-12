@@ -6,7 +6,7 @@
 
 template <typename T>
 void Debugger::log(const T &obj, const std::string &description) {
-    std::cout << "[DEBUG]: " << description << std::endl;
+    std::cout << "[DEBUG]: " << description;
 
     if constexpr (std::is_arithmetic_v<T> || std::is_same_v<T, std::string>) {
         std::cout << "  " << obj << std::endl;

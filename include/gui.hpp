@@ -19,28 +19,32 @@ public:
     StartParams();  // Standardkonstruktor
     ~StartParams(); // Standarddestruktor
 
-    StartParams(const std::string &name, int turns, int seq, int mode); // Überladener Konstruktor
+    StartParams(const std::string &name, int turns, const std:: string &seq, int mode); // Überladener Konstruktor
 
     // getter-Methoden
     int getNumTurns() const{ return m_numTurns; }
-    const std::string& getPlayerName() const { return m_playerName; }
     int getGameMode() const{ return m_gameMode; }
-    int getSequence() const { return m_sequence; }
+    const std::string &getPlayerName() const { return m_playerName; }
+    const std::string &getSequence() const { return m_sequence; }
+    const std::string &getRepoPath() const { return m_path_to_repo; }
 
     // setter-Methoden
     void setNumTurns(int numTurns) { m_numTurns = numTurns; }
-    void setPlayerName(const std::string &playerName) { m_playerName = playerName; }
     void setGameMode(int gameMode) { m_gameMode = gameMode; }
-    void setSequence(int sequence) { m_sequence = sequence; }
+    void setPlayerName(const std::string &playerName) { m_playerName = playerName; }
+    void setSequence(const std::string &sequence) { m_sequence = sequence; }
+    void setRepoPath(const std::string &repoPath) { m_path_to_repo = repoPath; }
 
     // Debugging tool
     GENERATE_MEMBER_FUNCTIONS(m_numTurns, m_gameMode, m_sequence, m_playerName)
 
 private:
     // Member-Variablen
+    // Quelle für KITTI-Daten
+    std::string m_path_to_repo = "C:/Git/KittiReactionGame_Projekt/CPP_Projekt_Klos_Fahrion";
     // Startparameter
-    std::string m_playerName;
-    int m_numTurns, m_gameMode, m_sequence;
+    std::string m_playerName, m_sequence;
+    int m_numTurns, m_gameMode;
     
 };
 
@@ -49,7 +53,10 @@ public:
     GUI();  // Standardkonstruktor
     ~GUI(); // Standarddestruktor
 
+    std::string formatSequenceInput(const std::string &seq);
+
     void displayImageWithBoundingBox(const Image& img, const BoundingBox& box);
+
     void displayImage(Image &image);  // Finale Bildausgabe mit OpenCV
 
     double measureReactionTime(int& key, cv::Point& cursorPos);
@@ -62,7 +69,7 @@ public:
 
 private:
     // zur Berechnung der Reaktionszeit
-    std::chrono::high_resolution_clock::time_point startTime;    
+    std::chrono::high_resolution_clock::time_point m_startTime;    
 };
 
 #endif // GUI_HPP

@@ -8,12 +8,29 @@
 StartParams::StartParams() {}   // Standardkonstruktor
 StartParams::~StartParams() {}  // Standarddestruktor
 
-StartParams::StartParams(const std::string &name, int turns, int seq, int mode)  // Überladener Konstruktor
+StartParams::StartParams(const std::string &name, int turns, const std::string &seq, int mode)  // Überladener Konstruktor
 : m_playerName(name), m_numTurns(turns), m_sequence(seq), m_gameMode(mode) {} // Initializer List
 
 GUI::GUI(){}    // Standardkonstruktor
 GUI::~GUI(){}   // Standarddestruktor
 
+std::string GUI::formatSequenceInput(const std::string &seq){
+    std::string formattedSeq = seq;
+
+    formattedSeq.erase(0, formattedSeq.find_first_not_of('0')); // Entferne führende Nullen (für Eingabe Bsp.:"0000010")
+    
+    // Wenn das Ergebnis leer ist (d.h. es wurde der 0. Datensatz gewählt), setze es auf "0"
+    if (formattedSeq.empty()) {
+        formattedSeq = "0";
+    }
+
+    // Variable wird mit führenden Nullen aufgefüllt
+    if (formattedSeq.size() < 4) {
+        formattedSeq.insert(formattedSeq.begin(), 4 - formattedSeq.size(), '0');
+    }
+
+    return formattedSeq;
+}
 
 Player GUI::showScoreboard() {
     return Player("DummyPlayer");
@@ -32,22 +49,22 @@ void GUI::displayImageWithBoundingBox(const Image &image, const BoundingBox &box
 }
 
 double GUI::measureReactionTime(int &key, cv::Point &cursorPos) {
-    startTime = std::chrono::high_resolution_clock::now();
+    m_startTime = std::chrono::high_resolution_clock::now();
     key = cv::waitKey(0); // Warte unendlich lange auf einen Tastendruck
 
     if (key == cv::EVENT_LBUTTONDOWN) {
-        // Platzhalter für Mauskoordinaten, da OpenCV solche Funktionen nicht direkt anbietet
+        // setMouseCallback Funktion Nutzen
         cursorPos = cv::Point(0, 0); // Beispielkoordinaten, anpassen entsprechend der Implementierung
     }
 
     auto endTime = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> reactionTime = endTime - startTime;
+    std::chrono::duration<double> reactionTime = endTime - m_startTime;
     return reactionTime.count();
 }
 
 bool GUI::showMenu(StartParams &params) {
     const int maxImages = 1000;     // Muss noch abhängig von der Höchstzahl der spielbaren Datensätzen pro Sequenz gewählt werden
-    const int maxSeq = 20;          // im KITTI-Datensatz nachschauen!!!!
+    const int maxSeq = 20;
     const int maxMode = 2;
 
     // Spielername
@@ -79,7 +96,7 @@ bool GUI::showMenu(StartParams &params) {
         std::cout << "Invalid input: There are 0 - " << maxSeq << " datasets. The program will shut down without launching the game.";
         return false; // Programmabbruch folgt
     }
-    params.setSequence(sequence);
+    params.setSequence(formatSequenceInput(std::to_string(sequence)));
 
     // Anzahl der "Spielzüge"
     fflush(stdin);

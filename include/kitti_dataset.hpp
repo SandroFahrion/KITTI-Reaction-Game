@@ -23,25 +23,26 @@ public:
     KittiDataset();     // Standardkonstruktor
     ~KittiDataset();    // Standarddestruktor
 
-    KittiDataset(int seq);  // überladener Konstruktor
-    KittiDataset(const std::string& imageDir, const std::string& labelFile); // Überladener KOnstruktor
+    KittiDataset(const std::string &baseDir, const std::string &seq); // Überladener Konstruktor
 
-    //void loadDataset(const std::string &path);  // lädt einen Datensatz aus dem Verzeichnis
-    void KittiDataset::loadDataset(const std::string& imageDir, const std::string& labelFile);
+    std::string formatImageFilePath(const std::string &baseDir, const std::string &seq);
 
-    //getter-Methoden
-    std::string KittiDataset::getNextImage();
+    std::string formatLabelFilePath(const std::string &baseDir, const std::string &seq);
 
-    BoundingBox KittiDataset::getBoundingBox();   // Rückgabe einer einzelnen Bounding Box 
+    void loadDataset(const std::string &baseDir, const std::string &seq); // Beladen der Vektoren m_imagePaths und m_boundingBoxes
+
+    std::string KittiDataset::getImageFilePathOfCurrentIndex();
+
+    BoundingBox KittiDataset::getBoundingBoxOfCurrentIndex();
 
     // Debugging tool
     GENERATE_MEMBER_FUNCTIONS(m_seq)
 
 private:
     int m_seq;
-    int currentIndex;
-    std::vector<std::string> imagePaths;
-    std::vector<BoundingBox> boundingBoxes;
+    int m_currentIndex = 0; // Startwert 0
+    std::vector<std::string> m_imageFilePaths;
+    std::vector<BoundingBox> m_boundingBoxes;
 };
 
 #endif // KITTI_DATASET_HPP

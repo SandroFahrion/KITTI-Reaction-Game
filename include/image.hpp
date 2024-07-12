@@ -16,22 +16,19 @@ class Image {
 public:
     Image();    // Standardkonstruktor
     ~Image();   // Standarddestruktor
-    Image(const std::string& imagePath);    // Überladener Konstruktor
+
+    Image(const std::string &imagePath);    // Überladener Konstruktor, liest das Bild vom Pfad in openCV ein
 
     cv::Mat getImage() const;
 
-    void loadImage(const std::string &path);    // Datensatz muss wahrscheinlich im Projekt zwischengespeichert werden
+    void loadImage(const std::string &path);
         
-    // setter-Methode
-    // wichtig: bestimmt für das aktuelle Bild den Index der zugehörigen Bounding Box, fordert die Daten mit
-    // der getter-Methode von der dataset-Klasse an und setzt für das BoundingBox-Objekt die aktuell benötigten Werte
     void setBoundingBoxes(const std::vector<BoundingBox> &boxes);
 
     void joinDataset(); // Bild und Box zusammenfügen. evtl nicht nötig, wenn es mit GUI displayImage() gut lösbar ist
     
 private:
-    cv::Mat image;
-
+    cv::Mat m_cv_image;
     int m_images;
     std::string m_filePath;
     std::vector<BoundingBox> m_boundingBoxes;
