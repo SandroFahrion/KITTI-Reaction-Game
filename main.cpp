@@ -1,5 +1,6 @@
 // Programmstart
 
+
 #include "gui.hpp"
 #include "reaction_game.hpp"
 
@@ -14,7 +15,7 @@ int main(int argc, char* argv[]) {
         for (int i = 1; i < argc; ++i) {    // Überprüfen, ob der --debug-Parameter übergeben wurde
             if (std::string(argv[i]) == "--debug") {
                 g_debug_mode = true;
-                Debugger::log("Debugging mode activated");
+                Debugger::log("Debugging mode activated\n");
             }
         }
     #endif // DEBUG_MODE

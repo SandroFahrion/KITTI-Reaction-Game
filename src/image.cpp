@@ -2,11 +2,11 @@
 // verwaltet die vorbereitete bounding box des aktuellen datensatzes
 // zusammensetzen von bild und bounding box 
 
-#include "image.hpp"
-
 #ifdef DEBUG_MODE
 #include "debug.hpp"
 #endif // DEBUG_MODE
+
+#include "image.hpp"
 
 Image::Image(){}
 Image::~Image(){}
@@ -23,10 +23,6 @@ Image::Image(const std::string &imagePath) {
 
 cv::Mat Image::getImage() const {
     return m_cv_image;
-}
-
-void Image::loadImage(const std::string &path){ 
-     
 }
 
 void Image::joinDataset(){

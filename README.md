@@ -3,9 +3,9 @@
 ### Prerequisites
 1. **CMake**: Install the latest version of CMake.
 2. **Compiler**: Ensure an appropriate compiler is installed:
-   - **Windows**: Visual Studio or MinGW(not tested, should work aswell*)
-   - **Linux**: GCC(not tested, should work aswell*)
-*all compiler selections will be automatic
+   - **Windows**: Visual Studio or MinGW (not tested, should work aswell*)
+   - **Linux**: GCC (not tested, should work aswell*)
+<br>*all compiler selections will be automatic
 3. **OpenCV**: OpenCV from [GitHub](https://github.com/opencv/opencv)
    - **Git Bash**
 

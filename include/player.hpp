@@ -5,6 +5,7 @@
 
 #include <string>
 #include <vector>
+
 #include "../helpers/member_util.hpp"
 
 class Player {

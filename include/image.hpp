@@ -8,9 +8,9 @@
 #include <string>
 #include <vector>
 
-#include "bounding_box.hpp"
-
 #include <opencv2/opencv.hpp>
+
+#include "bounding_box.hpp"
 
 class Image {
 public:
@@ -20,8 +20,6 @@ public:
     Image(const std::string &imagePath);    // Überladener Konstruktor, liest das Bild vom Pfad in openCV ein
 
     cv::Mat getImage() const;
-
-    void loadImage(const std::string &path);
         
     void setBoundingBoxes(const std::vector<BoundingBox> &boxes);
 

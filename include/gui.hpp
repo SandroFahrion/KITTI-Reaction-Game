@@ -4,6 +4,8 @@
 #ifndef GUI_HPP
 #define GUI_HPP
 
+#define NAME_OF_THE_GAME "KITTI Reaction Game"
+
 #include <string>
 #include <chrono>
 
@@ -26,22 +28,17 @@ public:
     int getGameMode() const{ return m_gameMode; }
     const std::string &getPlayerName() const { return m_playerName; }
     const std::string &getSequence() const { return m_sequence; }
-    const std::string &getRepoPath() const { return m_path_to_repo; }
 
     // setter-Methoden
     void setNumTurns(int numTurns) { m_numTurns = numTurns; }
     void setGameMode(int gameMode) { m_gameMode = gameMode; }
     void setPlayerName(const std::string &playerName) { m_playerName = playerName; }
     void setSequence(const std::string &sequence) { m_sequence = sequence; }
-    void setRepoPath(const std::string &repoPath) { m_path_to_repo = repoPath; }
 
     // Debugging tool
     GENERATE_MEMBER_FUNCTIONS(m_numTurns, m_gameMode, m_sequence, m_playerName)
 
 private:
-    // Member-Variablen
-    // Quelle für KITTI-Daten
-    std::string m_path_to_repo = "C:/Git/KittiReactionGame_Projekt/CPP_Projekt_Klos_Fahrion";
     // Startparameter
     std::string m_playerName, m_sequence;
     int m_numTurns, m_gameMode;
@@ -68,8 +65,7 @@ public:
     Player showScoreboard();    // Instanziierung und Aufruf der Konsole zur Ausgabe an den Spieler
 
 private:
-    // zur Berechnung der Reaktionszeit
-    std::chrono::high_resolution_clock::time_point m_startTime;    
+    std::chrono::high_resolution_clock::time_point m_startTime; // zur Berechnung der Reaktionszeit
 };
 
 #endif // GUI_HPP

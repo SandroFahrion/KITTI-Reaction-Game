@@ -2,58 +2,54 @@
 // zugriff auf das verzeichnis von kitti
 // stellt einzelne bildobjekte für die weitere verarbeitung im spiel zur verfügung
 
-#include "kitti_dataset.hpp"
-
 #ifdef DEBUG_MODE
 #include "debug.hpp"
 #endif // DEBUG_MODE
 
+#include "kitti_dataset.hpp"
+
 KittiDataset::KittiDataset(){}  // Standardkonstruktor
 KittiDataset::~KittiDataset(){} // Standarddestruktor
+KittiDataset::KittiDataset(const std::string &seq) {    // Überladener Konstruktor
+    loadDataset(PATH_TO_REPO, seq);
+}
 
-std::string KittiDataset::formatImageFilePath(const std::string &baseDir, const std::string &seq){
-    std::string reFormattedSeq;
-
-    reFormattedSeq.erase(0, reFormattedSeq.find_first_not_of('0')); // Entferne führende Nullen (für Eingabe Bsp.:"0000010")
+std::string KittiDataset::formatImageFilePath(const std::string &repoDir, const std::string &seq){
+    std::string formattedIndex = std::to_string(m_currentIndex);
+    formattedIndex.erase(0, formattedIndex.find_first_not_of('0')); // Entferne führende Nullen
     
-    // Wenn das Ergebnis leer ist (d.h. es wurde der 0. Datensatz gewählt), setze es auf "0"
-    if (reFormattedSeq.empty()) {
-        reFormattedSeq = "0";
+    if (formattedIndex.empty()) {
+        formattedIndex = "0";
     }
 
-    // Variable wird mit führenden Nullen aufgefüllt
-    if (reFormattedSeq.size() < 6) {
-        reFormattedSeq.insert(reFormattedSeq.begin(), 6 - reFormattedSeq.size(), '0');
+    // mit führenden Nullen füllen
+    if (formattedIndex.size() < 6) {
+        formattedIndex.insert(formattedIndex.begin(), 6 - formattedIndex.size(), '0');
     }
 
-    std::string formattedImageFilePath = baseDir + "/data/data_tracking_image_2/training/image_02/" + seq + "/" + reFormattedSeq + ".png";
-
+    // Vollständigen Pfad erstellen
+    std::string formattedImageFilePath = repoDir + PATH_TO_IMAGES + seq + "/" + formattedIndex + ".png";
     return formattedImageFilePath;
 }
 
-std::string KittiDataset::formatLabelFilePath(const std::string &baseDir, const std::string &seq){
-    std::string formattedLabelFilePath = baseDir + "/data/data_tracking_label_2/training/label_02/" + seq + ".txt";
-
+std::string KittiDataset::formatLabelFilePath(const std::string &repoDir, const std::string &seq){
+    std::string formattedLabelFilePath = repoDir + PATH_TO_LABELS + seq + ".txt";
     return formattedLabelFilePath;
 }
 
-KittiDataset::KittiDataset(const std::string &baseDir, const std::string &seq) {
-    loadDataset(baseDir, seq);
-}
+void KittiDataset::loadDataset(const std::string &repoDir, const std::string &seq) {
 
-void KittiDataset::loadDataset(const std::string &baseDir, const std::string &seq) {
-
-    std::ifstream file(formatLabelFilePath(baseDir, seq));
+    std::ifstream labelFile(formatLabelFilePath(repoDir, seq));
 
     #ifdef DEBUG_MODE
         if (g_debug_mode) {
-            if (!file.is_open()) Debugger::log(formatLabelFilePath(baseDir, seq), "Could not open label file: ");
+            if (!labelFile.is_open()) Debugger::log(formatLabelFilePath(repoDir, seq), "Could not open label file: ");
         }
     #endif // DEBUG_MODE
 
     std::string line;
 
-    while (std::getline(file, line)) {
+    while (std::getline(labelFile, line)) {
 
         #ifdef DEBUG_MODE
             if (g_debug_mode) {
@@ -65,26 +61,35 @@ void KittiDataset::loadDataset(const std::string &baseDir, const std::string &se
 
         int x, y, width, height;
 
-        if (!(iss >> m_currentIndex >> x >> y >> width >> height)) {
+        std::string type;
+
+        //if (!(iss >> m_currentIndex >> x >> y >> width >> height)) {
             #ifdef DEBUG_MODE
                 if (g_debug_mode) {
                     Debugger::log(line, "ERROR parsing line: ");
                 }
             #endif // DEBUG_MODE
-        }
+        //}
 
-        m_imageFilePaths.push_back(formatImageFilePath(baseDir, seq));
-        m_boundingBoxes.emplace_back(x, y, width, height);
+        m_imageFilePaths.push_back(formatImageFilePath(repoDir, seq));
+        m_boundingBoxes.emplace_back(type, x, y, width, height);
+        #ifdef DEBUG_MODE
+                if (g_debug_mode) {
+                    Debugger::log(m_imageFilePaths, "all img paths: ");
+                }
+        #endif // DEBUG_MODE
     }
 
-    file.close();
+    labelFile.close();
 }
 
 std::string KittiDataset::getImageFilePathOfCurrentIndex() {
+    // sorgt dafür, dass der Index innerhalb der Grenzen der Größe des Vektors bleibt
     m_currentIndex = m_currentIndex % m_imageFilePaths.size();
     return m_imageFilePaths[m_currentIndex];
 }
 
 BoundingBox KittiDataset::getBoundingBoxOfCurrentIndex() {
+    m_currentIndex = m_currentIndex % m_boundingBoxes.size();
     return m_boundingBoxes[m_currentIndex];
 }

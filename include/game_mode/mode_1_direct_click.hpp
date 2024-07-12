@@ -3,11 +3,12 @@
 #ifndef MODE_1_DIRECT_CLICK_HPP
 #define MODE_1_DIRECT_CLICK_HPP
 
+#include <chrono>
+
 #include "game_mode.hpp"
 #include "player.hpp"
 #include "bounding_box.hpp"
 
-#include <chrono>
 
 class Mode1DirectClick : public GameMode {
 public:
@@ -18,7 +19,7 @@ public:
 private:
     BoundingBox boundingBox;
     double reactionTime;
-    double penaltyTime;
+    const double penaltyTime = 5;
     std::chrono::high_resolution_clock::time_point startTime;
 
 };
