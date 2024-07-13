@@ -1,6 +1,5 @@
 // game
 // Spielverwaltung
-// ruft die benötigten klassen und funktionen auf zur Erstellung der Instanzen auf
 
 #ifdef DEBUG_MODE
 #include "debug.hpp"
@@ -13,9 +12,12 @@ ReactionGame::ReactionGame(const StartParams &params)
 
 bool ReactionGame::startGame(GUI &gui) { // Umbennenn in gameLoop() ??
 
+    std::random_device rd;   // Zufälliger Seed
+    std::mt19937 gen(rd());  // Zufallszahlengenerator
+
     // wird erst true, wenn das Spiel abgeschlossen ist
     // falls außerplanmäßig ein return durchlaufen wird, wird somit false zurückgegeben
-    end = false;
+    bool end = false;
 
     while (!end) {
         for (int i = 1; i <= m_turns; ++i) {
@@ -26,20 +28,24 @@ bool ReactionGame::startGame(GUI &gui) { // Umbennenn in gameLoop() ??
                 Debugger::log(i, "Turn nr");
                 Debugger::log(dataset.getImageFilePathOfCurrentIndex(), "current img path");
                 Debugger::log(dataset.getCurrentIndex(), "current index");
-
             }
             #endif // DEBUG_MODE
-            
-            BoundingBox box = dataset.getBoundingBoxOfCurrentIndex();
-            Image img(dataset.getImageFilePathOfCurrentIndex());
 
-            gui.displayImage(img);
+            std::vector<BoundingBox> boxes = dataset.getBoundingBoxesOfCurrentFrame();
+            std::string imagePath = dataset.getImageFilePathOfCurrentIndex();
 
+            if (boxes.empty()) {
+                std::cerr << "No valid bounding box found in remaining images." << std::endl;
+                return false;
+            }
+
+            // Wählen Sie eine zufällige Bounding Box aus
+            std::uniform_int_distribution<size_t> dis(0, boxes.size() - 1);
+            BoundingBox box = boxes[dis(gen)];
+
+            Image img(imagePath);
             gui.displayImageWithBoundingBox(img, box);
 
-
-
-            // Refactoring in die gameMode-Klassen
             int key;
             cv::Point cursorPos;
             double reactionTime = gui.measureReactionTime(key, cursorPos);
@@ -49,7 +55,6 @@ bool ReactionGame::startGame(GUI &gui) { // Umbennenn in gameLoop() ??
             } else {
                 std::cout << "Miss! 5 second penalty!" << std::endl;
             }
-            // Refactoring in die gameMode-Klassen
 
             dataset.setCurrentIndex(dataset.getCurrentIndex() + 1);
 

@@ -22,13 +22,9 @@ public:
     cv::Mat getImage() const;
         
     void setBoundingBoxes(const std::vector<BoundingBox> &boxes);
-
-    void joinDataset(); // Bild und Box zusammenfügen. evtl nicht nötig, wenn es mit GUI displayImage() gut lösbar ist
     
 private:
     cv::Mat m_cv_image;
-    int m_images;
-    std::string m_filePath;
     std::vector<BoundingBox> m_boundingBoxes;
 };
 

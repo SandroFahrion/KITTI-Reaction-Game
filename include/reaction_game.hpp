@@ -8,6 +8,7 @@
 #include <tuple>
 #include <vector>
 #include <string>
+#include <random>
 
 #include "kitti_dataset.hpp"
 #include "player.hpp"
@@ -24,10 +25,9 @@ public:
     bool startGame(GUI &gui);   // Spielablauf durch Funktionsaufrufe in einer Schleife
 
     // Debugging tool
-    GENERATE_MEMBER_FUNCTIONS(m_turns, player, dataset, gameMode, end)
+    GENERATE_MEMBER_FUNCTIONS(m_turns, player, dataset, gameMode)
 
 private:
-    bool end;
     int m_turns;
     Player player;
     KittiDataset dataset;

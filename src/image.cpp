@@ -25,10 +25,6 @@ cv::Mat Image::getImage() const {
     return m_cv_image;
 }
 
-void Image::joinDataset(){
-
-}
-
-void Image::setBoundingBoxes(const std::vector<BoundingBox> &boxes){
-    
+void Image::setBoundingBoxes(const std::vector<BoundingBox> &boxes) {
+    m_boundingBoxes = boxes;
 }

@@ -5,27 +5,13 @@
 #ifndef KITTI_DATASET_HPP
 #define KITTI_DATASET_HPP
 
-// Quelle für KITTI-Daten
-#ifndef PATH_TO_DATA_SOURCE
-#define PATH_TO_DATA_SOURCE "C:/Git/KittiReactionGame_Projekt/CPP_Projekt_Klos_Fahrion/"
-#endif // PATH_TO_REPO
-
-// Pfad zu Bildern
-#ifndef PATH_TO_IMAGES
-#define PATH_TO_IMAGES "data/data_tracking_image_2/training/image_02/"
-#endif // PATH_TO_IMAGES
-
-// Pfad zu Labels
-#ifndef PATH_TO_LABELS
-#define PATH_TO_LABELS "data/data_tracking_label_2/training/label_02/"
-#endif // PATH_TO_Labels
-
 #include <string>
 #include <vector>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <random>
 
 #include "../helpers/member_util.hpp"
 #include "bounding_box.hpp"
@@ -38,16 +24,13 @@ public:
 
     KittiDataset(const std::string &seq); // Überladener Konstruktor
 
-    std::string formatImageFilePath(int index, const std::string &seq);
-
-    std::string formatLabelFilePath(const std::string &seq);
-
     std::string KittiDataset::getImageFilePathOfCurrentIndex();
+    std::vector<BoundingBox> KittiDataset::getBoundingBoxesOfCurrentFrame(); // Methode zum Abrufen der Bounding Boxes des aktuellen Frames
 
-    BoundingBox KittiDataset::getBoundingBoxOfCurrentIndex();
 
-    // getter-Methode
+    // getter-Methoden
     int getCurrentIndex() const{ return m_currentIndex; }
+    int getTotalImages() const { return static_cast<int>(m_imageFilePaths.size()); }
 
     // setter-Methode
     void setCurrentIndex(int index) { m_currentIndex = index; }
@@ -57,13 +40,18 @@ public:
 
 private:
     // Member Variablen
-    int m_currentIndex = 5; // Startwert 0
+    int m_currentIndex = 0;
     std::vector<std::string> m_imageFilePaths;
     std::vector<BoundingBox> m_boundingBoxes;
 
-    void loadDataset(const std::string &seq); // Beladen der Vektoren m_imagePaths und m_boundingBoxes
+    // Beladen der Vektoren m_imagePaths und m_boundingBoxes
+    void loadDataset(const std::string &seq);
     void loadImagePaths(const std::string &seq);
     void loadBoxDataset(const std::string &seq);
+
+    void setRandomStartIndex();
+    std::string formatImageFilePath(int index, const std::string &seq);
+    std::string formatLabelFilePath(const std::string &seq);
 };
 
 #endif // KITTI_DATASET_HPP

@@ -1,7 +1,9 @@
 // funktion zur aufruf der konsole als "menüführung" vor beginn des spiels
 // funktion zur darstellung des spielfensters
 
-#include <iostream>
+#ifndef NAME_OF_THE_GAME
+#define NAME_OF_THE_GAME "KITTI Reaction Game"
+#endif // NAME_OF_THE_GAME
 
 #include "gui.hpp"
 
@@ -25,12 +27,17 @@ void GUI::displayImage(Image &image) {
 void GUI::displayImageWithBoundingBox(const Image &image, const BoundingBox &box) {
     cv::Mat imgWithBox = image.getImage();
     cv::rectangle(imgWithBox, cv::Point(box.getCoordX(), box.getCoordY()), cv::Point(box.getCoordX() + box.getWidthX(), box.getCoordY() + box.getHeightY()), cv::Scalar(0, 0, 255), 2);
-    cv::imshow(NAME_OF_THE_GAME, imgWithBox);
+
+    // add BoxType as plain text
+    std::string boxType = box.getType();
+    cv::putText(imgWithBox, boxType, cv::Point(box.getCoordX(), box.getCoordY() - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
+
+    cv::imshow(NAME_OF_THE_GAME, imgWithBox); // Finale Bildausgabe
 }
 
 double GUI::measureReactionTime(int &key, cv::Point &cursorPos) {
     m_startTime = std::chrono::high_resolution_clock::now();
-    key = cv::waitKey(0); // Warte unendlich lange auf einen Tastendruck
+    key = cv::waitKey(3000); // Warte 3 Sekunden auf einen Tastendruck
 
     if (key == cv::EVENT_LBUTTONDOWN) {
         // setMouseCallback Funktion Nutzen

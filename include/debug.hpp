@@ -7,7 +7,6 @@
 #include <tuple>
 #include <vector>
 
-#ifdef DEBUG_MODE
 extern bool g_debug_mode;
 
 class Debugger {
@@ -51,7 +50,5 @@ private:
         ((std::cout << "  " << names[Is] << " = " << std::get<Is>(members) << std::endl), ...);
     }
 };
-
-#endif // DEBUG_MODE
 
 #endif // DEBUG_HPP

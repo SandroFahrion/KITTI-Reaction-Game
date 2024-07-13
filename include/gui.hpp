@@ -4,10 +4,9 @@
 #ifndef GUI_HPP
 #define GUI_HPP
 
-#define NAME_OF_THE_GAME "KITTI Reaction Game"
-
 #include <string>
 #include <chrono>
+#include <iostream>
 
 #include <opencv2/opencv.hpp>
 
