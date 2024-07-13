@@ -6,18 +6,18 @@
 #define KITTI_DATASET_HPP
 
 // Quelle für KITTI-Daten
-#ifndef PATH_TO_REPO
-#define PATH_TO_REPO "C:/Git/KittiReactionGame_Projekt/CPP_Projekt_Klos_Fahrion"
+#ifndef PATH_TO_DATA_SOURCE
+#define PATH_TO_DATA_SOURCE "C:/Git/KittiReactionGame_Projekt/CPP_Projekt_Klos_Fahrion/"
 #endif // PATH_TO_REPO
 
 // Pfad zu Bildern
 #ifndef PATH_TO_IMAGES
-#define PATH_TO_IMAGES "/data/data_tracking_image_2/training/image_02/"
+#define PATH_TO_IMAGES "data/data_tracking_image_2/training/image_02/"
 #endif // PATH_TO_IMAGES
 
 // Pfad zu Labels
 #ifndef PATH_TO_LABELS
-#define PATH_TO_LABELS "/data/data_tracking_label_2/training/label_02/"
+#define PATH_TO_LABELS "data/data_tracking_label_2/training/label_02/"
 #endif // PATH_TO_Labels
 
 #include <string>
@@ -29,7 +29,6 @@
 
 #include "../helpers/member_util.hpp"
 #include "bounding_box.hpp"
-#include "image.hpp"
 
 
 class KittiDataset {
@@ -39,11 +38,11 @@ public:
 
     KittiDataset(const std::string &seq); // Überladener Konstruktor
 
-    std::string formatImageFilePath(const std::string &baseDir, const std::string &seq);
+    std::string formatImageFilePath(const std::string &seq);
 
-    std::string formatLabelFilePath(const std::string &baseDir, const std::string &seq);
+    std::string formatLabelFilePath(const std::string &seq);
 
-    void loadDataset(const std::string &baseDir, const std::string &seq); // Beladen der Vektoren m_imagePaths und m_boundingBoxes
+    void loadDataset(const std::string &seq); // Beladen der Vektoren m_imagePaths und m_boundingBoxes
 
     std::string KittiDataset::getImageFilePathOfCurrentIndex();
 

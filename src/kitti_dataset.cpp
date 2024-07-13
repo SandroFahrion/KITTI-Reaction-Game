@@ -11,10 +11,10 @@
 KittiDataset::KittiDataset(){}  // Standardkonstruktor
 KittiDataset::~KittiDataset(){} // Standarddestruktor
 KittiDataset::KittiDataset(const std::string &seq) {    // Überladener Konstruktor
-    loadDataset(PATH_TO_REPO, seq);
+    loadDataset(seq);
 }
 
-std::string KittiDataset::formatImageFilePath(const std::string &repoDir, const std::string &seq){
+std::string KittiDataset::formatImageFilePath(const std::string &seq){
     std::string formattedIndex = std::to_string(m_currentIndex);
     formattedIndex.erase(0, formattedIndex.find_first_not_of('0')); // Entferne führende Nullen
     
@@ -28,22 +28,22 @@ std::string KittiDataset::formatImageFilePath(const std::string &repoDir, const 
     }
 
     // Vollständigen Pfad erstellen
-    std::string formattedImageFilePath = repoDir + PATH_TO_IMAGES + seq + "/" + formattedIndex + ".png";
+    std::string formattedImageFilePath = std::string(PATH_TO_DATA_SOURCE) + std::string(PATH_TO_IMAGES) + seq + "/" + formattedIndex + ".png";
     return formattedImageFilePath;
 }
 
-std::string KittiDataset::formatLabelFilePath(const std::string &repoDir, const std::string &seq){
-    std::string formattedLabelFilePath = repoDir + PATH_TO_LABELS + seq + ".txt";
+std::string KittiDataset::formatLabelFilePath(const std::string &seq){
+    std::string formattedLabelFilePath = std::string(PATH_TO_DATA_SOURCE) + std::string(PATH_TO_LABELS) + seq + ".txt";
     return formattedLabelFilePath;
 }
 
-void KittiDataset::loadDataset(const std::string &repoDir, const std::string &seq) {
+void KittiDataset::loadDataset(const std::string &seq) {
 
-    std::ifstream labelFile(formatLabelFilePath(repoDir, seq));
+    std::ifstream labelFile(formatLabelFilePath(seq));
 
     #ifdef DEBUG_MODE
         if (g_debug_mode) {
-            if (!labelFile.is_open()) Debugger::log(formatLabelFilePath(repoDir, seq), "Could not open label file: ");
+            if (!labelFile.is_open()) Debugger::log(formatLabelFilePath(seq), "Could not open label file: ");
         }
     #endif // DEBUG_MODE
 
@@ -71,7 +71,7 @@ void KittiDataset::loadDataset(const std::string &repoDir, const std::string &se
             #endif // DEBUG_MODE
         //}
 
-        m_imageFilePaths.push_back(formatImageFilePath(repoDir, seq));
+        //m_imageFilePaths.push_back(formatImageFilePath(seq));
         m_boundingBoxes.emplace_back(type, x, y, width, height);
         #ifdef DEBUG_MODE
                 if (g_debug_mode) {
