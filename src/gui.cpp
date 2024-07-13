@@ -14,24 +14,6 @@ StartParams::StartParams(const std::string &name, int turns, const std::string &
 GUI::GUI(){}    // Standardkonstruktor
 GUI::~GUI(){}   // Standarddestruktor
 
-std::string GUI::formatSequenceInput(const std::string &seq){
-    std::string formattedSeq = seq;
-
-    formattedSeq.erase(0, formattedSeq.find_first_not_of('0')); // Entferne führende Nullen (Bsp.:"0000010")
-    
-    // Wenn das Ergebnis leer ist (d.h. es wurde der 0. Datensatz gewählt), setze es auf "0"
-    if (formattedSeq.empty()) {
-        formattedSeq = "0";
-    }
-
-    // mit führenden Nullen füllen
-    if (formattedSeq.size() < 4) {
-        formattedSeq.insert(formattedSeq.begin(), 4 - formattedSeq.size(), '0');
-    }
-
-    return formattedSeq;
-}
-
 Player GUI::showScoreboard() {
     return Player("DummyPlayer");
 }
@@ -58,6 +40,24 @@ double GUI::measureReactionTime(int &key, cv::Point &cursorPos) {
     auto endTime = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> reactionTime = endTime - m_startTime;
     return reactionTime.count();
+}
+
+std::string GUI::formatSequenceInput(const std::string &seq){
+    std::string formattedSeq = seq;
+
+    formattedSeq.erase(0, formattedSeq.find_first_not_of('0')); // Entferne führende Nullen (Bsp.:"0000010")
+    
+    // Wenn das Ergebnis leer ist (d.h. es wurde der 0. Datensatz gewählt), setze es auf "0"
+    if (formattedSeq.empty()) {
+        formattedSeq = "0";
+    }
+
+    // mit führenden Nullen füllen
+    if (formattedSeq.size() < 4) {
+        formattedSeq.insert(formattedSeq.begin(), 4 - formattedSeq.size(), '0');
+    }
+
+    return formattedSeq;
 }
 
 bool GUI::showMenu(StartParams &params) {

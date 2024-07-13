@@ -38,11 +38,9 @@ public:
 
     KittiDataset(const std::string &seq); // Überladener Konstruktor
 
-    std::string formatImageFilePath(const std::string &seq);
+    std::string formatImageFilePath(int index, const std::string &seq);
 
     std::string formatLabelFilePath(const std::string &seq);
-
-    void loadDataset(const std::string &seq); // Beladen der Vektoren m_imagePaths und m_boundingBoxes
 
     std::string KittiDataset::getImageFilePathOfCurrentIndex();
 
@@ -58,9 +56,14 @@ public:
     GENERATE_MEMBER_FUNCTIONS(m_currentIndex, m_imageFilePaths, m_boundingBoxes)
 
 private:
-    int m_currentIndex = 0; // Startwert 0
+    // Member Variablen
+    int m_currentIndex = 5; // Startwert 0
     std::vector<std::string> m_imageFilePaths;
     std::vector<BoundingBox> m_boundingBoxes;
+
+    void loadDataset(const std::string &seq); // Beladen der Vektoren m_imagePaths und m_boundingBoxes
+    void loadImagePaths(const std::string &seq);
+    void loadBoxDataset(const std::string &seq);
 };
 
 #endif // KITTI_DATASET_HPP

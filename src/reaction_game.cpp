@@ -33,6 +33,8 @@ bool ReactionGame::startGame(GUI &gui) { // Umbennenn in gameLoop() ??
             BoundingBox box = dataset.getBoundingBoxOfCurrentIndex();
             Image img(dataset.getImageFilePathOfCurrentIndex());
 
+            gui.displayImage(img);
+
             gui.displayImageWithBoundingBox(img, box);
 
 

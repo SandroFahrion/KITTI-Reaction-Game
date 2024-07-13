@@ -14,30 +14,29 @@ KittiDataset::KittiDataset(const std::string &seq) {    // Überladener Konstruk
     loadDataset(seq);
 }
 
-std::string KittiDataset::formatImageFilePath(const std::string &seq){
-    std::string formattedIndex = std::to_string(m_currentIndex);
-    formattedIndex.erase(0, formattedIndex.find_first_not_of('0')); // Entferne führende Nullen
-    
-    if (formattedIndex.empty()) {
-        formattedIndex = "0";
-    }
-
-    // mit führenden Nullen füllen
-    if (formattedIndex.size() < 6) {
-        formattedIndex.insert(formattedIndex.begin(), 6 - formattedIndex.size(), '0');
-    }
-
-    // Vollständigen Pfad erstellen
-    std::string formattedImageFilePath = std::string(PATH_TO_DATA_SOURCE) + std::string(PATH_TO_IMAGES) + seq + "/" + formattedIndex + ".png";
-    return formattedImageFilePath;
-}
-
-std::string KittiDataset::formatLabelFilePath(const std::string &seq){
-    std::string formattedLabelFilePath = std::string(PATH_TO_DATA_SOURCE) + std::string(PATH_TO_LABELS) + seq + ".txt";
-    return formattedLabelFilePath;
-}
-
 void KittiDataset::loadDataset(const std::string &seq) {
+    loadImagePaths(seq);
+    loadBoxDataset(seq);
+}
+
+void KittiDataset::loadImagePaths(const std::string &seq) {
+    int index = 0;
+    while (true) {
+        std::string imagePath = formatImageFilePath(index, seq);
+        #ifdef DEBUG_MODE
+        if (g_debug_mode) {
+            Debugger::log(index, "img index");
+        }
+        #endif // DEBUG_MODE
+        if (!std::filesystem::exists(imagePath)) {
+            break;
+        }
+        m_imageFilePaths.push_back(imagePath);
+        index++;
+    }
+}
+
+void KittiDataset::loadBoxDataset(const std::string &seq) {
 
     std::ifstream labelFile(formatLabelFilePath(seq));
 
@@ -53,7 +52,7 @@ void KittiDataset::loadDataset(const std::string &seq) {
 
         #ifdef DEBUG_MODE
             if (g_debug_mode) {
-                Debugger::log(line, "Reading line: ");
+                //Debugger::log(line, "Reading line: ");
             }
         #endif // DEBUG_MODE
 
@@ -63,33 +62,51 @@ void KittiDataset::loadDataset(const std::string &seq) {
 
         std::string type;
 
-        //if (!(iss >> m_currentIndex >> x >> y >> width >> height)) {
+        if (!(iss >> type >> x >> y >> width >> height)) {
             #ifdef DEBUG_MODE
                 if (g_debug_mode) {
-                    Debugger::log(line, "ERROR parsing line: ");
+                    //Debugger::log(line, "ERROR parsing line: ");
                 }
             #endif // DEBUG_MODE
-        //}
-
-        //m_imageFilePaths.push_back(formatImageFilePath(seq));
-        m_boundingBoxes.emplace_back(type, x, y, width, height);
-        #ifdef DEBUG_MODE
-                if (g_debug_mode) {
-                    Debugger::log(m_imageFilePaths, "all img paths: ");
-                }
-        #endif // DEBUG_MODE
+        }
+        else m_boundingBoxes.emplace_back(type, x, y, width, height);
     }
 
     labelFile.close();
 }
 
+std::string KittiDataset::formatImageFilePath(int index, const std::string &seq){
+    std::string formattedIndex = std::to_string(index);
+
+    formattedIndex.insert(formattedIndex.begin(), 6 - formattedIndex.size(), '0');  // mit führenden Nullen füllen
+
+    // Vollständigen Pfad erstellen
+    std::string formattedImageFilePath = std::string(PATH_TO_DATA_SOURCE) + std::string(PATH_TO_IMAGES) + seq + "/" + formattedIndex + ".png";
+    return formattedImageFilePath;
+}
+
+std::string KittiDataset::formatLabelFilePath(const std::string &seq){
+    std::string formattedLabelFilePath = std::string(PATH_TO_DATA_SOURCE) + std::string(PATH_TO_LABELS) + seq + ".txt";
+    return formattedLabelFilePath;
+}
+
 std::string KittiDataset::getImageFilePathOfCurrentIndex() {
     // sorgt dafür, dass der Index innerhalb der Grenzen der Größe des Vektors bleibt
     m_currentIndex = m_currentIndex % m_imageFilePaths.size();
+    #ifdef DEBUG_MODE
+        if (g_debug_mode) {
+            Debugger::log(m_imageFilePaths[m_currentIndex], "m_imageFilePaths[m_currentIndex]");
+        }
+    #endif // DEBUG_MODE
     return m_imageFilePaths[m_currentIndex];
 }
 
 BoundingBox KittiDataset::getBoundingBoxOfCurrentIndex() {
     m_currentIndex = m_currentIndex % m_boundingBoxes.size();
+    #ifdef DEBUG_MODE
+        if (g_debug_mode) {
+            Debugger::log(m_currentIndex, "current index");
+        }
+    #endif // DEBUG_MODE
     return m_boundingBoxes[m_currentIndex];
 }
