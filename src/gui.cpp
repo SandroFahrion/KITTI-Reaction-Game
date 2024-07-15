@@ -28,7 +28,7 @@ void GUI::displayImage(Image &image) {
     cv::imshow(NAME_OF_THE_GAME, image.getImage());
 }
 
-void GUI::displayImageWithBoundingBox(const Image &image, const BoundingBox &box, cv::Scalar color) {
+void GUI::displayImageWithBoundingBox(const Image &image, const BoundingBox &box, cv::Scalar color) const {
     cv::Mat imgWithBox = image.getImage();
     cv::rectangle(imgWithBox, cv::Point(box.getCoordX(), box.getCoordY()), cv::Point(box.getCoordX() + box.getWidthX(), box.getCoordY() + box.getHeightY()), color, 2);
 
@@ -40,7 +40,7 @@ void GUI::displayImageWithBoundingBox(const Image &image, const BoundingBox &box
 }
 
 // allowing for more than 1 bounding boxes to be displayed
-void GUI::displayImageWithBoundingBoxes(const Image& img, const std::vector<BoundingBox>& boxes, cv::Scalar color) {
+void GUI::displayImageWithBoundingBoxes(const Image& img, const std::vector<BoundingBox>& boxes, cv::Scalar color) const {
     cv::Mat imgWithBoxes = img.getImage();
 
     for (const auto& box : boxes) {
@@ -68,7 +68,7 @@ void GUI::displayMessage(const std::string &message) {
     cv::waitKey(1000);
 }
 
-float GUI::measureReactionTime(int &key, cv::Point &cursorPos) {
+float GUI::measureReactionTime(int &key, cv::Point &cursorPos) const {
     m_startTime = std::chrono::high_resolution_clock::now();
     key = cv::waitKey(3000); // Warte 3 Sekunden auf einen Tastendruck
 

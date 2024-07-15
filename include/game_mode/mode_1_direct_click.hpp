@@ -5,26 +5,35 @@
 
 #include <chrono>
 #include <vector>
+#include <iostream>
+#include <random>
+
 #include "game_mode.hpp"
 #include "player.hpp"
 #include "bounding_box.hpp"
+#include "kitti_dataset.hpp"
+#include "gui.hpp"
+#include "image.hpp"
+#include "../helpers/member_util.hpp"
 
 class Mode1DirectClick : public GameMode {
 public:
-    Mode1DirectClick();
+    Mode1DirectClick(const StartParams &params, const GUI &gui);
 
-    void startRound(const Image& img, const std::vector<BoundingBox>& boxes) override;
+    bool startGame(const StartParams &params, const GUI &gui) override;
+    void startRound(const Image &img, const std::vector<BoundingBox> &boxes) override;
 
     void processClick(int x, int y) override;
     void processKeyPress(int key) override;
 
-    const std::vector<BoundingBox>& getBoundingBoxes() const override;
-    const Image& getCurrentImage() const override;
+    const std::vector<BoundingBox> &getBoundingBoxes() const override;
+    const Image &getCurrentImage() const override;
 
     int getBoxDisplayCount() const override { return 1; }
     cv::Scalar getBoxColor() const override { return RED_COLOR; }
 
 private:
+    int m_turns;
     const float m_penaltyTime = 5;
     float m_reactionTime;
     std::chrono::high_resolution_clock::time_point m_startTime;

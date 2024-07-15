@@ -5,26 +5,36 @@
 
 #include <chrono>
 #include <vector>
+#include <iostream>
+#include <random>
+#include <thread>
+
 #include "game_mode.hpp"
 #include "player.hpp"
 #include "bounding_box.hpp"
+#include "kitti_dataset.hpp"
+#include "gui.hpp"
+#include "image.hpp"
+#include "../helpers/member_util.hpp"
 
 class Mode2ColorChange : public GameMode {
 public:
-    Mode2ColorChange(); // Standardkonstruktor
+    Mode2ColorChange(const StartParams &params, const GUI &gui); // Standardkonstruktor
 
-    void startRound(const Image& img, const std::vector<BoundingBox>& boxes) override;
+    bool startGame(const StartParams &params, const GUI &gui) override;
+    void startRound(const Image &img, const std::vector<BoundingBox> &boxes) override;
 
     void processClick(int x, int y) override;
     void processKeyPress(int key) override;
 
-    const std::vector<BoundingBox>& getBoundingBoxes() const override;
-    const Image& getCurrentImage() const override;
+    const std::vector<BoundingBox> &getBoundingBoxes() const override;
+    const Image &getCurrentImage() const override;
 
     int getBoxDisplayCount() const override { return SHOW_ALL_BOXES; }
     cv::Scalar getBoxColor() const override { return BLUE_COLOR; }
 
 private:
+    int m_turns;
     float m_reactionTime;
     const float m_penaltyTime = 5;
     std::chrono::high_resolution_clock::time_point m_startTime;

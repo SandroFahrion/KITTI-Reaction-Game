@@ -52,15 +52,15 @@ public:
 
     std::string formatSequenceInput(const std::string &seq);
 
-    void displayImageWithBoundingBox(const Image& img, const BoundingBox& box, cv::Scalar color);
-    void displayImageWithBoundingBoxes(const Image& img, const std::vector<BoundingBox>& boxes, cv::Scalar color);
+    void displayImageWithBoundingBox(const Image& img, const BoundingBox& box, cv::Scalar color) const;
+    void displayImageWithBoundingBoxes(const Image& img, const std::vector<BoundingBox>& boxes, cv::Scalar color) const;
 
     void displayImage(Image &image);  // Finale Bildausgabe mit OpenCV
 
     void displayCountdown(const std::string &message);
     void displayMessage(const std::string &message);
 
-    float measureReactionTime(int& key, cv::Point& cursorPos);
+    float measureReactionTime(int& key, cv::Point& cursorPos) const;
 
     // Konsole: Abfrage der Spieleinstellungen (Parameter) als Referenz für StartParams
     // Rückgabewert bestimmt über Spielstart oder Programmende
@@ -69,7 +69,9 @@ public:
     Player showScoreboard();    // Instanziierung und Aufruf der Konsole zur Ausgabe an den Spieler
 
 private:
-    std::chrono::high_resolution_clock::time_point m_startTime; // zur Berechnung der Reaktionszeit
+    // zur Berechnung der Reaktionszeit
+    // mutable ermöglicht die Änderung innerhalb const-Methoden
+    mutable std::chrono::high_resolution_clock::time_point m_startTime;
 };
 
 #endif // GUI_HPP

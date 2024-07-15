@@ -17,7 +17,6 @@ set(SOURCES
     src/image.cpp
     src/kitti_dataset.cpp
     src/player.cpp
-    src/reaction_game.cpp
     src/debug.cpp
     main.cpp
 )

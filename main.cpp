@@ -5,7 +5,9 @@
 #endif // DEBUG_MODE
 
 #include "gui.hpp"
-#include "reaction_game.hpp"
+#include "game_mode/game_mode.hpp"
+#include "game_mode/mode_1_direct_click.hpp"
+#include "game_mode/mode_2_color_change.hpp"
 
 
 int main(int argc, char* argv[]) {
@@ -23,7 +25,6 @@ int main(int argc, char* argv[]) {
 
     GUI gui;                    // Instanziierung des Menüs
     StartParams startParams;    // Instanziierung eines Objektes für die Startparameter
-    Player player;
     
     if (!gui.showMenu(startParams)) {   // Falls der showMenu-Aufruf false zurückgibt
 
@@ -34,19 +35,20 @@ int main(int argc, char* argv[]) {
         return 0;   // Programmende
     }
 
-    ReactionGame game(startParams); // Instanziierung der Spielverwaltung als Objekt "game" mit dem Konstruktor, der die Startparameter übergibt
-    if (!game.startGame(gui)){   // Spielstart -> alle weitere funktionen werden durch die Spielverwaltungsklasse ReactionGame aufgerufen
-        
-        #ifdef DEBUG_MODE
-            if (g_debug_mode) Debugger::log("startGame function closed unexpectedly");
-        #endif // DEBUG_MODE
+    GameMode *gameMode;
 
-        return 0;
+    switch(startParams.getGameMode()){
+        case 1:
+            gameMode = new Mode1DirectClick(startParams, gui);
+            break;
+        case 2:
+            gameMode = new Mode2ColorChange(startParams, gui);
+            break;
+        default:
+            gameMode = nullptr;
+            break;
     }
 
-    #ifdef DEBUG_MODE
-        if (g_debug_mode) Debugger::log(game, "Game State");
-    #endif // DEBUG MODE
     #ifdef DEBUG_MODE
         if (g_debug_mode) Debugger::log(startParams, "startParams");
     #endif // DEBUG MODE

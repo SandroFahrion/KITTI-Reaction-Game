@@ -1,26 +1,70 @@
 // umgeformte unterklasse für den Mode 1 - Direct Click Reaction:
 
+#ifdef DEBUG_MODE
+#include "debug.hpp"
+#endif // DEBUG_MODE
+
 #include "game_mode/mode_1_direct_click.hpp"
-#include <iostream>
-#include <random>
 
-Mode1DirectClick::Mode1DirectClick() : m_reactionTime(0) {}
+Mode1DirectClick::Mode1DirectClick(const StartParams &params, const GUI &gui) : m_reactionTime(0) {
+    startGame(params, gui);
+}
 
-void Mode1DirectClick::processClick(int x, int y) {
-    if (boundingBox.contains(x, y)) {
-        m_reactionTime = calculateReactionTime();
-        std::cout << "Hit! Reaction time: " << m_reactionTime << " seconds" << std::endl;
-    } else {
-        m_reactionTime += m_penaltyTime;
-        std::cout << "Miss! 5 second penalty!" << std::endl;
+bool Mode1DirectClick::startGame(const StartParams &params, const GUI &gui) {
+    
+    Player player(params.getPlayerName());
+    KittiDataset dataset(params.getSequence());
+    m_turns = params.getNumTurns();
+    
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    bool end = false;
+    while (!end) {
+        for (int i = 1; i <= m_turns; ++i) {
+
+            #ifdef DEBUG_MODE
+            if (g_debug_mode) {
+                Debugger::log(end, "Game End Status is");
+                Debugger::log(i, "Turn nr");
+                Debugger::log(dataset.getImageFilePathOfCurrentIndex(), "current img path");
+                Debugger::log(dataset.getCurrentIndex(), "current index");
+            }
+            #endif // DEBUG_MODE
+
+            std::vector<BoundingBox> boxes = dataset.getBoundingBoxesOfCurrentFrame();
+            std::string imagePath = dataset.getImageFilePathOfCurrentIndex();
+
+            if (boxes.empty()) {
+                std::cerr << "No valid bounding box found in remaining images." << std::endl;
+                return end;
+            }
+
+            Image img(imagePath);
+            
+            std::uniform_int_distribution<size_t> dis(0, boxes.size() - 1);
+            BoundingBox box = boxes[dis(gen)];
+
+            gui.displayImageWithBoundingBox(img, box, RED_COLOR);
+            
+            startRound(img, boxes);
+
+            int key;
+            cv::Point cursorPos;
+            float reactionTime = gui.measureReactionTime(key, cursorPos);
+
+            processClick(cursorPos.x, cursorPos.y);
+
+            dataset.setCurrentIndex(dataset.getCurrentIndex() + 1);
+
+            if (!(i < m_turns)) end = true;
+        }
     }
+    
+    return end;
 }
 
-void Mode1DirectClick::processKeyPress(int key) {
-    // Keine Tastatureingabe in diesem Modus
-}
-
-void Mode1DirectClick::startRound(const Image& img, const std::vector<BoundingBox>& boxes) {
+void Mode1DirectClick::startRound(const Image &img, const std::vector<BoundingBox> &boxes) {
     currentImage = img;
     boundingBoxes = boxes;
     
@@ -35,6 +79,20 @@ void Mode1DirectClick::startRound(const Image& img, const std::vector<BoundingBo
     boundingBox = boundingBoxes[dis(gen)];
     
     m_startTime = std::chrono::high_resolution_clock::now();
+}
+
+void Mode1DirectClick::processClick(int x, int y) {
+    if (boundingBox.contains(x, y)) {
+        m_reactionTime = calculateReactionTime();
+        std::cout << "Hit! Reaction time: " << m_reactionTime << " seconds" << std::endl;
+    } else {
+        m_reactionTime += m_penaltyTime;
+        std::cout << "Miss! 5 second penalty!" << std::endl;
+    }
+}
+
+void Mode1DirectClick::processKeyPress(int key) {
+    // Keine Tastatureingabe in diesem Modus
 }
 
 const std::vector<BoundingBox>& Mode1DirectClick::getBoundingBoxes() const {
