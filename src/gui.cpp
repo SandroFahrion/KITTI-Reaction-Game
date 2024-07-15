@@ -11,7 +11,11 @@ StartParams::StartParams() {}   // Standardkonstruktor
 StartParams::~StartParams() {}  // Standarddestruktor
 
 StartParams::StartParams(const std::string &name, int turns, const std::string &seq, int mode)  // Überladener Konstruktor
-: m_playerName(name), m_numTurns(turns), m_sequence(seq), m_gameMode(mode) {} // Initializer List
+: m_playerName(name), m_numTurns(turns), m_sequence(seq), m_gameMode(mode) { // Initializer List
+
+    _putenv("OPENCV_LOG_LEVEL=SILENT"); // Set OpenCV log level to silent
+    cv::utils::logging::setLogLevel(cv::utils::logging::LOG_LEVEL_SILENT);
+}
 
 GUI::GUI(){}    // Standardkonstruktor
 GUI::~GUI(){}   // Standarddestruktor
@@ -24,18 +28,47 @@ void GUI::displayImage(Image &image) {
     cv::imshow(NAME_OF_THE_GAME, image.getImage());
 }
 
-void GUI::displayImageWithBoundingBox(const Image &image, const BoundingBox &box) {
+void GUI::displayImageWithBoundingBox(const Image &image, const BoundingBox &box, cv::Scalar color) {
     cv::Mat imgWithBox = image.getImage();
-    cv::rectangle(imgWithBox, cv::Point(box.getCoordX(), box.getCoordY()), cv::Point(box.getCoordX() + box.getWidthX(), box.getCoordY() + box.getHeightY()), cv::Scalar(0, 0, 255), 2);
+    cv::rectangle(imgWithBox, cv::Point(box.getCoordX(), box.getCoordY()), cv::Point(box.getCoordX() + box.getWidthX(), box.getCoordY() + box.getHeightY()), color, 2);
 
-    // add BoxType as plain text
+    // add box type as plain text
     std::string boxType = box.getType();
-    cv::putText(imgWithBox, boxType, cv::Point(box.getCoordX(), box.getCoordY() - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
+    cv::putText(imgWithBox, boxType, cv::Point(box.getCoordX(), box.getCoordY() - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, color, 2);
 
     cv::imshow(NAME_OF_THE_GAME, imgWithBox); // Finale Bildausgabe
 }
 
-double GUI::measureReactionTime(int &key, cv::Point &cursorPos) {
+// allowing for more than 1 bounding boxes to be displayed
+void GUI::displayImageWithBoundingBoxes(const Image& img, const std::vector<BoundingBox>& boxes, cv::Scalar color) {
+    cv::Mat imgWithBoxes = img.getImage();
+
+    for (const auto& box : boxes) {
+        cv::rectangle(imgWithBoxes, cv::Point(box.getCoordX(), box.getCoordY()), cv::Point(box.getCoordX() + box.getWidthX(), box.getCoordY() + box.getHeightY()), color, 2);
+        
+        // add box type as plain text
+        std::string boxType = box.getType();
+        cv::putText(imgWithBoxes, boxType, cv::Point(box.getCoordX(), box.getCoordY() - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, color, 2);
+    }
+
+    cv::imshow(NAME_OF_THE_GAME, imgWithBoxes);
+}
+
+void GUI::displayCountdown(const std::string &message) {
+    cv::Mat img = cv::Mat::zeros(100, 400, CV_8UC3);
+    cv::putText(img, message, cv::Point(30, 50), cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(255, 255, 255), 2);
+    cv::imshow(NAME_OF_THE_GAME, img);
+    cv::waitKey(1000);
+}
+
+void GUI::displayMessage(const std::string &message) {
+    cv::Mat img = cv::Mat::zeros(100, 400, CV_8UC3);
+    cv::putText(img, message, cv::Point(30, 50), cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(255, 255, 255), 2);
+    cv::imshow(NAME_OF_THE_GAME, img);
+    cv::waitKey(1000);
+}
+
+float GUI::measureReactionTime(int &key, cv::Point &cursorPos) {
     m_startTime = std::chrono::high_resolution_clock::now();
     key = cv::waitKey(3000); // Warte 3 Sekunden auf einen Tastendruck
 
@@ -45,7 +78,7 @@ double GUI::measureReactionTime(int &key, cv::Point &cursorPos) {
     }
 
     auto endTime = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> reactionTime = endTime - m_startTime;
+    std::chrono::duration<float> reactionTime = endTime - m_startTime;
     return reactionTime.count();
 }
 
@@ -71,7 +104,7 @@ bool GUI::showMenu(StartParams &params) {
     const int maxSeq = 20;
     const int maxMode = 2;
 
-    std::cout << "Welcome to the KITTI Reaction Game! You will be shown an image from the KITTI dataset,\
+    std::cout << "\nWelcome to the KITTI Reaction Game! You will be shown an image from the KITTI dataset,\
  a training set from the KIT (Karlsruhe Institute of Technology) about the recognition of objects in street traffic.\
  Depending on the game mode, the reaction time of your interaction with the shown data is measured in different ways.\n";
 

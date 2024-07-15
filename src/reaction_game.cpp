@@ -8,12 +8,22 @@
 #include "reaction_game.hpp"
 
 ReactionGame::ReactionGame(const StartParams &params)
-: player(params.getPlayerName()), dataset(params.getSequence()), gameMode(nullptr), m_turns(params.getNumTurns()) {}
+: player(params.getPlayerName()), dataset(params.getSequence()), m_turns(params.getNumTurns()) {
+    // Spielmodus initialisieren
+    switch (params.getGameMode()) {
+        case 1:
+            gameMode = new Mode1DirectClick();
+            break;
+        case 2:
+            gameMode = new Mode2ColorChange();
+            break;
+        default:
+            gameMode = nullptr;
+            break;
+    }
+}
 
 bool ReactionGame::startGame(GUI &gui) { // Umbennenn in gameLoop() ??
-
-    std::random_device rd;   // Zufälliger Seed
-    std::mt19937 gen(rd());  // Zufallszahlengenerator
 
     // wird erst true, wenn das Spiel abgeschlossen ist
     // falls außerplanmäßig ein return durchlaufen wird, wird somit false zurückgegeben
@@ -36,25 +46,30 @@ bool ReactionGame::startGame(GUI &gui) { // Umbennenn in gameLoop() ??
 
             if (boxes.empty()) {
                 std::cerr << "No valid bounding box found in remaining images." << std::endl;
-                return false;
+                return end;
             }
 
-            // Wählen Sie eine zufällige Bounding Box aus
-            std::uniform_int_distribution<size_t> dis(0, boxes.size() - 1);
-            BoundingBox box = boxes[dis(gen)];
-
             Image img(imagePath);
-            gui.displayImageWithBoundingBox(img, box);
+            gameMode->startRound(img, boxes);
+            
+            if (gameMode->getBoxDisplayCount() == SHOW_ALL_BOXES) {
+                gui.displayImageWithBoundingBoxes(gameMode->getCurrentImage(), gameMode->getBoundingBoxes(), BLUE_COLOR);
+                //gui.displayCountdown("Wait for the target...");
+                //std::this_thread::sleep_for(std::chrono::seconds(2));
+                gui.displayImageWithBoundingBox(gameMode->getCurrentImage(), gameMode->getBoundingBoxes().at(0), RED_COLOR);
+                //gui.displayMessage("Go!");
+            } else {
+                gui.displayImageWithBoundingBox(gameMode->getCurrentImage(), gameMode->getBoundingBoxes().at(0), RED_COLOR);
+            }
 
             int key;
             cv::Point cursorPos;
-            double reactionTime = gui.measureReactionTime(key, cursorPos);
+            float reactionTime = gui.measureReactionTime(key, cursorPos);
 
-            if (box.contains(cursorPos.x, cursorPos.y)) {
-                std::cout << "Hit! Reaction time: " << reactionTime << " seconds" << std::endl;
-            } else {
-                std::cout << "Miss! 5 second penalty!" << std::endl;
+            if (key != -1) {
+                gameMode->processKeyPress(key);
             }
+            gameMode->processClick(cursorPos.x, cursorPos.y);
 
             dataset.setCurrentIndex(dataset.getCurrentIndex() + 1);
 

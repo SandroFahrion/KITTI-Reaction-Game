@@ -31,7 +31,6 @@ public:
     void setType(const std::string &type) { m_type = type; }
     void setFrame(int frame) { m_frame = frame; }
 
-
 private:
     std::string m_type;
     int m_frame;

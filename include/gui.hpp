@@ -7,6 +7,7 @@
 #include <string>
 #include <chrono>
 #include <iostream>
+#include <vector>
 
 #include <opencv2/opencv.hpp>
 
@@ -51,11 +52,15 @@ public:
 
     std::string formatSequenceInput(const std::string &seq);
 
-    void displayImageWithBoundingBox(const Image& img, const BoundingBox& box);
+    void displayImageWithBoundingBox(const Image& img, const BoundingBox& box, cv::Scalar color);
+    void displayImageWithBoundingBoxes(const Image& img, const std::vector<BoundingBox>& boxes, cv::Scalar color);
 
     void displayImage(Image &image);  // Finale Bildausgabe mit OpenCV
 
-    double measureReactionTime(int& key, cv::Point& cursorPos);
+    void displayCountdown(const std::string &message);
+    void displayMessage(const std::string &message);
+
+    float measureReactionTime(int& key, cv::Point& cursorPos);
 
     // Konsole: Abfrage der Spieleinstellungen (Parameter) als Referenz für StartParams
     // Rückgabewert bestimmt über Spielstart oder Programmende

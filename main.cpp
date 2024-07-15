@@ -1,14 +1,15 @@
 // Programmstart
 
-
-#include "gui.hpp"
-#include "reaction_game.hpp"
-
 #ifdef DEBUG_MODE
 #include "debug.hpp"
 #endif // DEBUG_MODE
 
+#include "gui.hpp"
+#include "reaction_game.hpp"
+
+
 int main(int argc, char* argv[]) {
+    cv::utils::logging::setLogLevel(cv::utils::logging::LOG_LEVEL_SILENT); // Set OpenCV log level to silent
 
     // Debugging tool
     #ifdef DEBUG_MODE
@@ -22,6 +23,7 @@ int main(int argc, char* argv[]) {
 
     GUI gui;                    // Instanziierung des Menüs
     StartParams startParams;    // Instanziierung eines Objektes für die Startparameter
+    Player player;
     
     if (!gui.showMenu(startParams)) {   // Falls der showMenu-Aufruf false zurückgibt
 

@@ -13,6 +13,8 @@
 #include "kitti_dataset.hpp"
 #include "player.hpp"
 #include "game_mode/game_mode.hpp"
+#include "game_mode/mode_1_direct_click.hpp"
+#include "game_mode/mode_2_color_change.hpp"
 #include "gui.hpp"
 #include "image.hpp"
 #include "../helpers/member_util.hpp"
@@ -29,6 +31,7 @@ public:
 
 private:
     int m_turns;
+    
     Player player;
     KittiDataset dataset;
     GameMode *gameMode;

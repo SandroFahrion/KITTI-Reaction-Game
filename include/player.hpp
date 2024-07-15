@@ -16,13 +16,13 @@ public:
     Player(const std::string &name);    // Überladener Konstruktor
 
     // setter-Methode
-    void addReactionTime(double time);  // Wert einer Reaktionszeit verarbeiten
+    void addReactionTime(float time);  // Wert einer Reaktionszeit verarbeiten
 
     // getter-Methoden
     const std::string &getName() const {
         return m_name;
     }
-    const std::vector<double> &getReactionTimes() const {
+    const std::vector<float> &getReactionTimes() const {
         return m_reactionTimes;
     }
 
@@ -31,7 +31,7 @@ public:
 
 private:
     std::string m_name;                   // Speichert den Spielernamen
-    std::vector<double> m_reactionTimes;  // Enthält die Reaktionszeiten des Spielers
+    std::vector<float> m_reactionTimes;  // Enthält die Reaktionszeiten des Spielers
 };
 
 #endif // PLAYER_HPP
