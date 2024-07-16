@@ -68,20 +68,6 @@ void GUI::displayMessage(const std::string &message) {
     cv::waitKey(1000);
 }
 
-float GUI::measureReactionTime(int &key, cv::Point &cursorPos) const {
-    m_startTime = std::chrono::high_resolution_clock::now();
-    key = cv::waitKey(3000); // Warte 3 Sekunden auf einen Tastendruck
-
-    if (key == cv::EVENT_LBUTTONDOWN) {
-        // setMouseCallback Funktion Nutzen
-        cursorPos = cv::Point(0, 0); // Beispielkoordinaten, anpassen entsprechend der Implementierung
-    }
-
-    auto endTime = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<float> reactionTime = endTime - m_startTime;
-    return reactionTime.count();
-}
-
 std::string GUI::formatSequenceInput(const std::string &seq){
     std::string formattedSeq = seq;
 

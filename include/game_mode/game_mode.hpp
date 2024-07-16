@@ -23,7 +23,7 @@ public:
     virtual ~GameMode() = default;
 
     virtual bool startGame(const StartParams &params, const GUI &gui) = 0;
-    virtual void startRound(const Image &img, const std::vector<BoundingBox> &boxes) = 0;
+    virtual void startTurn(const Image &img, const std::vector<BoundingBox> &boxes) = 0;
 
     virtual void processClick(int x, int y) = 0;
     virtual void processKeyPress(int key) = 0;

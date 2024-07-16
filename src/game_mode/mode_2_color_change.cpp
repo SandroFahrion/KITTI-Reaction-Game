@@ -38,7 +38,7 @@ bool Mode2ColorChange::startGame(const StartParams &params, const GUI &gui) {
             }
 
             Image img(imagePath);
-            startRound(img, boxes);
+            startTurn(img, boxes);
             
             if (getBoxDisplayCount() == SHOW_ALL_BOXES) {
                 gui.displayImageWithBoundingBoxes(getCurrentImage(), getBoundingBoxes(), BLUE_COLOR);
@@ -53,9 +53,7 @@ bool Mode2ColorChange::startGame(const StartParams &params, const GUI &gui) {
                 }
             }
 
-            int key;
             cv::Point cursorPos;
-            float reactionTime = gui.measureReactionTime(key, cursorPos);
 
             processClick(cursorPos.x, cursorPos.y);
 
@@ -68,7 +66,7 @@ bool Mode2ColorChange::startGame(const StartParams &params, const GUI &gui) {
     return end;
 }
 
-void Mode2ColorChange::startRound(const Image& img, const std::vector<BoundingBox>& boxes) {
+void Mode2ColorChange::startTurn(const Image& img, const std::vector<BoundingBox>& boxes) {
     currentImage = img;
     boundingBoxes = boxes;
     m_isKeyPressed = false;

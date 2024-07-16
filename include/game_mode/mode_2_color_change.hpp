@@ -22,7 +22,7 @@ public:
     Mode2ColorChange(const StartParams &params, const GUI &gui); // Standardkonstruktor
 
     bool startGame(const StartParams &params, const GUI &gui) override;
-    void startRound(const Image &img, const std::vector<BoundingBox> &boxes) override;
+    void startTurn(const Image &img, const std::vector<BoundingBox> &boxes) override;
 
     void processClick(int x, int y) override;
     void processKeyPress(int key) override;

@@ -60,8 +60,6 @@ public:
     void displayCountdown(const std::string &message);
     void displayMessage(const std::string &message);
 
-    float measureReactionTime(int& key, cv::Point& cursorPos) const;
-
     // Konsole: Abfrage der Spieleinstellungen (Parameter) als Referenz für StartParams
     // Rückgabewert bestimmt über Spielstart oder Programmende
     bool showMenu(StartParams &params);

@@ -21,7 +21,7 @@ public:
     Mode1DirectClick(const StartParams &params, const GUI &gui);
 
     bool startGame(const StartParams &params, const GUI &gui) override;
-    void startRound(const Image &img, const std::vector<BoundingBox> &boxes) override;
+    void startTurn(const Image &img, const std::vector<BoundingBox> &boxes) override;
 
     void processClick(int x, int y) override;
     void processKeyPress(int key) override;
