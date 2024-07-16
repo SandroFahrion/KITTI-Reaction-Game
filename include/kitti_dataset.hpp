@@ -11,9 +11,9 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include <random>
 
 #include "../helpers/member_util.hpp"
+#include "../helpers/kitti_random.hpp"
 #include "bounding_box.hpp"
 
 
@@ -52,6 +52,8 @@ private:
     void setRandomStartIndex();
     std::string formatImageFilePath(int index, const std::string &seq);
     std::string formatLabelFilePath(const std::string &seq);
+
+    KittiRandom random;
 };
 
 #endif // KITTI_DATASET_HPP

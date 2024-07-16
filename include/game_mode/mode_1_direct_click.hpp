@@ -6,7 +6,6 @@
 #include <chrono>
 #include <vector>
 #include <iostream>
-#include <random>
 
 #include "game_mode.hpp"
 #include "player.hpp"
@@ -15,6 +14,7 @@
 #include "gui.hpp"
 #include "image.hpp"
 #include "../helpers/member_util.hpp"
+#include "../helpers/kitti_random.hpp"
 
 class Mode1DirectClick : public GameMode {
 public:

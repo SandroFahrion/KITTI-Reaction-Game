@@ -142,10 +142,8 @@ std::string KittiDataset::formatLabelFilePath(const std::string &seq){
 
 void KittiDataset::setRandomStartIndex() {
     if (!m_imageFilePaths.empty()) {
-        std::random_device rd;   // Zufälliger Seed
-        std::mt19937 gen(rd());  // Zufallszahlengenerator
-        std::uniform_int_distribution<size_t> dis(0, m_imageFilePaths.size() - 1);  // Bereich für den Index
-        m_currentIndex = static_cast<int>(dis(gen));  // Zufälligen Index setzen und in int umwandeln
+        int randomIndexUpperBound = static_cast<int>(m_imageFilePaths.size() - 1); // Obere Grenze in int umwandeln
+        m_currentIndex = KittiRandom::selectIntRandom(0, randomIndexUpperBound);  // Zufälligen Index innerhalb der Grenzen wählen
     }
 }
 

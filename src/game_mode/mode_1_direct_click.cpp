@@ -15,9 +15,6 @@ bool Mode1DirectClick::startGame(const StartParams &params, const GUI &gui) {
     Player player(params.getPlayerName());
     KittiDataset dataset(params.getSequence());
     m_turns = params.getNumTurns();
-    
-    std::random_device rd;
-    std::mt19937 gen(rd());
 
     bool end = false;
     while (!end) {
@@ -42,8 +39,8 @@ bool Mode1DirectClick::startGame(const StartParams &params, const GUI &gui) {
 
             Image img(imagePath);
             
-            std::uniform_int_distribution<size_t> dis(0, boxes.size() - 1);
-            BoundingBox box = boxes[dis(gen)];
+            int randomIndexUpperBound = static_cast<int>(boxes.size() - 1);
+            BoundingBox box = boxes[KittiRandom::selectIntRandom(0, randomIndexUpperBound)];
 
             gui.displayImageWithBoundingBox(img, box, RED_COLOR);
             
@@ -72,11 +69,9 @@ void Mode1DirectClick::startRound(const Image &img, const std::vector<BoundingBo
         std::cerr << "No bounding boxes provided!" << std::endl;
         return;
     }
-    
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<size_t> dis(0, boundingBoxes.size() - 1);
-    boundingBox = boundingBoxes[dis(gen)];
+
+    int randomIndexUpperBound = static_cast<int>(boundingBoxes.size() - 1);
+    boundingBox = boundingBoxes[KittiRandom::selectIntRandom(0, randomIndexUpperBound)];
     
     m_startTime = std::chrono::high_resolution_clock::now();
 }
