@@ -8,43 +8,51 @@
 
 #include "image.hpp"
 
-Image::Image(){}
-Image::~Image(){}
+Image::Image() : cv::Mat() {}
+Image::~Image() {}
 
 Image::Image(const std::string &imagePath, const BoundingBox &box, cv::Scalar color) {
-    
-    cv::Mat m_cv_image = cv::imread(imagePath);
-    
-    #ifdef DEBUG_MODE
-        if (g_debug_mode) {
-            if (m_cv_image.empty()) Debugger::log(imagePath, "ERROR loading image");
-        }
-    #endif // DEBUG_MODE
+    *this = cv::imread(imagePath);
 
-    cv::rectangle(m_cv_image, cv::Point(box.getCoordX(), box.getCoordY()), cv::Point(box.getCoordX() + box.getWidthX(), box.getCoordY() + box.getHeightY()), color, 2);
+    if (!this->empty()) {
+        cv::rectangle(*this, cv::Point(box.getCoordX(), box.getCoordY()), 
+                      cv::Point(box.getCoordX() + box.getWidthX(), box.getCoordY() + box.getHeightY()), color, 2);
 
-    // add box type as plain text
-    std::string boxType = box.getType();
-    cv::putText(m_cv_image, boxType, cv::Point(box.getCoordX(), box.getCoordY() - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, color, 2);
-
-}
-
-Image::Image(const std::string &imagePath, const BoundingBox &box, cv::Scalar color, int boxCount){
-    m_cv_image = cv::imread(imagePath);
-
-    for(int i = 0; i <= boxCount; i++){
-        cv::rectangle(m_cv_image, cv::Point(box.getCoordX(), box.getCoordY()), cv::Point(box.getCoordX() + box.getWidthX(), box.getCoordY() + box.getHeightY()), color, 2);
-        
         // add box type as plain text
         std::string boxType = box.getType();
-        cv::putText(m_cv_image, boxType, cv::Point(box.getCoordX(), box.getCoordY() - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, color, 2);
+        cv::putText(*this, boxType, cv::Point(box.getCoordX(), box.getCoordY() - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, color, 2);
+    } 
+    #ifdef DEBUG_MODE
+        else {
+            if (g_debug_mode) Debugger::log(imagePath, "ERROR loading image");
+        }
+    #endif // DEBUG_MODE
+}
+
+Image::Image(const std::string &imagePath, const std::vector<BoundingBox> &boxes, cv::Scalar color){
+    *this = cv::imread(imagePath);
+
+    if (!this->empty()) {
+        this->drawBoundingBoxes(boxes, color);
+    }
+    #ifdef DEBUG_MODE
+        else {
+            if (g_debug_mode) Debugger::log(imagePath, "ERROR loading image");
+        }
+    #endif // DEBUG_MODE
+}
+
+void Image::drawBoundingBoxes(const std::vector<BoundingBox> &boxes, cv::Scalar color) {
+    for (const auto &box : boxes) {
+        cv::rectangle(*this, cv::Point(box.getCoordX(), box.getCoordY()), 
+                      cv::Point(box.getCoordX() + box.getWidthX(), box.getCoordY() + box.getHeightY()), color, 2);
+        std::string boxType = box.getType();
+        cv::putText(*this, boxType, cv::Point(box.getCoordX(), box.getCoordY() - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, color, 2);
     }
 }
 
-cv::Mat Image::getImage() const {
-    return m_cv_image;
-}
-
-void Image::setBoundingBoxes(const std::vector<BoundingBox> &boxes) {
-    m_boundingBoxes = boxes;
-}
+// void Image::setBoundingBoxes(const std::vector<BoundingBox> &boxes) {
+//     if (!this->empty()) {
+//         drawBoundingBoxes(boxes, cv::Scalar(0, 0, 255));
+//     }
+// }

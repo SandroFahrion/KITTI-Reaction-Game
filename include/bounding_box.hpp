@@ -10,8 +10,6 @@ class BoundingBox {
 public:
     BoundingBox(); // Standardkonstruktor
     BoundingBox(std::string &type, int frame, int x, int y, int width, int height);   // Überladener Konstruktor zur Erzeugung eines BoundingBox-Objektes
-        
-    void draw();    // Verarbeitung der Daten zu einer BoundingBox
 
     bool contains(int px, int py) const;
 

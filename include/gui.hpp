@@ -51,10 +51,10 @@ public:
 
     std::string formatSequenceInput(const std::string &seq);
 
-    void displayImageWithBoundingBox(const Image &img, const BoundingBox &box, cv::Scalar color) const;
-    void displayImageWithBoundingBoxes(const Image &img, const std::vector<BoundingBox> &boxes, cv::Scalar color) const;
+    void displayImageWithBoundingBox(const std::string &imagePath, const BoundingBox &box, cv::Scalar color) const;
+    void displayImageWithBoundingBoxes(const std::string &imagePath, const std::vector<BoundingBox> &boxes, cv::Scalar color) const;
 
-    void displayImage(Image &image);  // Finale Bildausgabe mit OpenCV
+    void displayImage(const Image &image); // Finale Bildausgabe mit OpenCV
 
     void displayCountdown(const std::string &message);
     void displayMessage(const std::string &message);

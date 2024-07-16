@@ -24,25 +24,18 @@ Player GUI::showScoreboard() {
     return Player("DummyPlayer");
 }
 
-void GUI::displayImage(Image &image) {
-    cv::imshow(NAME_OF_THE_GAME, image.getImage());
+void GUI::displayImage(const Image &image) {
+    cv::imshow(NAME_OF_THE_GAME, image);
 }
 
-void GUI::displayImageWithBoundingBox(const Image &imagepath, const BoundingBox &box, cv::Scalar color) const {
+void GUI::displayImageWithBoundingBox(const std::string &imagepath, const BoundingBox &box, cv::Scalar color) const {
     Image imgWithBox(imagepath, box, color);    // Create frame
-    cv::imshow(NAME_OF_THE_GAME, imgWithBox.getImage()); // Show frame
+    cv::imshow(NAME_OF_THE_GAME, imgWithBox); // Show frame
 }
 
-// allowing for more than 1 bounding boxes to be displayed
-void GUI::displayImageWithBoundingBoxes(const Image &img, const std::vector<BoundingBox> &boxes, cv::Scalar color) const {
-
-    int boxCount = 0;
-    for (const auto &box : boxes) {
-        boxCount++;
-    }
-
-    Image imgWithBox(imagepath, box, color, boxCount);    // Create frame with all boxes
-    cv::imshow(NAME_OF_THE_GAME, imgWithBoxes.getImage());
+void GUI::displayImageWithBoundingBoxes(const std::string &imagepath, const std::vector<BoundingBox> &boxes, cv::Scalar color) const {
+    Image imgWithBoxes(imagepath, boxes, color); // Create frame with all boxes
+    cv::imshow(NAME_OF_THE_GAME, imgWithBoxes);
 }
 
 void GUI::displayCountdown(const std::string &message) {

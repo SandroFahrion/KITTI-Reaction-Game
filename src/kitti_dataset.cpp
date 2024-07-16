@@ -62,9 +62,7 @@ void KittiDataset::loadBoxDataset(const std::string &seq) {
         if (type == "DontCare") {
 
             #ifdef DEBUG_MODE
-                if (g_debug_mode) {
-                    Debugger::log(frame, "Skipping DontCare BoundingBox for frame:");
-                }
+                if (g_debug_mode) Debugger::log(frame, "Skipping DontCare BoundingBox for frame:");
             #endif // DEBUG_MODE
 
             continue; // while-Schleife verlassen
@@ -105,17 +103,13 @@ void KittiDataset::loadImagePaths(const std::string &seq) {
             m_imageFilePaths.push_back(imagePath);
 
             #ifdef DEBUG_MODE
-                if (g_debug_mode) {
-                    Debugger::log(index, "img index has valid Bounding Box:");
-                }
+                if (g_debug_mode) Debugger::log(index, "img index has valid Bounding Box:");
             #endif // DEBUG_MODE
 
         }
         #ifdef DEBUG_MODE
             else {
-                if (g_debug_mode) {
-                    Debugger::log(index, "img index does not have valid Bounding Box:");
-                }
+                if (g_debug_mode) Debugger::log(index, "img index does not have valid Bounding Box:");
             }
         #endif // DEBUG_MODE
 

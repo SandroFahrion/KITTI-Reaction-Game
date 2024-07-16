@@ -13,6 +13,3 @@ bool BoundingBox::contains(int px, int py) const {
     return (px >= m_x && px <= m_x + m_width && py >= m_y && py <= m_y + m_height);
 }
 
-void BoundingBox::draw() {
-
-}

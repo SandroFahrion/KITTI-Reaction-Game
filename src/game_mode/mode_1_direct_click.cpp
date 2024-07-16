@@ -41,14 +41,12 @@ bool Mode1DirectClick::startGame(const StartParams &params, const GUI &gui) {
             }
             int randomIndexUpperBound = static_cast<int>(boxes.size() - 1);
             BoundingBox box = boxes[KittiRandom::selectIntRandom(0, randomIndexUpperBound)];
-
-            // Create image object
+            
             std::string imagePath = dataset.getImageFilePathOfCurrentIndex();
-            Image img(imagePath, box, RED_COLOR);
 
             // Image gets shown, turn begins
-            gui.displayImageWithBoundingBox(img, box, RED_COLOR);
-            startTurn(img, boxes);
+            gui.displayImageWithBoundingBox(imagePath, box, RED_COLOR);
+            startTurn(boxes);
 
             dataset.incrementCurrentIndex();
 
@@ -59,30 +57,29 @@ bool Mode1DirectClick::startGame(const StartParams &params, const GUI &gui) {
     return end;
 }
 
-void Mode1DirectClick::startTurn(const Image &img, const std::vector<BoundingBox>& boxes, const GUI &gui) {
+void Mode1DirectClick::startTurn(const std::vector<BoundingBox>& boxes, const GUI &gui) {
     timer.timeMeasureBegin();
 
     cv::Point cursorPos;
  
-    processClick(cursorPos.x, cursorPos.y);
+    processClick(cursorPos.x, cursorPos.y, gui);
 }
 
 void Mode1DirectClick::processClick(int x, int y, const GUI &gui) {
     if (boundingBox.contains(x, y)) {
         m_reactionTime = timer.timeMeasureEnd();
-        gui.displayMessage("Hit! Reaction time: " + m_reactionTime + " seconds");
+        gui.displayMessage("Hit! Reaction time: " + std::to_string(m_reactionTime) + " seconds");
     } else {
         m_reactionTime += m_penaltyTime;
-        gui
         gui.displayMessage("Miss! 5 second penalty!");
     }
 }
 
-void Mode1DirectClick::processClick(int event, int x, int y, int, void*, const GUI &gui) {
+void Mode1DirectClick::processClick2(int event, int x, int y, int, void*, const GUI &gui) {
     if (event == cv::EVENT_LBUTTONDOWN) {
-        gui.displayMessage("Linke Maustaste gedrückt bei (" + x + ", " + y + ")");
+        gui.displayMessage("Linke Maustaste gedrückt bei (" + std::to_string(x) + ", " + std::to_string(y) + ")");
     } else if (event == cv::EVENT_MOUSEMOVE) {
-        gui.displayMessage("Maus bewegt zu (" + x + ", " + y + ")");
+        gui.displayMessage("Maus bewegt zu (" + std::to_string(x) + ", " + std::to_string(y) + ")");
     }
 }
 

@@ -19,14 +19,13 @@ public:
 
     Image(const std::string &imagePath, const BoundingBox &box, cv::Scalar color);    // Überladener Konstruktor für Bilder mit 1 Box
 
-    Image(const std::string &imagePath, const BoundingBox &box, cv::Scalar color, int boxAmount) // für Bilder mit mehreren Boxen
-
-    cv::Mat getImage() const;
+    Image(const std::string &imagePath, const std::vector<BoundingBox> &boxes, cv::Scalar color); // für Bilder mit mehreren Boxen
         
     void setBoundingBoxes(const std::vector<BoundingBox> &boxes);
     
 private:
     std::vector<BoundingBox> m_boundingBoxes;
+    void drawBoundingBoxes(const std::vector<BoundingBox> &boxes, cv::Scalar color);
 };
 
 #endif // IMAGE_HPP
