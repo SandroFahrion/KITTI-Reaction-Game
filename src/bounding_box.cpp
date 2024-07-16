@@ -1,6 +1,4 @@
-// Attribute: Größe der Bounding Box
-
-// Funktionen: Bounding Box "zeichnen"
+// Informationen zu den Bounding Boxen
 
 #include "bounding_box.hpp"
 

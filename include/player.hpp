@@ -1,4 +1,4 @@
-// spielerinformationen
+// Spielerinformationen
 
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
@@ -15,23 +15,18 @@ public:
 
     Player(const std::string &name);    // Überladener Konstruktor
 
-    // setter-Methode
     void addReactionTime(float time);  // Wert einer Reaktionszeit verarbeiten
 
     // getter-Methoden
-    const std::string &getName() const {
-        return m_name;
-    }
-    const std::vector<float> &getReactionTimes() const {
-        return m_reactionTimes;
-    }
+    const std::string &getName() const { return m_name; }
+    const std::vector<float> &getReactionTimes() const { return m_reactionTimes; }
 
     // Debugging tool
     GENERATE_MEMBER_FUNCTIONS(m_name, m_reactionTimes)
 
 private:
-    std::string m_name;                   // Speichert den Spielernamen
-    std::vector<float> m_reactionTimes;  // Enthält die Reaktionszeiten des Spielers
+    std::string m_name; // Speichert den Spielernamen
+    std::vector<float> m_reactionTimes; // Enthält die Reaktionszeiten des Spielers
 };
 
 #endif // PLAYER_HPP

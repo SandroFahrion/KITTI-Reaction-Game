@@ -1,4 +1,4 @@
-// umgeformte unterklasse für den Mode 1 - Direct Click Reaction:
+// Spielmodus 1 - Direct Click Reaction
 
 #ifndef MODE_1_DIRECT_CLICK_HPP
 #define MODE_1_DIRECT_CLICK_HPP
@@ -13,28 +13,30 @@
 
 class Mode1DirectClick : public GameMode {
 public:
-    Mode1DirectClick(const StartParams &params, const GUI &gui);
+    Mode1DirectClick(const StartParams &params, const GUI &gui); // Konstruktor
 
-    bool startGame(const StartParams &params, const GUI &gui) override;
-    void startTurn(const std::vector<BoundingBox> &boxes, const GUI &gui);
+    bool startGame(const StartParams &params, const GUI &gui) override; // Spielablauf in Schleife
 
-    void processClick(int x, int y, const GUI &gui) override;
+    void startTurn(const std::vector<BoundingBox> &boxes, const GUI &gui); // Spielzug, Verarbeitung von Spieler-Input
+
+    void processClick(int x, int y, const GUI &gui) override; // Mauseingabe verarbeiten
     void processClick2(int event, int x, int y, int, void*, const GUI &gui);
-    void processKeyPress(int key) override;
+    void processKeyPress(int key) override; // Tastatureingabe verarbeiten
 
+    // getter-Methoden
     const std::vector<BoundingBox> &getBoundingBoxes() const override { return boundingBoxes; };
-    const Image &getCurrentImage() const override { return currentImage; };
     int getBoxDisplayCount() const override { return 1; }
     cv::Scalar getBoxColor() const override { return RED_COLOR; }
 
 private:
+    const float m_penaltyTime = 5; // Strafzeit in diesem Spielmodus
+
+    // Member Variablen
     int m_turns;
-    const float m_penaltyTime = 5;
     float m_reactionTime;
 
     BoundingBox boundingBox;
     std::vector<BoundingBox> boundingBoxes;
-    Image currentImage;
     Time timer;
 
 };

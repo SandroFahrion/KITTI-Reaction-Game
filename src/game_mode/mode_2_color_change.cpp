@@ -1,4 +1,4 @@
-// umgeformte unterklasse für den Mode 2 - Color Change Reaction
+// Spielmodus 2 - Color Change Reaction
 
 #ifdef DEBUG_MODE
 #include "../helpers/debug/debug.hpp"
@@ -6,6 +6,7 @@
 
 #include "game_mode/mode_2_color_change.hpp"
 
+// Konstruktor
 Mode2ColorChange::Mode2ColorChange(const StartParams &params, const GUI &gui) : m_reactionTime(0), m_isKeyPressed(false), m_isRedBoxShown(false) {
     startGame(params, gui);
 }
@@ -20,6 +21,7 @@ bool Mode2ColorChange::startGame(const StartParams &params, const GUI &gui) {
     // setRandomStartIndex();
     KittiDataset dataset(params.getSequence());
 
+    // Schleife, um die Anzahl der gewünschten Spielzüge zu wiederholen, kann bei Fehler unterbrochen werden 
     m_turns = params.getNumTurns();
     bool end = false;
     while (!end) {
@@ -33,7 +35,7 @@ bool Mode2ColorChange::startGame(const StartParams &params, const GUI &gui) {
             }
             #endif // DEBUG_MODE
 
-            // Get all valid boxes of current index
+            // Alle validen Boxen des aktuellen Indexes auslesen, dann zufällig eine Box wählen
             std::vector<BoundingBox> boxes = dataset.getBoundingBoxesOfCurrentFrame();
             if (boxes.empty()) {
                 gui.displayMessage("No valid bounding box found in remaining images.");
@@ -42,9 +44,9 @@ bool Mode2ColorChange::startGame(const StartParams &params, const GUI &gui) {
             
             std::string imagePath = dataset.getImageFilePathOfCurrentIndex();
 
-            // Image gets shown, turn begins
+            // Bild wird gezeigt, Spielzug beginnt
             gui.displayImageWithBoundingBoxes(imagePath, boxes, BLUE_COLOR);
-            startTurn(boxes);
+            startTurn(boxes, gui);
 
             dataset.incrementCurrentIndex();
 
@@ -55,15 +57,16 @@ bool Mode2ColorChange::startGame(const StartParams &params, const GUI &gui) {
     return end;
 }
 
+// Spielzug, Verarbeitung von Spieler-Input
 void Mode2ColorChange::startTurn(const std::vector<BoundingBox>& boxes, const GUI &gui) {
     boundingBoxes = boxes;
     m_isKeyPressed = false;
     m_isRedBoxShown = false;
     
-    // if (boundingBoxes.empty()) {
-    //     std::cerr << "No bounding boxes provided!" << std::endl;
-    //     return;
-    // }
+    if (boundingBoxes.empty()) {
+        gui.displayMessage("No bounding boxes provided!");
+        return;
+    }
 
     // Zeige alle Boxen in Blau für 2 Sekunden
     timer.timeDelay(2);
@@ -75,9 +78,12 @@ void Mode2ColorChange::startTurn(const std::vector<BoundingBox>& boxes, const GU
 
     timer.timeMeasureBegin();
 
+    cv::Point cursorPos;
+
     processClick(cursorPos.x, cursorPos.y, gui);
 }
 
+// Verarbeitung eines Mausklicks
 void Mode2ColorChange::processClick(int x, int y, const GUI &gui) {
     if (m_isRedBoxShown && targetBox.contains(x, y)) {
         m_reactionTime = timer.timeMeasureEnd();
@@ -88,6 +94,7 @@ void Mode2ColorChange::processClick(int x, int y, const GUI &gui) {
     }
 }
 
+// Verarbeitung eines Tastaturanschlags
 void Mode2ColorChange::processKeyPress(int key) {
     if (key == ' ') { // Assuming space key is used for confirmation
         m_isKeyPressed = true;

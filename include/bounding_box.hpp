@@ -1,5 +1,4 @@
-// Attribute: Größe der Bounding Box
-// Funktionen: Bounding Box "zeichnen"
+// Informationen zu den Bounding Boxen
 
 #ifndef BOUNDING_BOX_HPP
 #define BOUNDING_BOX_HPP
@@ -11,7 +10,7 @@ public:
     BoundingBox(); // Standardkonstruktor
     BoundingBox(std::string &type, int frame, int x, int y, int width, int height);   // Überladener Konstruktor zur Erzeugung eines BoundingBox-Objektes
 
-    bool contains(int px, int py) const;
+    bool contains(int px, int py) const; // Methode zur Prüfung, ob Mauskoordinaten innerhalb der Box liegen
 
     // getter-Methoden
     int getCoordX() const{ return m_x; } 
@@ -30,6 +29,7 @@ public:
     void setFrame(int frame) { m_frame = frame; }
 
 private:
+    // Member Variablen
     std::string m_type;
     int m_frame;
     int m_x, m_y, m_width, m_height;

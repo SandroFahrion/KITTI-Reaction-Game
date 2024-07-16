@@ -11,7 +11,6 @@
 
 
 int main(int argc, char* argv[]) {
-    cv::utils::logging::setLogLevel(cv::utils::logging::LOG_LEVEL_SILENT); // Set OpenCV log level to silent
 
     // Debugging tool
     #ifdef DEBUG_MODE
@@ -38,12 +37,14 @@ int main(int argc, char* argv[]) {
     GameMode *gameMode;
 
     switch(startParams.getGameMode()){
-        case 1:
+        case 1: // Spielmodus 1 wird gestartet
             gameMode = new Mode1DirectClick(startParams, gui);
             break;
-        case 2:
+
+        case 2: // Spielmodus 2 wird gestartet
             gameMode = new Mode2ColorChange(startParams, gui);
             break;
+
         default:
             gameMode = nullptr;
             break;

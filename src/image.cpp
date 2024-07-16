@@ -1,6 +1,4 @@
-// verwaltet das vorbereitete bild des aktuellen datensatzes
-// verwaltet die vorbereitete bounding box des aktuellen datensatzes
-// zusammensetzen von bild und bounding box 
+// Erstellung der Bilder
 
 #ifdef DEBUG_MODE
 #include "../helpers/debug/debug.hpp"
@@ -8,51 +6,56 @@
 
 #include "image.hpp"
 
-Image::Image() : cv::Mat() {}
-Image::~Image() {}
+Image::Image() : cv::Mat() {}   // Standardkonstruktor
+Image::~Image() {}              // Standarddestruktor
 
+Image &Image::operator=(const cv::Mat& mat) {
+    if (this != &mat) {
+        // Zuweisungsoperator verwenden
+        cv::Mat::operator=(mat);
+    }
+    return *this;
+}
+
+// Überladener Konstruktor für Bilder mit 1 Box
 Image::Image(const std::string &imagePath, const BoundingBox &box, cv::Scalar color) {
     *this = cv::imread(imagePath);
 
     if (!this->empty()) {
+        // Box erstellen
         cv::rectangle(*this, cv::Point(box.getCoordX(), box.getCoordY()), 
                       cv::Point(box.getCoordX() + box.getWidthX(), box.getCoordY() + box.getHeightY()), color, 2);
 
-        // add box type as plain text
+        // Boxtyp als Text hinzufügen
         std::string boxType = box.getType();
         cv::putText(*this, boxType, cv::Point(box.getCoordX(), box.getCoordY() - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, color, 2);
     } 
     #ifdef DEBUG_MODE
-        else {
-            if (g_debug_mode) Debugger::log(imagePath, "ERROR loading image");
-        }
+        else if (g_debug_mode) Debugger::log(imagePath, "ERROR loading image");
     #endif // DEBUG_MODE
 }
 
+// Überladener Konstruktor für Bilder mit mehreren Boxen
 Image::Image(const std::string &imagePath, const std::vector<BoundingBox> &boxes, cv::Scalar color){
     *this = cv::imread(imagePath);
 
+    // Vektor an die Methode zum Erstellen aller Boxen in dieser Farbe übergeben
     if (!this->empty()) {
         this->drawBoundingBoxes(boxes, color);
     }
     #ifdef DEBUG_MODE
-        else {
-            if (g_debug_mode) Debugger::log(imagePath, "ERROR loading image");
-        }
+        else if (g_debug_mode) Debugger::log(imagePath, "ERROR loading image");
     #endif // DEBUG_MODE
 }
 
 void Image::drawBoundingBoxes(const std::vector<BoundingBox> &boxes, cv::Scalar color) {
     for (const auto &box : boxes) {
+        // Box erstellen
         cv::rectangle(*this, cv::Point(box.getCoordX(), box.getCoordY()), 
                       cv::Point(box.getCoordX() + box.getWidthX(), box.getCoordY() + box.getHeightY()), color, 2);
+
+        // Boxtyp als Text hinzufügen
         std::string boxType = box.getType();
         cv::putText(*this, boxType, cv::Point(box.getCoordX(), box.getCoordY() - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, color, 2);
     }
 }
-
-// void Image::setBoundingBoxes(const std::vector<BoundingBox> &boxes) {
-//     if (!this->empty()) {
-//         drawBoundingBoxes(boxes, cv::Scalar(0, 0, 255));
-//     }
-// }

@@ -1,3 +1,6 @@
+// Kapselung von chrono
+// Bereitstellung kleiner Methoden für Zeitabfragen
+
 #ifndef TIME_HPP
 #define TIME_HPP
 

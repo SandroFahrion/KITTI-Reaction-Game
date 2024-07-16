@@ -1,5 +1,4 @@
-// funktion zur aufruf der konsole als "menüführung" vor beginn des spiels
-// funktion zur darstellung des spielfensters
+// Sämtliche Funktionen zur Interaktion mit dem Spieler (=User Interface)
 
 #ifndef GUI_HPP
 #define GUI_HPP
@@ -49,21 +48,23 @@ public:
     GUI();  // Standardkonstruktor
     ~GUI(); // Standarddestruktor
 
-    std::string formatSequenceInput(const std::string &seq);
+    std::string formatSequenceInput(const std::string &seq); // Benutzereingabe zur Sequenzwahl zur Weiterverarbeitung formatieren
 
+    // Methoden zur Bildausgabe mit Bounding Boxen
     void displayImageWithBoundingBox(const std::string &imagePath, const BoundingBox &box, cv::Scalar color) const;
     void displayImageWithBoundingBoxes(const std::string &imagePath, const std::vector<BoundingBox> &boxes, cv::Scalar color) const;
 
-    void displayImage(const Image &image); // Finale Bildausgabe mit OpenCV
+    void displayImage(const Image &image); // Bildausgabe mit OpenCV (ungenutzt)
+
+    void displayMessage(const std::string &message) const; // Nachricht in der Konsole zeigen
 
     void displayCountdown(const std::string &message);
-    void displayMessage(const std::string &message);
-
-    // Konsole: Abfrage der Spieleinstellungen (Parameter) als Referenz für StartParams
+    
+    // Abfrage der Spieleinstellungen (Startparameter)
     // Rückgabewert bestimmt über Spielstart oder Programmende
     bool showMenu(StartParams &params);
 
-    Player showScoreboard();    // Instanziierung und Aufruf der Konsole zur Ausgabe an den Spieler
+    Player showScoreboard(); // Ausgabe der Spielergebnisse
 
 private:
 };

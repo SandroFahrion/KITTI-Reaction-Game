@@ -1,4 +1,4 @@
-// spielerinformationen
+// Spielerinformationen
 
 #include "player.hpp"
 

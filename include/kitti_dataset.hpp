@@ -1,6 +1,4 @@
-// verwalten und vorbereiten des gesamten datensatzes
-// zugriff auf das verzeichnis von kitti
-// stellt einzelne bildobjekte für die weitere verarbeitung im spiel zur verfügung
+// Organisiert Dateizugriffe auf die Datensätze
 
 #ifndef KITTI_DATASET_HPP
 #define KITTI_DATASET_HPP
@@ -24,8 +22,8 @@ public:
 
     KittiDataset(const std::string &seq); // Überladener Konstruktor
 
-    std::string KittiDataset::getImageFilePathOfCurrentIndex();
-    std::vector<BoundingBox> KittiDataset::getBoundingBoxesOfCurrentFrame(); // Methode zum Abrufen der Bounding Boxes des aktuellen Frames
+    std::string KittiDataset::getImageFilePathOfCurrentIndex(); // Methode, die den Pfad zum Bild des aktuellen Indexes zurückgibt
+    std::vector<BoundingBox> KittiDataset::getBoundingBoxesOfCurrentFrame(); // Methode, die alle validen Boxen des aktuellen Indexes zurückgibt
 
 
     // getter-Methoden
@@ -50,11 +48,13 @@ private:
     void loadImagePaths(const std::string &seq);
     void loadBoxDataset(const std::string &seq);
 
-    void setRandomStartIndex();
+    void setRandomStartIndex(); // Methode, die den Startindex zufällig wählt
+
+    // Zur korrekten Formatierung der Dateipfade
     std::string formatImageFilePath(int index, const std::string &seq);
     std::string formatLabelFilePath(const std::string &seq);
 
-    KittiRandom random;
+    KittiRandom random; // Objekt zur Nutzung der Random-Methoden
 };
 
 #endif // KITTI_DATASET_HPP

@@ -1,6 +1,4 @@
-// verwalten und vorbereiten des gesamten datensatzes
-// zugriff auf das verzeichnis von kitti
-// stellt einzelne bildobjekte für die weitere verarbeitung im spiel zur verfügung
+// Organisiert Dateizugriffe auf die Datensätze
 
 #ifdef DEBUG_MODE
 #include "../helpers/debug/debug.hpp"
@@ -44,9 +42,10 @@ void KittiDataset::loadBoxDataset(const std::string &seq) {
     }
 
     std::string line;
-    while (std::getline(labelFile, line)) {
+    while (std::getline(labelFile, line)) { // Dateistream öffnen
         std::istringstream iss(line);
 
+        // Variablen zur Datenextraktion erstellen
         int frame, trackId, truncation, occlusion;
         float obsAngle, bb_left, bb_top, bb_right, bb_bottom;
         std::string type;
@@ -58,7 +57,7 @@ void KittiDataset::loadBoxDataset(const std::string &seq) {
             continue; // while-Schleife verlassen
         }
 
-        // Filter out "DontCare" bounding boxes
+        // Bounding Boxen vom Typ "DontCare" herausfiltern
         if (type == "DontCare") {
 
             #ifdef DEBUG_MODE
@@ -68,11 +67,11 @@ void KittiDataset::loadBoxDataset(const std::string &seq) {
             continue; // while-Schleife verlassen
         }
 
-        // Calculate width and height from the bounding box coordinates
+        // Breite und Höhe der Box ermitteln
         int width = static_cast<int>(bb_right - bb_left);
         int height = static_cast<int>(bb_bottom - bb_top);
 
-        // Create a BoundingBox object and add it to the vector
+        // Bounding Box-Objekt erstellen und dem Vektor hinzufügen
         BoundingBox box(type, frame, static_cast<int>(bb_left), static_cast<int>(bb_top), width, height);
         m_boundingBoxes.push_back(box);
 
@@ -84,7 +83,7 @@ void KittiDataset::loadBoxDataset(const std::string &seq) {
         #endif // DEBUG_MODE
     }
 
-    labelFile.close();
+    labelFile.close(); // Dateistream schließen
 }
 
 void KittiDataset::loadImagePaths(const std::string &seq) {
@@ -100,7 +99,7 @@ void KittiDataset::loadImagePaths(const std::string &seq) {
         bool hasValidBoundingBox = std::any_of(m_boundingBoxes.begin(), m_boundingBoxes.end(), [index](const BoundingBox& box){ return box.getFrame() == index; });
 
         if (hasValidBoundingBox) {
-            m_imageFilePaths.push_back(imagePath);
+            m_imageFilePaths.push_back(imagePath); // Bildpfad dem Vektor hinzufügen
 
             #ifdef DEBUG_MODE
                 if (g_debug_mode) Debugger::log(index, "img index has valid Bounding Box:");
@@ -108,9 +107,7 @@ void KittiDataset::loadImagePaths(const std::string &seq) {
 
         }
         #ifdef DEBUG_MODE
-            else {
-                if (g_debug_mode) Debugger::log(index, "img index does not have valid Bounding Box:");
-            }
+            else if (g_debug_mode) Debugger::log(index, "img index does not have valid Bounding Box:");
         #endif // DEBUG_MODE
 
         index++;
@@ -120,7 +117,7 @@ void KittiDataset::loadImagePaths(const std::string &seq) {
 std::string KittiDataset::formatImageFilePath(int index, const std::string &seq){
     std::string formattedIndex = std::to_string(index);
     
-    formattedIndex.insert(formattedIndex.begin(), 6 - formattedIndex.size(), '0');  // mit führenden Nullen füllen
+    formattedIndex.insert(formattedIndex.begin(), 6 - formattedIndex.size(), '0');  // Mit führenden Nullen füllen
 
     // Vollständigen Pfad erstellen
     std::string formattedImageFilePath = std::string(PATH_TO_DATA_SOURCE) + std::string(PATH_TO_IMAGES) + seq + "/" + formattedIndex + ".png";
@@ -142,7 +139,7 @@ void KittiDataset::setRandomStartIndex() {
 }
 
 std::string KittiDataset::getImageFilePathOfCurrentIndex() {
-    // sorgt dafür, dass der Index innerhalb der Grenzen der Größe des Vektors bleibt
+    // Sorgt dafür, dass der Index innerhalb der Grenzen der Größe des Vektors bleibt
     m_currentIndex = m_currentIndex % m_imageFilePaths.size();
      
     return m_imageFilePaths[m_currentIndex];
@@ -152,8 +149,10 @@ std::vector<BoundingBox> KittiDataset::getBoundingBoxesOfCurrentFrame() {
     std::vector<BoundingBox> boxesOfCurrentFrame;
     int currentFrame;
 
+    // Sorgt dafür, dass der Index innerhalb der Grenzen der Größe des Vektors bleibt
     currentFrame = m_currentIndex % m_imageFilePaths.size();
 
+    // Alle Boxen mit dem korrekten Frame-index dem Vektor hinzugüen
     for (const auto &box : m_boundingBoxes) {
         if (box.getFrame() == currentFrame) {
             boxesOfCurrentFrame.push_back(box);

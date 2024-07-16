@@ -1,3 +1,6 @@
+// Kapselung von chrono
+// Bereitstellung kleiner Methoden für Zeitabfragen
+
 #include "time.hpp"
 #include "kitti_random.hpp"
 

@@ -1,4 +1,4 @@
-// umgeformte unterklasse für den Mode 1 - Direct Click Reaction:
+// Spielmodus 1 - Direct Click Reaction
 
 #ifdef DEBUG_MODE
 #include "../helpers/debug/debug.hpp"
@@ -6,6 +6,7 @@
 
 #include "game_mode/mode_1_direct_click.hpp"
 
+// Konstruktor
 Mode1DirectClick::Mode1DirectClick(const StartParams &params, const GUI &gui) : m_reactionTime(0) {
     startGame(params, gui);
 }
@@ -20,6 +21,7 @@ bool Mode1DirectClick::startGame(const StartParams &params, const GUI &gui) {
     // setRandomStartIndex();
     KittiDataset dataset(params.getSequence());
     
+    // Schleife, um die Anzahl der gewünschten Spielzüge zu wiederholen, kann bei Fehler unterbrochen werden 
     m_turns = params.getNumTurns();
     bool end = false;
     while (!end) {
@@ -33,7 +35,7 @@ bool Mode1DirectClick::startGame(const StartParams &params, const GUI &gui) {
             }
             #endif // DEBUG_MODE
 
-            // Get all valid boxes of current index, then select one randomly
+            // Alle validen Boxen des aktuellen Indexes auslesen, dann zufällig eine Box wählen
             std::vector<BoundingBox> boxes = dataset.getBoundingBoxesOfCurrentFrame();
             if (boxes.empty()) {
                 gui.displayMessage("No valid bounding box found in remaining images.");
@@ -44,11 +46,11 @@ bool Mode1DirectClick::startGame(const StartParams &params, const GUI &gui) {
             
             std::string imagePath = dataset.getImageFilePathOfCurrentIndex();
 
-            // Image gets shown, turn begins
+            // Bild wird gezeigt, Spielzug beginnt
             gui.displayImageWithBoundingBox(imagePath, box, RED_COLOR);
-            startTurn(boxes);
+            startTurn(boxes, gui);
 
-            dataset.incrementCurrentIndex();
+            dataset.incrementCurrentIndex(); // Index hochzählen
 
             if (!(i < m_turns)) end = true;
         }
@@ -57,6 +59,7 @@ bool Mode1DirectClick::startGame(const StartParams &params, const GUI &gui) {
     return end;
 }
 
+// Spielzug, Verarbeitung von Spieler-Input
 void Mode1DirectClick::startTurn(const std::vector<BoundingBox>& boxes, const GUI &gui) {
     timer.timeMeasureBegin();
 
@@ -65,6 +68,7 @@ void Mode1DirectClick::startTurn(const std::vector<BoundingBox>& boxes, const GU
     processClick(cursorPos.x, cursorPos.y, gui);
 }
 
+// Verarbeitung eines Mausklicks
 void Mode1DirectClick::processClick(int x, int y, const GUI &gui) {
     if (boundingBox.contains(x, y)) {
         m_reactionTime = timer.timeMeasureEnd();
