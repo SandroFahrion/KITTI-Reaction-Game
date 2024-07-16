@@ -3,7 +3,7 @@
 // stellt einzelne bildobjekte für die weitere verarbeitung im spiel zur verfügung
 
 #ifdef DEBUG_MODE
-#include "debug.hpp"
+#include "../helpers/debug/debug.hpp"
 #endif // DEBUG_MODE
 
 // Quelle für KITTI-Daten

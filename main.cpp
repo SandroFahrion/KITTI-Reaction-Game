@@ -1,7 +1,7 @@
 // Programmstart
 
 #ifdef DEBUG_MODE
-#include "debug.hpp"
+#include "helpers/debug/debug.hpp"
 #endif // DEBUG_MODE
 
 #include "gui.hpp"
@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
     #endif // DEBUG_MODE
 
     GUI gui;                    // Instanziierung des Menüs
-    StartParams startParams;    // Instanziierung eines Objektes für die Startparameter
+    StartParams startParams;    // Instanziierung des Startparameter-Objektes
     
     if (!gui.showMenu(startParams)) {   // Falls der showMenu-Aufruf false zurückgibt
 

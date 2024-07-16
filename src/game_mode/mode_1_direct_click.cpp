@@ -1,7 +1,7 @@
 // umgeformte unterklasse für den Mode 1 - Direct Click Reaction:
 
 #ifdef DEBUG_MODE
-#include "debug.hpp"
+#include "../helpers/debug/debug.hpp"
 #endif // DEBUG_MODE
 
 #include "game_mode/mode_1_direct_click.hpp"

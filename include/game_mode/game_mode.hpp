@@ -13,6 +13,7 @@
 #include "image.hpp"
 
 const int SHOW_ALL_BOXES = -1;
+
 const cv::Scalar BLUE_COLOR(255, 0, 0);
 const cv::Scalar RED_COLOR(0, 0, 255);
 

@@ -3,7 +3,7 @@
 // zusammensetzen von bild und bounding box 
 
 #ifdef DEBUG_MODE
-#include "debug.hpp"
+#include "../helpers/debug/debug.hpp"
 #endif // DEBUG_MODE
 
 #include "image.hpp"

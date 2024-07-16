@@ -1,8 +1,8 @@
 #ifndef DEBUG_TPP
 #define DEBUG_TPP
 
-#include "debug.hpp"
-#include "serialize.hpp"
+#include "helpers/debug/debug.hpp"
+#include "helpers/serialize.hpp"
 
 template <typename T>
 void Debugger::log(const T &obj, const std::string &description) {

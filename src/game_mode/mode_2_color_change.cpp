@@ -1,7 +1,7 @@
 // umgeformte unterklasse für den Mode 2 - Color Change Reaction
 
 #ifdef DEBUG_MODE
-#include "debug.hpp"
+#include "../helpers/debug/debug.hpp"
 #endif // DEBUG_MODE
 
 #include "game_mode/mode_2_color_change.hpp"
@@ -49,8 +49,11 @@ bool Mode2ColorChange::startGame(const StartParams &params, const GUI &gui) {
                 //std::this_thread::sleep_for(std::chrono::seconds(2));
                 gui.displayImageWithBoundingBox(getCurrentImage(), getBoundingBoxes().at(0), RED_COLOR);
                 //gui.displayMessage("Go!");
-            } else {
-                gui.displayImageWithBoundingBox(getCurrentImage(), getBoundingBoxes().at(0), RED_COLOR);
+            }
+            else{
+                for (int i = 0; i < getBoxDisplayCount(), i++;){
+
+                }
             }
 
             int key;
