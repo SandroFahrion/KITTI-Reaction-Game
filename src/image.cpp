@@ -11,14 +11,34 @@
 Image::Image(){}
 Image::~Image(){}
 
-Image::Image(const std::string &imagePath) {
-    m_cv_image = cv::imread(imagePath);
+Image::Image(const std::string &imagePath, const BoundingBox &box, cv::Scalar color) {
+    
+    cv::Mat m_cv_image = cv::imread(imagePath);
     
     #ifdef DEBUG_MODE
         if (g_debug_mode) {
             if (m_cv_image.empty()) Debugger::log(imagePath, "ERROR loading image");
         }
     #endif // DEBUG_MODE
+
+    cv::rectangle(m_cv_image, cv::Point(box.getCoordX(), box.getCoordY()), cv::Point(box.getCoordX() + box.getWidthX(), box.getCoordY() + box.getHeightY()), color, 2);
+
+    // add box type as plain text
+    std::string boxType = box.getType();
+    cv::putText(m_cv_image, boxType, cv::Point(box.getCoordX(), box.getCoordY() - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, color, 2);
+
+}
+
+Image::Image(const std::string &imagePath, const BoundingBox &box, cv::Scalar color, int boxCount){
+    m_cv_image = cv::imread(imagePath);
+
+    for(int i = 0; i <= boxCount; i++){
+        cv::rectangle(m_cv_image, cv::Point(box.getCoordX(), box.getCoordY()), cv::Point(box.getCoordX() + box.getWidthX(), box.getCoordY() + box.getHeightY()), color, 2);
+        
+        // add box type as plain text
+        std::string boxType = box.getType();
+        cv::putText(m_cv_image, boxType, cv::Point(box.getCoordX(), box.getCoordY() - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, color, 2);
+    }
 }
 
 cv::Mat Image::getImage() const {

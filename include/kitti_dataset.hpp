@@ -34,6 +34,7 @@ public:
 
     // setter-Methode
     void setCurrentIndex(int index) { m_currentIndex = index; }
+    void incrementCurrentIndex() { m_currentIndex++; };
 
     // Debugging tool
     GENERATE_MEMBER_FUNCTIONS(m_currentIndex, m_imageFilePaths, m_boundingBoxes)

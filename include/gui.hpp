@@ -5,7 +5,6 @@
 #define GUI_HPP
 
 #include <string>
-#include <chrono>
 #include <iostream>
 #include <vector>
 
@@ -52,8 +51,8 @@ public:
 
     std::string formatSequenceInput(const std::string &seq);
 
-    void displayImageWithBoundingBox(const Image& img, const BoundingBox& box, cv::Scalar color) const;
-    void displayImageWithBoundingBoxes(const Image& img, const std::vector<BoundingBox>& boxes, cv::Scalar color) const;
+    void displayImageWithBoundingBox(const Image &img, const BoundingBox &box, cv::Scalar color) const;
+    void displayImageWithBoundingBoxes(const Image &img, const std::vector<BoundingBox> &boxes, cv::Scalar color) const;
 
     void displayImage(Image &image);  // Finale Bildausgabe mit OpenCV
 
@@ -67,9 +66,6 @@ public:
     Player showScoreboard();    // Instanziierung und Aufruf der Konsole zur Ausgabe an den Spieler
 
 private:
-    // zur Berechnung der Reaktionszeit
-    // mutable ermöglicht die Änderung innerhalb const-Methoden
-    mutable std::chrono::high_resolution_clock::time_point m_startTime;
 };
 
 #endif // GUI_HPP

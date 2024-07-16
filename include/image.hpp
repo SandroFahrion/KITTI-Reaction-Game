@@ -12,19 +12,20 @@
 
 #include "bounding_box.hpp"
 
-class Image {
+class Image : public cv::Mat{
 public:
     Image();    // Standardkonstruktor
     ~Image();   // Standarddestruktor
 
-    Image(const std::string &imagePath);    // Überladener Konstruktor, liest das Bild vom Pfad in openCV ein
+    Image(const std::string &imagePath, const BoundingBox &box, cv::Scalar color);    // Überladener Konstruktor für Bilder mit 1 Box
+
+    Image(const std::string &imagePath, const BoundingBox &box, cv::Scalar color, int boxAmount) // für Bilder mit mehreren Boxen
 
     cv::Mat getImage() const;
         
     void setBoundingBoxes(const std::vector<BoundingBox> &boxes);
     
 private:
-    cv::Mat m_cv_image;
     std::vector<BoundingBox> m_boundingBoxes;
 };
 

@@ -28,44 +28,28 @@ void GUI::displayImage(Image &image) {
     cv::imshow(NAME_OF_THE_GAME, image.getImage());
 }
 
-void GUI::displayImageWithBoundingBox(const Image &image, const BoundingBox &box, cv::Scalar color) const {
-    cv::Mat imgWithBox = image.getImage();
-    cv::rectangle(imgWithBox, cv::Point(box.getCoordX(), box.getCoordY()), cv::Point(box.getCoordX() + box.getWidthX(), box.getCoordY() + box.getHeightY()), color, 2);
-
-    // add box type as plain text
-    std::string boxType = box.getType();
-    cv::putText(imgWithBox, boxType, cv::Point(box.getCoordX(), box.getCoordY() - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, color, 2);
-
-    cv::imshow(NAME_OF_THE_GAME, imgWithBox); // Finale Bildausgabe
+void GUI::displayImageWithBoundingBox(const Image &imagepath, const BoundingBox &box, cv::Scalar color) const {
+    Image imgWithBox(imagepath, box, color);    // Create frame
+    cv::imshow(NAME_OF_THE_GAME, imgWithBox.getImage()); // Show frame
 }
 
 // allowing for more than 1 bounding boxes to be displayed
-void GUI::displayImageWithBoundingBoxes(const Image& img, const std::vector<BoundingBox>& boxes, cv::Scalar color) const {
-    cv::Mat imgWithBoxes = img.getImage();
+void GUI::displayImageWithBoundingBoxes(const Image &img, const std::vector<BoundingBox> &boxes, cv::Scalar color) const {
 
-    for (const auto& box : boxes) {
-        cv::rectangle(imgWithBoxes, cv::Point(box.getCoordX(), box.getCoordY()), cv::Point(box.getCoordX() + box.getWidthX(), box.getCoordY() + box.getHeightY()), color, 2);
-        
-        // add box type as plain text
-        std::string boxType = box.getType();
-        cv::putText(imgWithBoxes, boxType, cv::Point(box.getCoordX(), box.getCoordY() - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, color, 2);
+    int boxCount = 0;
+    for (const auto &box : boxes) {
+        boxCount++;
     }
 
-    cv::imshow(NAME_OF_THE_GAME, imgWithBoxes);
+    Image imgWithBox(imagepath, box, color, boxCount);    // Create frame with all boxes
+    cv::imshow(NAME_OF_THE_GAME, imgWithBoxes.getImage());
 }
 
 void GUI::displayCountdown(const std::string &message) {
-    cv::Mat img = cv::Mat::zeros(100, 400, CV_8UC3);
-    cv::putText(img, message, cv::Point(30, 50), cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(255, 255, 255), 2);
-    cv::imshow(NAME_OF_THE_GAME, img);
-    cv::waitKey(1000);
 }
 
 void GUI::displayMessage(const std::string &message) {
-    cv::Mat img = cv::Mat::zeros(100, 400, CV_8UC3);
-    cv::putText(img, message, cv::Point(30, 50), cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(255, 255, 255), 2);
-    cv::imshow(NAME_OF_THE_GAME, img);
-    cv::waitKey(1000);
+    std::cout << message << std::endl;
 }
 
 std::string GUI::formatSequenceInput(const std::string &seq){

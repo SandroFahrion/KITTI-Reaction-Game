@@ -3,7 +3,6 @@
 #ifndef GAME_MODE_HPP
 #define GAME_MODE_HPP
 
-#include <chrono>
 #include <vector>
 
 #include <opencv2/opencv.hpp>
@@ -27,6 +26,7 @@ public:
 
     virtual void processClick(int x, int y) = 0;
     virtual void processKeyPress(int key) = 0;
+    
     virtual const std::vector<BoundingBox> &getBoundingBoxes() const = 0;
     virtual const Image &getCurrentImage() const = 0;
     virtual int getBoxDisplayCount() const = 0;
