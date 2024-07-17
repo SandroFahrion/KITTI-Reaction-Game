@@ -35,13 +35,16 @@ void GUI::displayImage(const Image &image) {
 }
 
 void GUI::displayImageWithBoundingBox(const std::string &imagepath, const BoundingBox &box, cv::Scalar color) const {
-    Image imgWithBox(imagepath, box, color);    // Bild-Objekt mit Box erstellen
+    Image img(imagepath, box, color);
+    cv::Mat imgWithBox = img;     // Bild-Objekt mit Box erstellen
     cv::imshow(NAME_OF_THE_GAME, imgWithBox);   // Bild in openCV öffnen
+    cv::waitKey(1);
 }
 
 void GUI::displayImageWithBoundingBoxes(const std::string &imagepath, const std::vector<BoundingBox> &boxes, cv::Scalar color) const {
     Image imgWithBoxes(imagepath, boxes, color);    // Bild-Objekt mit allen Boxen erstellen
     cv::imshow(NAME_OF_THE_GAME, imgWithBoxes);     // Bild in openCV öffnen
+    cv::waitKey(1);
 }
 
 void GUI::displayCountdown(const std::string &message) {
@@ -81,7 +84,7 @@ bool GUI::showMenu(StartParams &params) {
     std::string playerName;
     fflush(stdin); // Input-Buffer leeren (Anfälligkeit für Eingabefehler reduzieren)
     std::cout << "\nFirst, please enter your name: ";
-    std::cin >> playerName;
+    std::getline(std::cin, playerName);
     params.setPlayerName(playerName);
 
     // Spielmodus

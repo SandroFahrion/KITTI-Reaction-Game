@@ -24,7 +24,7 @@ public:
 
     virtual bool startGame(const StartParams &params, const GUI &gui) = 0; // Spielablauf in Schleife
 
-    virtual void processClick(int x, int y, const GUI &gui) = 0; // Mauseingabe verarbeiten
+    virtual void processClick(int x, int y) = 0; // Mauseingabe verarbeiten
     virtual void processKeyPress(int key) = 0; // Tastatureingabe verarbeiten
     
     // getter-Methoden

@@ -18,10 +18,11 @@ public:
     bool startGame(const StartParams &params, const GUI &gui) override; // Spielablauf in Schleife
 
     void startTurn(const std::vector<BoundingBox> &boxes, const GUI &gui); // Spielzug, Verarbeitung von Spieler-Input
-
-    void processClick(int x, int y, const GUI &gui) override; // Mauseingabe verarbeiten
-    void processClick2(int event, int x, int y, int, void*, const GUI &gui);
+    
+    void processClick(int x, int y) override; // Mauseingabe verarbeiten
     void processKeyPress(int key) override; // Tastatureingabe verarbeiten
+
+    static void clickCallback(int event, int x, int y, int flags, void* userdata);
 
     // getter-Methoden
     const std::vector<BoundingBox> &getBoundingBoxes() const override { return boundingBoxes; };
@@ -38,6 +39,8 @@ private:
     BoundingBox boundingBox;
     std::vector<BoundingBox> boundingBoxes;
     Time timer;
+    Player player;
+    const GUI &gui;
 
 };
 

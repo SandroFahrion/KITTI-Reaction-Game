@@ -4,15 +4,20 @@
 #include "../helpers/debug/debug.hpp"
 #endif // DEBUG_MODE
 
+#ifndef NAME_OF_THE_GAME
+#define NAME_OF_THE_GAME "KITTI Reaction Game"
+#endif // NAME_OF_THE_GAME
+
+#include <iostream>
+
 #include "game_mode/mode_1_direct_click.hpp"
 
 // Konstruktor
-Mode1DirectClick::Mode1DirectClick(const StartParams &params, const GUI &gui) : m_reactionTime(0) {
+Mode1DirectClick::Mode1DirectClick(const StartParams &params, const GUI &gui) : m_reactionTime(0), gui(gui) {
     startGame(params, gui);
 }
 
 bool Mode1DirectClick::startGame(const StartParams &params, const GUI &gui) {
-   
     Player player(params.getPlayerName());
 
     // KittiDataset Konstruktor enthält
@@ -63,28 +68,35 @@ bool Mode1DirectClick::startGame(const StartParams &params, const GUI &gui) {
 void Mode1DirectClick::startTurn(const std::vector<BoundingBox>& boxes, const GUI &gui) {
     timer.timeMeasureBegin();
 
-    cv::Point cursorPos;
- 
-    processClick(cursorPos.x, cursorPos.y, gui);
+    // Maus-Callback registrieren
+    cv::setMouseCallback(NAME_OF_THE_GAME, clickCallback, this);
+
+    // Bild für 3 Sekunden anzeigen
+    Time::timeDelay(3.0f);
+
+}
+
+void Mode1DirectClick::clickCallback(int event, int x, int y, int flags, void* userdata) {
+    if (event == cv::EVENT_LBUTTONDOWN) {
+        auto mode = static_cast<Mode1DirectClick*>(userdata);
+        mode->processClick(x, y);
+    }
 }
 
 // Verarbeitung eines Mausklicks
-void Mode1DirectClick::processClick(int x, int y, const GUI &gui) {
+void Mode1DirectClick::processClick(int x, int y) {
     if (boundingBox.contains(x, y)) {
         m_reactionTime = timer.timeMeasureEnd();
-        gui.displayMessage("Hit! Reaction time: " + std::to_string(m_reactionTime) + " seconds");
+        std::cout << "Hit! Reaction time: " << std::to_string(m_reactionTime) << " seconds";
+        //gui.displayMessage("Hit! Reaction time: " + std::to_string(m_reactionTime) + " seconds");
     } else {
         m_reactionTime += m_penaltyTime;
-        gui.displayMessage("Miss! 5 second penalty!");
+        std::cout << "Miss! 5 second penalty!";
+        //gui.displayMessage("Miss! 5 second penalty!");
     }
-}
 
-void Mode1DirectClick::processClick2(int event, int x, int y, int, void*, const GUI &gui) {
-    if (event == cv::EVENT_LBUTTONDOWN) {
-        gui.displayMessage("Linke Maustaste gedrückt bei (" + std::to_string(x) + ", " + std::to_string(y) + ")");
-    } else if (event == cv::EVENT_MOUSEMOVE) {
-        gui.displayMessage("Maus bewegt zu (" + std::to_string(x) + ", " + std::to_string(y) + ")");
-    }
+    // Reaktionszeit speichern
+    player.addReactionTime(m_reactionTime);
 }
 
 void Mode1DirectClick::processKeyPress(int key) {
