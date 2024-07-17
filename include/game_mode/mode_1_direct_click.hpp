@@ -16,8 +16,6 @@ public:
     Mode1DirectClick(const StartParams &params, const GUI &gui); // Konstruktor
 
     bool startGame(const StartParams &params, const GUI &gui) override; // Spielablauf in Schleife
-
-    void startTurn(const std::vector<BoundingBox> &boxes, const GUI &gui); // Spielzug, Verarbeitung von Spieler-Input
     
     void processClick(int x, int y) override; // Mauseingabe verarbeiten
     void processKeyPress(int key) override; // Tastatureingabe verarbeiten
@@ -30,11 +28,11 @@ public:
     cv::Scalar getBoxColor() const override { return RED_COLOR; }
 
 private:
-    const float m_penaltyTime = 5; // Strafzeit in diesem Spielmodus
-
     // Member Variablen
+    const float m_penaltyTime = 5; // Strafzeit in diesem Spielmodus
     int m_turns;
     float m_reactionTime;
+    bool m_mouseClicked = false;
 
     BoundingBox boundingBox;
     std::vector<BoundingBox> boundingBoxes;

@@ -8,8 +8,6 @@
 #define NAME_OF_THE_GAME "KITTI Reaction Game"
 #endif // NAME_OF_THE_GAME
 
-#include <iostream>
-
 #include "game_mode/mode_1_direct_click.hpp"
 
 // Konstruktor
@@ -51,48 +49,54 @@ bool Mode1DirectClick::startGame(const StartParams &params, const GUI &gui) {
             
             std::string imagePath = dataset.getImageFilePathOfCurrentIndex();
 
-            // Bild wird gezeigt, Spielzug beginnt
+            cv::namedWindow(NAME_OF_THE_GAME); // Create the window
+
+            // Maus-Callback registrieren
+            m_mouseClicked = false;
+            cv::setMouseCallback(NAME_OF_THE_GAME, clickCallback, this);
+
+            // Bild anzeigen und auf Mausklick warten
             gui.displayImageWithBoundingBox(imagePath, box, RED_COLOR);
-            startTurn(boxes, gui);
+            gui.displayMessage("\n\nTurn Nr. " + std::to_string(i) + " has begun!");
+            timer.timeMeasureBegin();
+
+            // Hier auf Mausklick warten
+            while (true) {
+                if (cv::waitKey(1) == 27) { // Escape key to exit
+                    break;
+                }
+            if (m_mouseClicked) {
+                break;
+            }
+        }
+
+            // Maus-Callback deregistrieren
+            cv::setMouseCallback(NAME_OF_THE_GAME, nullptr, nullptr);
 
             dataset.incrementCurrentIndex(); // Index hochzählen
 
             if (!(i < m_turns)) end = true;
         }
     }
-    
+    gui.showScoreboard(player);
     return end;
-}
-
-// Spielzug, Verarbeitung von Spieler-Input
-void Mode1DirectClick::startTurn(const std::vector<BoundingBox>& boxes, const GUI &gui) {
-    timer.timeMeasureBegin();
-
-    // Maus-Callback registrieren
-    cv::setMouseCallback(NAME_OF_THE_GAME, clickCallback, this);
-
-    // Bild für 3 Sekunden anzeigen
-    Time::timeDelay(3.0f);
-
 }
 
 void Mode1DirectClick::clickCallback(int event, int x, int y, int flags, void* userdata) {
     if (event == cv::EVENT_LBUTTONDOWN) {
         auto mode = static_cast<Mode1DirectClick*>(userdata);
         mode->processClick(x, y);
+        mode->m_mouseClicked = true;
     }
 }
 
-// Verarbeitung eines Mausklicks
-void Mode1DirectClick::processClick(int x, int y) {
+void Mode1DirectClick::processClick(int x, int y) { // Verarbeitung eines Mausklicks
     if (boundingBox.contains(x, y)) {
         m_reactionTime = timer.timeMeasureEnd();
-        std::cout << "Hit! Reaction time: " << std::to_string(m_reactionTime) << " seconds";
-        //gui.displayMessage("Hit! Reaction time: " + std::to_string(m_reactionTime) + " seconds");
+        gui.displayMessage("\nHit! Reaction time: " + std::to_string(m_reactionTime) + " seconds\n");
     } else {
         m_reactionTime += m_penaltyTime;
-        std::cout << "Miss! 5 second penalty!";
-        //gui.displayMessage("Miss! 5 second penalty!");
+        gui.displayMessage("\nMiss! 5 second penalty!\n");
     }
 
     // Reaktionszeit speichern

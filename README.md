@@ -1,15 +1,17 @@
-# CPP_Projekt_Klos_Fahrion
+# C++-Programmentwurf: KITTI Reaction Game
 ## How to use
 ### Prerequisites
 1. **CMake**: Install the latest version of CMake.
 2. **Compiler**: Ensure an appropriate compiler is installed:
-   - **Windows**: Visual Studio or MinGW (not tested, should work aswell*)
-   - **Linux**: GCC (not tested, should work aswell*)
-<br>*all compiler selections will be automatic
-3. **OpenCV**: OpenCV from [GitHub](https://github.com/opencv/opencv)
-   - **Git Bash**
+   - **Windows**: 
+     - **Visual Studio 22 (MSVC)** 
+     - **MinGW** (not tested, should work aswell*)
+   - **Linux**:
+     - **GCC** (not tested, should work aswell*)
+<br>*compiler selections will be automatic
+1. **Git Bash**
 
-### Installing OpenCV
+### Installing OpenCV from [GitHub](https://github.com/opencv/opencv)
 1. **Set up build directory**:
    1. Choose a destination for OpenCV
    2. Create a new directory
@@ -18,7 +20,7 @@
     ```
     └── KITTI_Reaction_Game_workspace (example)
         └── 📁KittiReactionGame_Projekt
-            └── 📁CPP_Projekt_Klos_Fahrion
+            └── 📁CPP_KITTI_Reaction_Game
                 └── ...
         └── 📁opencv
             └── installOCV.sh
@@ -36,10 +38,23 @@
     # Adjust OpenCV_DIR environment variable
     set(OpenCV_DIR "path/to/build_opencv")
     ```
-- **System Path Variable:**
-    Add ```path\to\install\opencv\x64\vc17\bin```
+- **System Path variable:**
+    **MSVC-Compiler:** Add ```path\to\install\opencv\x64\vc17\bin```
+    **MinGW-Compiler:** Add ```path\to\install\opencv\x64\mingw\bin```
+
+### Adjust path to KITTI data source
+1. **Open** ```src/kitti_dataset.cpp```
+2. **Find the ```PATH_TO_DATA_SOURCE```-definition at the top and enter the path to your KITTI data location**
+
+```
+// Quelle für KITTI-Daten
+#ifndef PATH_TO_DATA_SOURCE
+#define PATH_TO_DATA_SOURCE "C:/Git/KittiReactionGame_Projekt/CPP_KITTI_Reaction_Game/"
+#endif // PATH_TO_DATA_SOURCE
+```
+
 ### Build KittiReactionGame
-Open a command terminal in ```CPP_Projekt_Klos_Fahrion``` and run
+Open a command terminal in ```CPP_KITTI_Reaction_Game``` and run
 ```
 cmake -S . -B build`
 ```
@@ -55,12 +70,14 @@ Open a terminal in ```build/Debug``` and run
 KITTIReactionGame.exe
 ```
 
-### (Optional) Build and Launch with Debugging Mode
-1. **To build:** Open a command terminal in ```CPP_Projekt_Klos_Fahrion``` and run
+### (Optional) Build and launch with Debugging Mode
+Open a command terminal in ```CPP_KITTI_Reaction_Game``` and run
 ```
 cmake -S . -B build_debug -DENABLE_DEBUG=ON
 ```
-2. **To launch:**
+```
+cmake --build build_debug
+```
 Open the terminal in ```build_debug/Debug``` and run
 
 ```
@@ -68,36 +85,29 @@ KITTIReactionGame.exe --debug
 ```
 
 ## Full Workspace Structure
-**After setting everything up, your workspace should look like this:**
+**After setting everything up, your workspace should look something like this:**
 
 ```
 └── 📁KittiReactionGame_Projekt
     └── 📁opencv
-        └── 📁build
+        └── 📁build_opencv
         └── ...
-    └── 📁CPP_Projekt_Klos_Fahrion
+    └── 📁CPP_KITTI_Reaction_Game
         └── .gitignore
         └── CMakeLists.txt
-        └── 📁data
-            └── 📁data_tracking_image_2
-                └── 📁testing
-                    └── 📁image_02
-                        └── 📁0000
-                            └── 000000.png
-                            └── 000001.png
-                            └── ...
-            └── 📁data_tracking_label_2
-                └── 📁training
-                    └── 📁label_02
-                        └── 0000.txt
-                        └── 0001.txt
-                        └── ...
         └── 📁helpers
+            └── 📁debug
+                └── debug.cpp
+                └── debug.hpp
+                └── debug.tpp
+            └── kitti_random.cpp
+            └── kitti_random.hpp
             └── member_util.hpp
+            └── serialize.hpp
+            └── time.cpp
+            └── time.hpp
         └── 📁include
             └── bounding_box.hpp
-            └── debug.hpp
-            └── debug.tpp
             └── 📁game_mode
                 └── game_mode.hpp
                 └── mode_1_direct_click.hpp
@@ -106,13 +116,12 @@ KITTIReactionGame.exe --debug
             └── image.hpp
             └── kitti_dataset.hpp
             └── player.hpp
-            └── reaction_game.hpp
-            └── serialize.hpp
         └── main.cpp
         └── README.md
+        └── 📁setup_opencv
+            └── installOCV.sh
         └── 📁src
             └── bounding_box.cpp
-            └── debug.cpp
             └── 📁game_mode
                 └── game_mode.cpp
                 └── mode_1_direct_click.cpp
@@ -121,7 +130,25 @@ KITTIReactionGame.exe --debug
             └── image.cpp
             └── kitti_dataset.cpp
             └── player.cpp
-            └── reaction_game.cpp
-        └── 📁test
-            └── CMakeLists.txt
+        └── workspace structure.md
+        └── 📁data
+            └── 📁data_tracking_image_2
+                └── 📁testing
+                    └── 📁image_02
+                        └── 📁0000
+                            └── 000000.png
+                            └── 000001.png
+                            └── ...
+                        └── 📁0001
+                            └── 000000.png
+                            └── 000001.png
+                            └── ...
+                        └── 📁...
+            └── 📁data_tracking_label_2
+                └── 📁training
+                    └── 📁label_02
+                        └── 0000.txt
+                        └── 0001.txt
+                        └── ...
+
 ```

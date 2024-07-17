@@ -6,6 +6,9 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include <iomanip>
+#include <numeric>
 
 #include <opencv2/opencv.hpp>
 
@@ -64,7 +67,7 @@ public:
     // Rückgabewert bestimmt über Spielstart oder Programmende
     bool showMenu(StartParams &params);
 
-    Player showScoreboard(); // Ausgabe der Spielergebnisse
+    void showScoreboard(const Player &player) const; // Ausgabe der Spielergebnisse
 
 private:
 };

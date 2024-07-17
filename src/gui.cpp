@@ -26,8 +26,33 @@ StartParams::StartParams(const std::string &name, int turns, const std::string &
 GUI::GUI(){}    // Standardkonstruktor
 GUI::~GUI(){}   // Standarddestruktor
 
-Player GUI::showScoreboard() {
-    return Player("DummyPlayer");
+void GUI::showScoreboard(const Player &player) const {
+    // Display player's name
+    std::cout << "Player: " << player.getName() << std::endl;
+
+    // Get reaction times
+    const std::vector<float>& times = player.getReactionTimes();
+
+    // If there are no reaction times, display a message and return
+    if (times.empty()) {
+        std::cout << "No reaction times recorded." << std::endl;
+        return;
+    }
+
+    // Calculate and display the average reaction time
+    float sum = std::accumulate(times.begin(), times.end(), 0.0f);
+    float average = sum / times.size();
+    std::cout << "Average Reaction Time: " << std::fixed << std::setprecision(2) << average << " seconds" << std::endl;
+
+    // Sort the reaction times in ascending order
+    std::vector<float> sortedTimes = times;
+    std::sort(sortedTimes.begin(), sortedTimes.end());
+
+    // Display the top 3 reaction times
+    std::cout << "Top 3 Reaction Times: " << std::endl;
+    for (size_t i = 0; i < std::min<size_t>(3, sortedTimes.size()); ++i) {
+        std::cout << i + 1 << ": " << std::fixed << std::setprecision(2) << sortedTimes[i] << " seconds" << std::endl;
+    }
 }
 
 void GUI::displayImage(const Image &image) {
