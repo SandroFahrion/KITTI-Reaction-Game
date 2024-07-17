@@ -1,4 +1,6 @@
 # C++-Programmentwurf: KITTI Reaction Game
+Matrikel Nr. 2222449
+Matrikel Nr. 6684592
 ## How to use
 ### Prerequisites
 1. **CMake**: Install the latest version of CMake.
