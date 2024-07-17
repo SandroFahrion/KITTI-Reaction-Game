@@ -20,6 +20,7 @@ public:
     const std::string &getType() const { return m_type; }
     int getFrame() const { return m_frame; }
 
+private:
     // setter-Methoden
     void setCoordX(int x) { m_x = x; }
     void setWidthX(int width) { m_width = width; }
@@ -28,7 +29,6 @@ public:
     void setType(const std::string &type) { m_type = type; }
     void setFrame(int frame) { m_frame = frame; }
 
-private:
     // Member Variablen
     std::string m_type;
     int m_frame;

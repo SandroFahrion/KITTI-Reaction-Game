@@ -25,19 +25,19 @@ public:
     std::string KittiDataset::getImageFilePathOfCurrentIndex(); // Methode, die den Pfad zum Bild des aktuellen Indexes zurückgibt
     std::vector<BoundingBox> KittiDataset::getBoundingBoxesOfCurrentFrame(); // Methode, die alle validen Boxen des aktuellen Indexes zurückgibt
 
+    void incrementCurrentIndex() { m_currentIndex++; };
 
     // getter-Methoden
     int getCurrentIndex() const{ return m_currentIndex; }
     int getTotalImages() const { return static_cast<int>(m_imageFilePaths.size()); }
 
-    // setter-Methode
-    void setCurrentIndex(int index) { m_currentIndex = index; }
-    void incrementCurrentIndex() { m_currentIndex++; };
-
     // Debugging tool
     GENERATE_MEMBER_FUNCTIONS(m_currentIndex, m_imageFilePaths, m_boundingBoxes)
 
 private:
+    // setter-Methode
+    void setCurrentIndex(int index) { m_currentIndex = index; }
+
     // Member Variablen
     int m_currentIndex = 0;
     std::vector<std::string> m_imageFilePaths;
