@@ -4,10 +4,7 @@
 /.vs
 /out
 
-CMakeLists.txt
-
 CMakeSettings.json
-
 # Prerequisites
 *.d
 
