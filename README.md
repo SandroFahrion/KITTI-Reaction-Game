@@ -2,6 +2,27 @@
 Matrikel Nr. 2222449
 <br>
 Matrikel Nr. 6684592
+
+## Description
+**Spielmechanik:**
+- **Datensatz:**
+  - Nutzung der „Left color images of tracking data set“ und „Training labels of tracking data set“ des KITTI-Datensatzes.
+  - Ignorieren von Bounding Boxes des Typs „DontCare“.
+  - Überspringen von Bildern ohne passende Bounding Boxes.
+
+- Benutzeroberfläche (GUI):**
+  - Konsolenmenü zur Eingabe des Spielernamens, Anzahl der zu spielenden Bilder, Sequenz und Spielmodus.
+  - Anzeige der Bilder und Bounding Boxes in einem Fenster.
+
+- Spielmodi:**
+  - Mode 1 - Direct Click Reaction: Eine zufällig ausgewählte Bounding Box wird rot markiert, der Spieler muss diese so schnell wie möglich anklicken.
+  - Mode 2 - Color Change Reaction: Alle Bounding Boxes werden zunächst blau dargestellt, nach einer zufälligen Zeit wird eine Box rot und der Spieler muss diese anklicken und mit der Leertaste bestätigen.
+
+- **Feedback und Ergebnisse:**
+  - Speicherung der Reaktionszeiten.
+  - Anzeige der Ergebnisse am Spielende, inklusive durchschnittlicher Reaktionszeit und der besten drei Ergebnisse.
+ 
+  - 
 ## How to use
 ### Prerequisites
 1. **CMake**: Install the latest version of CMake.
