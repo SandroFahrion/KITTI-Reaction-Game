@@ -1,5 +1,6 @@
 # C++-Programmentwurf: KITTI Reaction Game
 Matrikel Nr. 2222449
+<br>
 Matrikel Nr. 6684592
 ## How to use
 ### Prerequisites
