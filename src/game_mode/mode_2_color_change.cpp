@@ -38,69 +38,76 @@ bool Mode2ColorChange::startGame(const StartParams &params, const GUI &gui) {
             }
             #endif // DEBUG_MODE
 
-            // Alle validen Boxen des aktuellen Indexes auslesen, dann zufällig eine Box wählen
+            // Alle validen Boxen des aktuellen Indexes auslesen
             std::vector<BoundingBox> boxes = dataset.getBoundingBoxesOfCurrentFrame();
             if (boxes.empty()) {
                 gui.displayMessage("No valid bounding box found in remaining images.");
                 return end;
             }
+            // Zufällig rote Box auswählen
+            int randomIndexUpperBound = static_cast<int>(boxes.size() - 1);
+            BoundingBox targetBox = boxes[KittiRandom::selectIntRandom(0, randomIndexUpperBound)];
             
             std::string imagePath = dataset.getImageFilePathOfCurrentIndex();
 
-            // Bild wird gezeigt, Spielzug beginnt
-            gui.displayImageWithBoundingBoxes(imagePath, boxes, BLUE_COLOR);
-            startTurn(boxes, gui);
+            
+            cv::namedWindow(NAME_OF_THE_GAME); // Create the window
 
-            dataset.incrementCurrentIndex();
+            // Maus-Callback registrieren
+            m_mouseClicked = false;
+            m_isKeyPressed = false;
+            m_isRedBoxShown = false;
+            cv::setMouseCallback(NAME_OF_THE_GAME, clickCallback, this);
+
+            // Bild mit allen Bounding Boxen (blau) wird gezeigt
+            gui.displayImageWithBoundingBoxes(imagePath, boxes, BLUE_COLOR);
+
+            // Zeige alle Boxen in Blau für 2 Sekunden
+            Time::timeDelay(2.0f);
+
+            // Zeige rote Box, Spielzug beginnt
+            m_isRedBoxShown = true;
+            gui.displayImageWithBoundingBox(imagePath, targetBox, RED_COLOR);
+            gui.displayMessage("\n\nTurn Nr. " + std::to_string(i) + " has begun!");
+            timer.timeMeasureBegin();
+
+            // Hier auf Mausklick warten
+            while (true) {
+                if (cv::waitKey(1) == 27) { // Escape key to exit
+                    break;
+                }
+            if (m_mouseClicked) {
+                break;
+            }
+        }
+
+            // Maus-Callback deregistrieren
+            cv::setMouseCallback(NAME_OF_THE_GAME, nullptr, nullptr);
+
+            dataset.incrementCurrentIndex(); // Index hochzählen
 
             if (!(i < m_turns)) end = true;
         }
     }
-    
+    gui.showScoreboard(player);
     return end;
-}
-
-// Spielzug, Verarbeitung von Spieler-Input
-void Mode2ColorChange::startTurn(const std::vector<BoundingBox>& boxes, const GUI &gui) {
-    boundingBoxes = boxes;
-    m_isKeyPressed = false;
-    m_isRedBoxShown = false;
-    
-    if (boundingBoxes.empty()) {
-        gui.displayMessage("No bounding boxes provided!");
-        return;
-    }
-
-    // Zeige alle Boxen in Blau für 2 Sekunden
-    Time::timeDelay(2.0f);
-
-    // Wähle zufällig eine Box und setze sie auf Rot
-    int randomIndexUpperBound = static_cast<int>(boundingBoxes.size() - 1);
-    targetBox = boundingBoxes[KittiRandom::selectIntRandom(0, randomIndexUpperBound)];
-    m_isRedBoxShown = true;
-    
-    // Maus-Callback registrieren
-    cv::setMouseCallback(NAME_OF_THE_GAME, clickCallback, this);
-
-    timer.timeMeasureBegin();
-
 }
 
 void Mode2ColorChange::clickCallback(int event, int x, int y, int flags, void* userdata) {
     if (event == cv::EVENT_LBUTTONDOWN) {
         auto mode = static_cast<Mode2ColorChange*>(userdata);
         mode->processClick(x, y);
+        mode->m_mouseClicked = true;
     }
 }
 
-// Verarbeitung eines Mausklicks
-void Mode2ColorChange::processClick(int x, int y) {
-    if (m_isRedBoxShown && targetBox.contains(x, y)) {
+void Mode2ColorChange::processClick(int x, int y) { // Verarbeitung eines Mausklicks
+    if (targetBox.contains(x, y)) {
         m_reactionTime = timer.timeMeasureEnd();
-        //gui.displayMessage("Hit! Reaction time: " + std::to_string(m_reactionTime) + " seconds");
+        gui.displayMessage("\nHit! Reaction time: " + std::to_string(m_reactionTime) + " seconds\n");
     } else {
         m_reactionTime += m_penaltyTime;
-        //gui.displayMessage("Miss! 5 second penalty!");
+        gui.displayMessage("\nMiss! 5 second penalty!\n");
     }
     
     // Reaktionszeit speichern
