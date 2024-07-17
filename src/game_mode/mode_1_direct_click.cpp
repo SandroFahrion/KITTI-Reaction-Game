@@ -62,7 +62,7 @@ bool Mode1DirectClick::startGame(const StartParams &params, const GUI &gui) {
 
             // Hier auf Mausklick warten
             while (true) {
-                if (cv::waitKey(1) == 27) { // Escape key to exit
+                if (cv::waitKey(1) == 27) { // Escape zum Verlassen
                     break;
                 }
             if (m_mouseClicked) {
@@ -95,9 +95,12 @@ void Mode1DirectClick::processClick(int x, int y) { // Verarbeitung eines Mauskl
         m_reactionTime = timer.timeMeasureEnd();
         gui.displayMessage("\nHit! Reaction time: " + std::to_string(m_reactionTime) + " seconds\n");
     } else {
-        m_reactionTime += m_penaltyTime;
-        gui.displayMessage("\nMiss! 5 second penalty!\n");
+        //m_reactionTime += m_penaltyTime;
+        //gui.displayMessage("\nMiss! 5 second penalty!\n");
     }
+    
+    m_reactionTime = timer.timeMeasureEnd();
+    gui.displayMessage("\nHit! Reaction time: " + std::to_string(m_reactionTime) + " seconds\n");
 
     // Reaktionszeit speichern
     player.addReactionTime(m_reactionTime);

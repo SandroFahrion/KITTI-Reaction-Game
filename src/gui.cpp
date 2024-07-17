@@ -72,6 +72,12 @@ void GUI::displayImageWithBoundingBoxes(const std::string &imagepath, const std:
     cv::waitKey(1);
 }
 
+void GUI::displayImageWithDifferentBoundingBoxes(const std::string &imagePath, const std::vector<BoundingBox> &redBoxes, cv::Scalar redColor, const std::vector<BoundingBox> &blueBoxes, cv::Scalar blueColor) const {
+    Image imgWithBoxes(imagePath, redBoxes, redColor, blueBoxes, blueColor);    // Bild-Objekt mit allen Boxen erstellen
+    cv::imshow(NAME_OF_THE_GAME, imgWithBoxes);     // Bild in openCV öffnen
+    cv::waitKey(1);
+}
+
 void GUI::displayCountdown(const std::string &message) {
 }
 

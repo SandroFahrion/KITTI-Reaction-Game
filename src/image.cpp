@@ -48,6 +48,21 @@ Image::Image(const std::string &imagePath, const std::vector<BoundingBox> &boxes
     #endif // DEBUG_MODE
 }
 
+// Überladener Konstruktor für Bilder mit mehreren Boxen in verschiedenen Farben
+Image::Image(const std::string &imagePath, const std::vector<BoundingBox> &redBoxes, cv::Scalar redColor, const std::vector<BoundingBox> &blueBoxes, cv::Scalar blueColor) {
+    *this = cv::imread(imagePath);
+
+    // Vektoren an die Methode zum Erstellen aller Boxen in den jeweiligen Farben übergeben
+    if (!this->empty()) {
+        this->drawBoundingBoxes(blueBoxes, blueColor); // Zeichne zuerst die blauen Boxen
+        this->drawBoundingBoxes(redBoxes, redColor);   // Zeichne dann die roten Boxen
+    }
+    #ifdef DEBUG_MODE
+        else if (g_debug_mode) Debugger::log(imagePath, "ERROR loading image");
+    #endif // DEBUG MODE
+}
+
+
 void Image::drawBoundingBoxes(const std::vector<BoundingBox> &boxes, cv::Scalar color) {
     for (const auto &box : boxes) {
         // Box erstellen

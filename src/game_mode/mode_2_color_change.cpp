@@ -51,7 +51,7 @@ bool Mode2ColorChange::startGame(const StartParams &params, const GUI &gui) {
             std::string imagePath = dataset.getImageFilePathOfCurrentIndex();
 
             
-            cv::namedWindow(NAME_OF_THE_GAME); // Create the window
+            cv::namedWindow(NAME_OF_THE_GAME);
 
             // Maus-Callback registrieren
             m_mouseClicked = false;
@@ -67,24 +67,24 @@ bool Mode2ColorChange::startGame(const StartParams &params, const GUI &gui) {
 
             // Zeige rote Box, Spielzug beginnt
             m_isRedBoxShown = true;
-            gui.displayImageWithBoundingBox(imagePath, targetBox, RED_COLOR);
+            std::vector<BoundingBox> redBoxes = {targetBox};
+            gui.displayImageWithDifferentBoundingBoxes(imagePath, redBoxes, RED_COLOR, boxes, BLUE_COLOR);
             gui.displayMessage("\n\nTurn Nr. " + std::to_string(i) + " has begun!");
             timer.timeMeasureBegin();
 
             // Hier auf Mausklick warten
             while (true) {
-                if (cv::waitKey(1) == 27) { // Escape key to exit
+                if (cv::waitKey(1) == 27) { // Escape zum Verlassen
                     break;
                 }
-            if (m_mouseClicked) {
-                break;
+                if (m_mouseClicked) {
+                    break;
+                }
             }
-        }
 
-            // Maus-Callback deregistrieren
             cv::setMouseCallback(NAME_OF_THE_GAME, nullptr, nullptr);
 
-            dataset.incrementCurrentIndex(); // Index hochzählen
+            dataset.incrementCurrentIndex();
 
             if (!(i < m_turns)) end = true;
         }
@@ -106,9 +106,12 @@ void Mode2ColorChange::processClick(int x, int y) { // Verarbeitung eines Mauskl
         m_reactionTime = timer.timeMeasureEnd();
         gui.displayMessage("\nHit! Reaction time: " + std::to_string(m_reactionTime) + " seconds\n");
     } else {
-        m_reactionTime += m_penaltyTime;
-        gui.displayMessage("\nMiss! 5 second penalty!\n");
+        //m_reactionTime += m_penaltyTime;
+        //gui.displayMessage("\nMiss! 5 second penalty!\n");
     }
+
+    m_reactionTime = timer.timeMeasureEnd();
+    gui.displayMessage("\nHit! Reaction time: " + std::to_string(m_reactionTime) + " seconds\n");
     
     // Reaktionszeit speichern
     player.addReactionTime(m_reactionTime);

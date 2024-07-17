@@ -56,7 +56,8 @@ public:
     // Methoden zur Bildausgabe mit Bounding Boxen
     void displayImageWithBoundingBox(const std::string &imagePath, const BoundingBox &box, cv::Scalar color) const;
     void displayImageWithBoundingBoxes(const std::string &imagePath, const std::vector<BoundingBox> &boxes, cv::Scalar color) const;
-
+    void displayImageWithDifferentBoundingBoxes(const std::string &imagePath, const std::vector<BoundingBox> &redBoxes, cv::Scalar redColor, const std::vector<BoundingBox> &blueBoxes, cv::Scalar blueColor) const;
+    
     void displayImage(const Image &image); // Bildausgabe mit OpenCV (ungenutzt)
 
     void displayMessage(const std::string &message) const; // Nachricht in der Konsole zeigen

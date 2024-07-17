@@ -17,9 +17,14 @@ public:
 
     Image &operator=(const cv::Mat &mat);  // Zuweisungsoperator der cv::Mat akzeptiert
 
-    Image(const std::string &imagePath, const BoundingBox &box, cv::Scalar color); // Überladener Konstruktor für Bilder mit 1 Box
+    // Überladener Konstruktor für Bilder mit 1 Box
+    Image(const std::string &imagePath, const BoundingBox &box, cv::Scalar color);
 
-    Image(const std::string &imagePath, const std::vector<BoundingBox> &boxes, cv::Scalar color); // für Bilder mit mehreren Boxen
+    // für Bilder mit mehreren Boxen
+    Image(const std::string &imagePath, const std::vector<BoundingBox> &boxes, cv::Scalar color);
+
+    // Überladener Konstruktor für Bilder mit mehreren Boxen in verschiedenen Farben
+    Image(const std::string &imagePath, const std::vector<BoundingBox> &redBoxes, cv::Scalar redColor, const std::vector<BoundingBox> &blueBoxes, cv::Scalar blueColor);
     
 private:
     std::vector<BoundingBox> m_boundingBoxes; // Enthält Informationen zu validen Bounding Boxen

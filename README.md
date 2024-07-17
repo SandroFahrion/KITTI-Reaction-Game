@@ -73,6 +73,7 @@ KITTIReactionGame.exe
 ```
 
 ### (Optional) Build and launch with Debugging Mode
+(and recommended, because it's much more interesting to see whats going on)<br>
 Open a command terminal in ```CPP_KITTI_Reaction_Game``` and run
 ```
 cmake -S . -B build_debug -DENABLE_DEBUG=ON
