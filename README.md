@@ -103,10 +103,10 @@ cmake -S . -B build_debug -DENABLE_DEBUG=ON
 ```
 cmake --build build_debug
 ```
-Open the terminal in ```build_debug/Debug``` and run
+Run
 
 ```
-KITTIReactionGame.exe --debug
+ .\build_debug\debug\KITTIReactionGame.exe --debug
 ```
 
 ## Full Workspace Structure
