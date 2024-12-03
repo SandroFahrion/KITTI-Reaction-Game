@@ -6,7 +6,7 @@
 
 // Quelle für KITTI-Daten
 #ifndef PATH_TO_DATA_SOURCE
-#define PATH_TO_DATA_SOURCE "C:/Git/KittiReactionGame_Projekt/CPP_KITTI_Reaction_Game/"
+#define PATH_TO_DATA_SOURCE "C:/Users/User/Git/KITTI_Reaction_Game_workspace/CPP_Projekt_Klos_Fahrion/"
 #endif // PATH_TO_DATA_SOURCE
 
 // Pfad zu Bildern
