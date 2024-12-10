@@ -11,7 +11,7 @@
 #include "game_mode/mode_3_memory.hpp"
 
 //Konstruktor
-Mode3Memory::Mode3Memory(const StartParams &params, const GUI &gui) : m_reactionTime(0), m_isKeyPressed(false), m_isRedBoxShown(false), gui(gui), m_sequenceIndex(0) {
+Mode3Memory::Mode3Memory(const StartParams &params, const GUI &gui) : m_reactionTime(0), m_isKeyPressed(false), m_isRedBoxShown(false), m_allowClicks(false), gui(gui), m_sequenceIndex(0) {
     startGame(params, gui);
 }
 
@@ -73,6 +73,8 @@ while (!end){
         m_sequenceIndex = 0;
 
         for (const auto &box : m_sequence) {
+            m_allowClicks = false;
+
             gui.displayImageWithBoundingBoxes(dataset.getImageFilePathOfCurrentIndex(), boxes, BLUE_COLOR);
             Time::timeDelay(1.0f); // Blau für 1 Sekunde anzeigen
 
@@ -84,7 +86,7 @@ while (!end){
             gui.displayImageWithBoundingBoxes(dataset.getImageFilePathOfCurrentIndex(), boxes, BLUE_COLOR);
             timer.timeMeasureBegin();
         }
-
+        m_allowClicks = true;
         gui.displayMessage("Click the boxes in the correct sequence!");
 
         while (m_sequenceIndex < m_sequence.size()) {
@@ -120,6 +122,12 @@ void Mode3Memory::clickCallback(int event, int x, int y, int flags, void *userda
 }
 
 void Mode3Memory::processClick(int x, int y) { // Verarbeitung eines Mausklicks
+    
+    if (!m_allowClicks) {
+        return; // Ignore clicks if not allowed
+    }
+    
+    
     if (m_sequenceIndex < m_sequence.size() && m_sequence[m_sequenceIndex].contains(x, y)) {
         m_reactionTime = timer.timeMeasureEnd();
         m_player.addHitTime(m_reactionTime);
@@ -135,8 +143,7 @@ void Mode3Memory::processClick(int x, int y) { // Verarbeitung eines Mausklicks
         gui.displayMessage("\nMiss! 5 seconds penalty.\n");    
     }
 
-    
-    
+     
 }
 
 
