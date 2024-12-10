@@ -45,7 +45,7 @@ bool Mode2ColorChange::startGame(const StartParams &params, const GUI &gui) {
             }
             // Zufällig rote Box auswählen
             int randomIndexUpperBound = static_cast<int>(boxes.size() - 1);
-            BoundingBox targetBox = boxes[KittiRandom::selectIntRandom(0, randomIndexUpperBound)];
+            targetBox = boxes[KittiRandom::selectIntRandom(0, randomIndexUpperBound)];
             
             std::string imagePath = dataset.getImageFilePathOfCurrentIndex();
 
@@ -102,18 +102,29 @@ void Mode2ColorChange::clickCallback(int event, int x, int y, int flags, void* u
 
 void Mode2ColorChange::processClick(int x, int y) { // Verarbeitung eines Mausklicks
     if (targetBox.contains(x, y)) {
+       
         m_reactionTime = timer.timeMeasureEnd();
+
+        m_player.addHitTime(m_reactionTime);
+        
+        m_totalTime += m_reactionTime;
+        m_player.addReactionTime(m_reactionTime);
+
+        
+        timer.timeMeasureBegin();
         gui.displayMessage("\nHit! Reaction time: " + std::to_string(m_reactionTime) + " seconds\n");
     } else {
-        //m_reactionTime += m_penaltyTime;
-        //gui.displayMessage("\nMiss! 5 second penalty!\n");
-    }
+       // m_reactionTime = timer.timeMeasureEnd();
+        //timer.timeMeasureBegin();
+        m_reactionTime = m_penaltyTime;
 
+        m_totalTime += m_reactionTime;
+        m_player.addReactionTime(m_reactionTime);
+
+        gui.displayMessage("\nMiss! 5 second penalty! Reaction time: " + std::to_string(m_reactionTime) + "\n");
+    }
+    //m_totalTime += m_reactionTime;
     m_reactionTime = timer.timeMeasureEnd();
-    gui.displayMessage("\nHit! Reaction time: " + std::to_string(m_reactionTime) + " seconds\n");
-    
-    // Reaktionszeit speichern
-    m_player.addReactionTime(m_reactionTime);
 }
 
 // Verarbeitung eines Tastaturanschlags

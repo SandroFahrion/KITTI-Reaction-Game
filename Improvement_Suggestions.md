@@ -1,6 +1,6 @@
 # Optimierungspotenziale des ursprünglichen Programmentwurfs
 
-In diesem Dokument werden mögliche Optimierungspotenziale für das Programm beschrieben. Die "x" zeigen, welche Verbesserungen durchgeführt werden konnten.
+In diesem Dokument werden mögliche Optimierungspotenziale für das Programm beschrieben. Die Häkchen zeigen, welche Verbesserungen durchgeführt werden konnten.
 
 ##Spielmodus 1
 - [x] **Mauskoordinaten erkennen**: Ein verfehlter Klick soll als solcher erkannt und ausgewertet werden.
