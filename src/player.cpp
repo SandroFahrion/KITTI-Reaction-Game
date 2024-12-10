@@ -10,3 +10,11 @@ Player::Player(const std::string &name) : m_name(name) {} // Überladenen Konstr
 void Player::addReactionTime(float time) {  
     m_reactionTimes.push_back(time);    // Befüllen des reactionTimes-Vektors
 }
+
+void Player::addHitTime(float time){
+    m_hitTimes.push_back(time);
+}
+
+
+//setter-Methoden
+    void Player::setName (std::string name){m_name = name;} 

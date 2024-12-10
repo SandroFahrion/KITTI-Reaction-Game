@@ -8,6 +8,7 @@
 #include "game_mode/game_mode.hpp"
 #include "game_mode/mode_1_direct_click.hpp"
 #include "game_mode/mode_2_color_change.hpp"
+#include "game_mode/mode_3_memory.hpp"
 
 
 int main(int argc, char* argv[]) {
@@ -44,6 +45,9 @@ int main(int argc, char* argv[]) {
         case 2: // Spielmodus 2 wird gestartet
             gameMode = new Mode2ColorChange(startParams, gui);
             break;
+
+        case 3: //Spielmodus 3 wird geststartet
+            gameMode = new Mode3Memory(startParams, gui);
 
         default:
             gameMode = nullptr;

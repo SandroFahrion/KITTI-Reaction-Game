@@ -16,14 +16,13 @@ Mode2ColorChange::Mode2ColorChange(const StartParams &params, const GUI &gui) : 
 }
 
 bool Mode2ColorChange::startGame(const StartParams &params, const GUI &gui) {
-    Player player(params.getPlayerName());
-
+    //Player m_player(params.getPlayerName());
+    m_player.setName(params.getPlayerName());
     // KittiDataset Konstruktor enthält
     // loadBoxDataset(seq);
     // loadImagePaths(seq);
     // setRandomStartIndex();
     KittiDataset dataset(params.getSequence());
-
     // Schleife, um die Anzahl der gewünschten Spielzüge zu wiederholen, kann bei Fehler unterbrochen werden 
     m_turns = params.getNumTurns();
     bool end = false;
@@ -89,7 +88,7 @@ bool Mode2ColorChange::startGame(const StartParams &params, const GUI &gui) {
             if (!(i < m_turns)) end = true;
         }
     }
-    gui.showScoreboard(player);
+    gui.showScoreboard(m_player);
     return end;
 }
 
@@ -114,7 +113,7 @@ void Mode2ColorChange::processClick(int x, int y) { // Verarbeitung eines Mauskl
     gui.displayMessage("\nHit! Reaction time: " + std::to_string(m_reactionTime) + " seconds\n");
     
     // Reaktionszeit speichern
-    player.addReactionTime(m_reactionTime);
+    m_player.addReactionTime(m_reactionTime);
 }
 
 // Verarbeitung eines Tastaturanschlags

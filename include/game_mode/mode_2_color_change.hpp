@@ -39,7 +39,7 @@ private:
     std::vector<BoundingBox> boundingBoxes;
     BoundingBox targetBox;
     Time timer;
-    Player player;
+    Player m_player;
     const GUI &gui;
 
 };

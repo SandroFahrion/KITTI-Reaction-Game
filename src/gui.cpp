@@ -39,10 +39,22 @@ void GUI::showScoreboard(const Player &player) const {
         return;
     }
 
-    // Calculate and display the average reaction time
+    // Calculate and display the total reaction time
     float sum = std::accumulate(times.begin(), times.end(), 0.0f);
-    float average = sum / times.size();
+    std::cout << "Total reaction time with penalty time: " << std::fixed << std::setprecision(2) << sum << " seconds" << std::endl;
+
+    const std::vector<float>& hittimes = player.getHitTimes();
+
+    // If there are no  hittimes, display a message and return
+    if (hittimes.empty()) {
+        std::cout << "No hittimes recorded." << std::endl;
+        return;
+    }
+
+    sum = std::accumulate(hittimes.begin(), hittimes.end(), 0.0f);
+    float average = sum / hittimes.size();
     std::cout << "Average Reaction Time: " << std::fixed << std::setprecision(2) << average << " seconds" << std::endl;
+
 
     // Sort the reaction times in ascending order
     std::vector<float> sortedTimes = times;
@@ -105,7 +117,7 @@ std::string GUI::formatSequenceInput(const std::string &seq){
 
 bool GUI::showMenu(StartParams &params) {
     const int maxSeq = 20;
-    const int maxMode = 2;
+    const int maxMode = 3;
 
     std::cout << "\nWelcome to the KITTI Reaction Game! You will be shown an image from the KITTI dataset,\
  a training set from the KIT (Karlsruhe Institute of Technology) about the recognition of objects in street traffic.\
@@ -121,7 +133,7 @@ bool GUI::showMenu(StartParams &params) {
     // Spielmodus
     int gameMode;
     fflush(stdin);
-    std::cout << "\nThere are " << maxMode << " available game modes: \n1: Direct Click\n2: Color Change\nChoose a game mode by entering the number: ";
+    std::cout << "\nThere are " << maxMode << " available game modes: \n1: Direct Click\n2: Color Change\n3: Memory\nChoose a game mode by entering the number: ";
     std::cin >> gameMode;
 
     if (gameMode > maxMode || gameMode < 1) { // Input auf Fehler prüfen
