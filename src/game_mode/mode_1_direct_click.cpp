@@ -46,7 +46,7 @@ bool Mode1DirectClick::startGame(const StartParams &params, const GUI &gui) {
                 return end;
             }
             int randomIndexUpperBound = static_cast<int>(boxes.size() - 1);
-            BoundingBox box = boxes[KittiRandom::selectIntRandom(0, randomIndexUpperBound)];
+            boundingBox = boxes[KittiRandom::selectIntRandom(0, randomIndexUpperBound)];
             
             std::string imagePath = dataset.getImageFilePathOfCurrentIndex();
 
@@ -57,7 +57,7 @@ bool Mode1DirectClick::startGame(const StartParams &params, const GUI &gui) {
             cv::setMouseCallback(NAME_OF_THE_GAME, clickCallback, this);
 
             // Bild anzeigen und auf Mausklick warten
-            gui.displayImageWithBoundingBox(imagePath, box, RED_COLOR);
+            gui.displayImageWithBoundingBox(imagePath, boundingBox, RED_COLOR);
             gui.displayMessage("\n\nTurn Nr. " + std::to_string(i) + " has begun!");
             timer.timeMeasureBegin();
 
@@ -94,17 +94,27 @@ void Mode1DirectClick::clickCallback(int event, int x, int y, int flags, void* u
 void Mode1DirectClick::processClick(int x, int y) { // Verarbeitung eines Mausklicks
     if (boundingBox.contains(x, y)) {
         m_reactionTime = timer.timeMeasureEnd();
+
+        m_player.addHitTime(m_reactionTime);
+        
+        m_totalTime += m_reactionTime;
+        m_player.addReactionTime(m_reactionTime);
+
+        
+        timer.timeMeasureBegin();
         gui.displayMessage("\nHit! Reaction time: " + std::to_string(m_reactionTime) + " seconds\n");
     } else {
-        //m_reactionTime += m_penaltyTime;
-        //gui.displayMessage("\nMiss! 5 second penalty!\n");
-    }
-    
-    m_reactionTime = timer.timeMeasureEnd();
-    gui.displayMessage("\nHit! Reaction time: " + std::to_string(m_reactionTime) + " seconds\n");
+       // m_reactionTime = timer.timeMeasureEnd();
+        //timer.timeMeasureBegin();
+        m_reactionTime = m_penaltyTime;
 
-    // Reaktionszeit speichern
-    m_player.addReactionTime(m_reactionTime);
+        m_totalTime += m_reactionTime;
+        m_player.addReactionTime(m_reactionTime);
+
+        gui.displayMessage("\nMiss! 5 second penalty! Reaction time: " + std::to_string(m_reactionTime) + "\n");
+    }
+    //m_totalTime += m_reactionTime;
+    m_reactionTime = timer.timeMeasureEnd();
 }
 
 void Mode1DirectClick::processKeyPress(int key) {

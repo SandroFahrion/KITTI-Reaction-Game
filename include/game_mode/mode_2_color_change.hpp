@@ -31,6 +31,7 @@ private:
     // Member Variablen
     const float m_penaltyTime = 5; // Strafzeit in diesem Spielmodus
     float m_totalTime = 0.0;
+    bool m_allowClicks;
     
     int m_turns;
     float m_reactionTime;
