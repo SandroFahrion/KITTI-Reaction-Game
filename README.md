@@ -17,7 +17,7 @@ Matrikel Nr. 6684592
 - Spielmodi:**
   - Mode 1 - Direct Click Reaction: Eine zufällig ausgewählte Bounding Box wird rot markiert, der Spieler muss diese so schnell wie möglich anklicken.
   - Mode 2 - Color Change Reaction: Alle Bounding Boxes werden zunächst blau dargestellt, nach einer zufälligen Zeit wird eine Box rot und der Spieler muss diese anklicken und mit der Leertaste bestätigen.
-  - Mode 3 - Memory: Alle Bounding Boxes werden anfangs für 2 Sekunden blau dargestellt. Danach blinken 5 Boxen, in einer zufälligen Reihenfolge kurz rot auf. Der Spieler muss sich diese Reihenfolge merken und die Boxen, nachdem die letze Box wieder blau geworden, ist so schnell wie möglich in der richtigen Reihenfolge anklicken.
+  - Mode 3 - Memory: Alle Bounding Boxes werden anfangs für 2 Sekunden blau dargestellt. Danach blinken 5 Boxen, in einer zufälligen Reihenfolge kurz rot auf. Der Spieler muss sich diese Reihenfolge merken und die Boxen, nachdem die letze Box wieder blau geworden, ist so schnell wie möglich in der richtigen Reihenfolge anklicken. Wird ein Fehler gemacht gibt es 5 Strafsekunden. Dennoch muss die richtige Box nachholend angeklickt werden. Der Timer läuft weiter!
 
 - **Feedback und Ergebnisse:**
   - Speicherung der Reaktionszeiten.

@@ -1,5 +1,5 @@
-#include "../../googletest/googletest/include/gtest/gtest.h"
-#include "../../googletest/googletest/include/gtest/gtest-assertion-result.h"
+#include "gtest/gtest.h"
+#include "gmock/gmock.h"
 #include "player.hpp"
 #include "kitti_dataset.hpp"
 #include "bounding_box.hpp"
@@ -8,8 +8,8 @@
 #include "mode_1_direct_click.hpp"
 #include "mode_2_color_change.hpp"
 #include "mode_3_memory.hpp"
-#include <opencv2/opencv.hpp>
-#include <sstream>
+#include "opencv2/opencv.hpp"
+#include "sstream"
 
 
 //Tests player.hpp
@@ -195,7 +195,46 @@ TEST(GuiTest, DisplayMessage) {
 }
 
 //Test Gui::showScoreboard
+class MockPlayer : public Player {
+public:
+    MockPlayer(const std::string& name, const std::vector<float>& reactionTimes, const std::vector<float>& hitTimes)
+        : Player(name), mockReactionTimes(reactionTimes), mockHitTimes(hitTimes) {}
 
+    const std::vector<float>& getReactionTimes() const {
+        return mockReactionTimes;
+    }
+
+    const std::vector<float>& getHitTimes() const {
+        return mockHitTimes;
+    }
+
+private:
+    std::vector<float> mockReactionTimes;
+    std::vector<float> mockHitTimes;
+};
+
+TEST(GuiTest, ShowScoreboardCorrectly) {
+    // Arrange
+    MockPlayer player("TestPlayer", {1.2f, 1.5f, 1.8f}, {1.1f, 1.3f, 1.6f});
+    GUI gui;
+    std::ostringstream output;
+    std::streambuf* originalCoutBuffer = std::cout.rdbuf(output.rdbuf());
+
+    // Act
+    gui.showScoreboard(player);
+
+    // Assert
+    std::cout.rdbuf(originalCoutBuffer); // Restore original cout buffer
+    std::string outputStr = output.str();
+
+    EXPECT_NE(outputStr.find("Player: TestPlayer"), std::string::npos);
+    EXPECT_NE(outputStr.find("Total reaction time with penalty time: 4.50 seconds"), std::string::npos);
+    EXPECT_NE(outputStr.find("Average Reaction Time: 1.33 seconds"), std::string::npos);
+    EXPECT_NE(outputStr.find("Top 3 Reaction Times:"), std::string::npos);
+    EXPECT_NE(outputStr.find("1: 1.20 seconds"), std::string::npos);
+    EXPECT_NE(outputStr.find("2: 1.50 seconds"), std::string::npos);
+    EXPECT_NE(outputStr.find("3: 1.80 seconds"), std::string::npos);
+}
 
 
 
@@ -236,7 +275,145 @@ TEST(BoundingBoxTest, ContainsMausklick) {
 }
 
 
-//Tests game_mode.hpp
 //Tests mode_1_direct_click.hpp
+//Test Mode_1_direct_click::processClick
+
+
+//Test Mode_1_direct_click::clickCallback
+
+
+
 //Tests mode_2_color_change.hpp
+//Test Mode_2_color_change::processClick
+//Test Mode_2_color_change::processKeyPress
+//Test Mode_2_color_change::clickCallback
+
+
 //Tests mode_3_memory.hpp
+//Test Mode_3_memory::processClick
+
+
+//Test Mode_3_memory::clickCallback
+
+
+
+/*TEST(Mode3MemoryTest, ClickCallbackProcessesClick) {
+    // Arrange
+    StartParams params("TestPlayer", "TestSequence", 5);
+    GUI gui;
+    Mode3Memory mode(params, gui);
+    std::string type = "TestBox";
+
+    int testX = 50, testY = 50;
+    int event = cv::EVENT_LBUTTONDOWN;
+    int flags = 0;
+
+    mode.m_allowClicks = true; // Ensure clicks are allowed
+    mode.m_sequence.push_back(BoundingBox{type, 1, 50, 50, 100, 100}); // Add a target box
+    mode.m_sequenceIndex = 0;
+
+    // Act
+    Mode3Memory::clickCallback(event, testX, testY, flags, &mode);
+
+    // Assert
+    ASSERT_TRUE(mode.m_mouseClicked); // Verify that the mouse click was registered
+    ASSERT_EQ(mode.m_sequenceIndex, 1); // Verify that the sequence index was incremented
+}*/
+
+
+
+/*
+// Mock-Klassen für Abhängigkeiten
+class MockGUI : public GUI {
+public:
+    void displayMessage(const std::string &message) {
+        lastMessage = message;
+    }
+
+    void displayImageWithBoundingBoxes(const std::string &imagePath, const std::vector<BoundingBox> &boxes, const cv::Scalar &color) {
+        lastImagePath = imagePath;
+        lastBoxes = boxes;
+        lastColor = color;
+    }
+
+    std::string lastMessage;
+    std::string lastImagePath;
+    std::vector<BoundingBox> lastBoxes;
+    cv::Scalar lastColor;
+};
+
+class MockStartParams : public StartParams {
+public:
+    std::string getPlayerName() const { return "TestPlayer"; }
+    int getNumTurns() const { return 1; }
+    std::string getSequence() const { return "TestSequence"; }
+};
+
+// Unit-Tests
+
+// Mode1DirectClick
+TEST(Mode1DirectClickTest, StartGameCorrectly) {
+    MockGUI gui;
+    MockStartParams params;
+    Mode1DirectClick mode(params, gui);
+
+    EXPECT_TRUE(mode.startGame(params, gui));
+}
+
+TEST(Mode1DirectClickTest, ProcessClick_CorrectBoundingBox_AddsReactionTime) {
+    MockGUI gui;
+    MockStartParams params;
+    Mode1DirectClick mode(params, gui);
+    std::string type = "TestBox";
+
+    BoundingBox box(type, 1, 10, 10, 50, 50);
+    mode.processClick(20, 20); // Click within the bounding box
+
+    // Check if reaction time was recorded (mock the timer if needed)
+    EXPECT_GT(mode.getTotalReactionTime(), 0);
+}
+
+// Mode2ColorChange
+TEST(Mode2ColorChangeTest, StartGame_ValidParams_ReturnsTrue) {
+    MockGUI gui;
+    MockStartParams params;
+    Mode2ColorChange mode(params, gui);
+
+    EXPECT_TRUE(mode.startGame(params, gui));
+}
+
+TEST(Mode2ColorChangeTest, ProcessClick_Miss_AddsPenalty) {
+    MockGUI gui;
+    MockStartParams params;
+    Mode2ColorChange mode(params, gui);
+
+    mode.processClick(100, 100); // Click outside any bounding box
+    // Verify penalty time was added
+    EXPECT_EQ(mode.getTotalReactionTime(), mode.getPenaltyTime());
+}
+
+// Mode3Memory
+TEST(Mode3MemoryTest, StartGameCorrectly) {
+    MockGUI gui;
+    MockStartParams params;
+    Mode3Memory mode(params, gui);
+
+    EXPECT_TRUE(mode.startGame(params, gui));
+}
+
+TEST(Mode3MemoryTest, ProcessClickCorrectly) {
+    MockGUI gui;
+    MockStartParams params;
+    Mode3Memory mode(params, gui);
+    //std::string type = "TestBox";
+
+    // Start game to initialize sequence
+    mode.startGame(params, gui);
+
+    // Mock clicks based on the initialized sequence (assume known sequence for simplicity)
+    mode.processClick(20, 20); // First box
+    mode.processClick(70, 70); // Second box
+
+    EXPECT_EQ(mode.getCurrentSequenceIndex(), 2); // All boxes clicked in sequence
+}
+*/
