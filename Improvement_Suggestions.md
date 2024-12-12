@@ -15,8 +15,7 @@ In diesem Dokument werden mögliche Optimierungspotenziale für das Programm bes
 - [ ] **Nichtklicken**: Nach 3 Sekunden, die der Spieler nicht reagiert, soll zum nächsten Bild gewechselt werden und die entsprechende Strafzeit auf die Gesamtzeit addiert werden.
 - [ ] **Bestätigung durch Leertaste**: Der Spieler soll seine Eingabe mit der Leertaste bestätigen müssen.
 
-##Sinnvolle Funktionalität
-##Spielmodus 2
+##Sinnvolle Funktionalität bei Spielmodus 2
 - [ ] **Klicken verbieten**: Erst nachdem die Box rot geworden ist soll ein Klicken möglich sein (macht nur sinn bei Spielmodus 2)
 
 ##Feedback bei beiden Spielmodi
