@@ -65,27 +65,3 @@ TEST(ModeMemoryTest, ProcessClick_Miss) {
     
     EXPECT_EQ(mode.getTotalReactionTime(), expectedTime);   //entspricht Zeit der erwarteten Zeit inklusive Strafzeit?
 }
-
-/*TEST(Mode3MemoryTest, ClickCallbackProcessesClick) {
-    // Arrange
-    StartParams params("TestPlayer", "TestSequence", 5);
-    GUI gui;
-    Mode3Memory mode(params, gui);
-    std::string type = "TestBox";
-
-    int testX = 50, testY = 50;
-    int event = cv::EVENT_LBUTTONDOWN;
-    int flags = 0;
-
-    bool m_allowClicks = true;
-    mode.getClicksAllowed(); // Ensure clicks are allowed
-    mode.m_sequence.push_back(BoundingBox{type, 1, 50, 50, 100, 100}); // Add a target box
-    mode.getCurrentSequenceIndex(0);
-
-    // Act
-    Mode3Memory::clickCallback(event, testX, testY, flags, &mode);
-
-    // Assert
-    ASSERT_TRUE(mode.m_mouseClicked); // Verify that the mouse click was registered
-    ASSERT_EQ(mode.m_sequenceIndex, 1); // Verify that the sequence index was incremented
-}*/

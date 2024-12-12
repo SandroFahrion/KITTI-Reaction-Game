@@ -67,6 +67,6 @@ TEST(Mode2ColorChangeTest, ProcessClick_Miss) {
     EXPECT_EQ(mode.getTotalReactionTime(), expectedTime);       //entspricht Zeit der erwarteten Zeit inklusive Strafzeit?
 }
 
-//Test Mode_2_color_change::processKeyPress
+
 
 
