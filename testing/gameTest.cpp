@@ -1,13 +1,12 @@
 #include <gtest/gtest.h>
 #include <gtest/gtest-assertion-result.h>
-#include <gmock/gmock.h>
 #include "player.hpp"
 #include "kitti_dataset.hpp"
 #include "bounding_box.hpp"
 #include "gui.hpp"
-#include "mode_1_direct_click.hpp"
-#include "mode_2_color_change.hpp"
-#include "mode_3_memory.hpp"
+#include "game_mode/mode_1_direct_click.hpp"
+#include "game_mode/mode_2_color_change.hpp"
+#include "game_mode/mode_3_memory.hpp"
 #include "opencv2/opencv.hpp"
 #include "sstream"
 

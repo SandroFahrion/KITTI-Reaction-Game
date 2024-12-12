@@ -1,21 +1,11 @@
-# Google Test einbinden
+set(BINARY ${CMAKE_PROJECT_NAME}_tst)
 
-# Testdateien sammeln
-set(TEST_SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/bounding_boxTest.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/guiTest.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/kitti_datasetTest.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/mode1Test.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/mode2Test.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/mode3Test.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/playerTest.cpp
-)
-include_directories(${CMAKE_SOURCE_DIR}/src)
-include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
+file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false *.h *.cpp)
 
-add_executable(unit_tests ${TEST_SOURCES})
-target_link_libraries(unit_tests gtest gmock gtest_main)
+set(SOURCES ${TEST_SOURCES})
 
+add_executable(${BINARY} ${TEST_SOURCES})
 
-enable_testing()
+add_test(NAME ${BINARY} COMMAND ${BINARY})
 
+target_link_libraries(${BINARY} ${CMAKE_PROJECT_NAME} gtest)

@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 #include "gui.hpp"
 #include "opencv2/opencv.hpp"
 #include "sstream"

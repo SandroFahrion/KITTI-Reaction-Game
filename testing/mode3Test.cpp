@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 #include "game_mode/mode_3_memory.hpp"
 #include "opencv2/opencv.hpp"
 #include "sstream"

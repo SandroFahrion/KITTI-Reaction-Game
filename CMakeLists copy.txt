@@ -4,14 +4,9 @@ project(KITTIReactionGame)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-set(gtest_force_shared_crt on)
+set(CMAKE_CXX_FLAGS_DEBUG "/MDd") # Dynamische Debug-Bibliothek
+set(CMAKE_CXX_FLAGS_RELEASE "/MD") # Dynamische Release-Bibliothek
 
-
-# Set OpenCV_DIR environment variable
-set(OpenCV_DIR "C:/Users/User/Git/KITTI_Reaction_Game_workspace/OpenCV/build_opencv")
-
-find_package( OpenCV REQUIRED )
-include_directories( ${OpenCV_INCLUDE_DIRS} )
 
 # Include directories
 include_directories(${CMAKE_SOURCE_DIR}/include)
@@ -41,14 +36,19 @@ if(ENABLE_DEBUG)
     add_definitions(-DDEBUG_MODE)
 endif()
 
+# Set OpenCV_DIR environment variable
+set(OpenCV_DIR "C:/Users/User/Git/KITTI_Reaction_Game_workspace/OpenCV/build_opencv")
 
-add_subdirectory(testing)
-add_subdirectory(lib/googletest)
-
-add_library(KITTIReactionGame STATIC ${SOURCES})
+# Find OpenCV package
+find_package(OpenCV REQUIRED)
+include_directories(${OpenCV_INCLUDE_DIRS})
 
 # Add executable
-add_executable(KITTIReactionGame_app ${SOURCES})
+add_executable(KITTIReactionGame ${SOURCES})
 
 # Link OpenCV libraries
-target_link_libraries(KITTIReactionGame_app ${OpenCV_LIBS})
+target_link_libraries(KITTIReactionGame ${OpenCV_LIBS})
+
+
+
+
