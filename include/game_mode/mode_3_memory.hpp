@@ -27,6 +27,8 @@ public:
     int getBoxDisplayCount() const override { return SHOW_ALL_BOXES; }
     cv::Scalar getBoxColor() const override { return BLUE_COLOR; }
 
+
+    const std::vector<BoundingBox> &getCurrentSequenceIndex() const { return m_sequence;}
 private:
     std::vector<BoundingBox> m_sequence; // Sequenz der Boxen
     int m_sequenceIndex; // Aktuelle Position in der Sequenz

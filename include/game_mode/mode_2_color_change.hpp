@@ -27,6 +27,8 @@ public:
     int getBoxDisplayCount() const override { return SHOW_ALL_BOXES; }
     cv::Scalar getBoxColor() const override { return BLUE_COLOR; }
 
+
+    float getTotalReactionTime() const { return m_totalTime; }
 private:
     // Member Variablen
     const float m_penaltyTime = 5; // Strafzeit in diesem Spielmodus
