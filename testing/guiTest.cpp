@@ -2,6 +2,7 @@
 #include <gmock/gmock.h>
 #include "gui.hpp"
 #include "opencv2/opencv.hpp"
+#include "sstream"
 
 //Tests gui
 //Test Gui::displayImageWithBoundingBox
@@ -112,14 +113,14 @@ TEST(GuiTest, DisplayMessage) {
     std::streambuf* originalCoutBuffer = std::cout.rdbuf(); // Original-Puffer speichern
     std::cout.rdbuf(capturedOutput.rdbuf());               // std::cout auf capturedOutput umlenken
 
-    // Act: Die Methode aufrufen
+    //Die Methode aufrufen
     gui.displayMessage(testMessage);
 
     // Zurücksetzen des Standardausgabestroms
     std::cout.rdbuf(originalCoutBuffer); // std::cout zurücksetzen
 
-    // Assert: Prüfen, ob die Ausgabe korrekt ist
-    EXPECT_EQ(capturedOutput.str(), testMessage + "\n"); // "\n" wegen std::endl
+    // Prüfen, ob die Ausgabe korrekt ist
+    EXPECT_EQ(capturedOutput.str(), testMessage + "\n");
 }
 
 //Test Gui::showScoreboard
@@ -142,17 +143,14 @@ private:
 };
 
 TEST(GuiTest, ShowScoreboardCorrectly) {
-    // Arrange
     MockPlayer player("TestPlayer", {1.2f, 1.5f, 1.8f}, {1.1f, 1.3f, 1.6f});
     GUI gui;
     std::ostringstream output;
     std::streambuf* originalCoutBuffer = std::cout.rdbuf(output.rdbuf());
 
-    // Act
     gui.showScoreboard(player);
 
-    // Assert
-    std::cout.rdbuf(originalCoutBuffer); // Restore original cout buffer
+    std::cout.rdbuf(originalCoutBuffer);
     std::string outputStr = output.str();
 
     EXPECT_NE(outputStr.find("Player: TestPlayer"), std::string::npos);

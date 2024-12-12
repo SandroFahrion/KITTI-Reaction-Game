@@ -12,7 +12,7 @@
 #include "sstream"
 
 
-//Tests player.hpp
+//Tests player
 //Test Player::addReactionTime
 TEST(PlayerTest, AddReactionTimesCorrectly) {
     // Arrange: Erstelle ein Player-Objekt
@@ -40,10 +40,10 @@ TEST(PlayerTest, AddHitTimesCorrectly) {
     Player player("TestPlayer");
 
     //Test-Hitzeiten einfügen
-    player.addHitTime(2.03);
-    player.addHitTime(0.65);
-    player.addHitTime(1.81);
-    player.addHitTime(0.97);
+    player.addHitTime(2.03f);
+    player.addHitTime(0.65f);
+    player.addHitTime(1.81f);
+    player.addHitTime(0.97f);
 
     // Zugriff auf die gespeicherten Reaktionszeiten
     const std::vector<float>& reactionTimes = player.getHitTimes();
@@ -57,7 +57,7 @@ TEST(PlayerTest, AddHitTimesCorrectly) {
 }
 
 
-//Tests kitti_dataset.hpp
+//Tests kitti_dataset
 //Test Kitti_dataset::incrementCurrentIndex
 TEST(KittiDatasetTest, IncrementCurrentIndexCorrectly){
     KittiDataset kittidataset("0000");
@@ -70,7 +70,7 @@ TEST(KittiDatasetTest, IncrementCurrentIndexCorrectly){
 }
 
 
-//Tests gui.hpp
+//Tests gui
 //Test Gui::displayImageWithBoundingBox
 TEST(GuiTest, DisplayImageWithBoundingBox) {
     // Testdaten werden vorbereitet
@@ -232,7 +232,7 @@ TEST(GuiTest, ShowScoreboardCorrectly) {
 }
 
 
-//Tests bounding_box.hpp
+//Tests bounding_box
 //Test Bounding_box::contains
 TEST(BoundingBoxTest, ContainsMausklick) {
     std::string type = "TestBox";
@@ -244,54 +244,6 @@ TEST(BoundingBoxTest, ContainsMausklick) {
     EXPECT_FALSE(box.contains(200, 200)); // Mausklick außerhalb der Box
     EXPECT_FALSE(box.contains(49, 49)); // Mausklick knapp außerhalb der oberen linken Ecke
 }
-
-
-//Tests mode_1_direct_click.hpp
-//Test Mode_1_direct_click::processClick
-
-
-//Test Mode_1_direct_click::clickCallback
-
-
-
-//Tests mode_2_color_change.hpp
-//Test Mode_2_color_change::processClick
-//Test Mode_2_color_change::processKeyPress
-//Test Mode_2_color_change::clickCallback
-
-
-//Tests mode_3_memory.hpp
-//Test Mode_3_memory::processClick
-
-
-//Test Mode_3_memory::clickCallback
-
-
-
-/*TEST(Mode3MemoryTest, ClickCallbackProcessesClick) {
-    // Arrange
-    StartParams params("TestPlayer", "TestSequence", 5);
-    GUI gui;
-    Mode3Memory mode(params, gui);
-    std::string type = "TestBox";
-
-    int testX = 50, testY = 50;
-    int event = cv::EVENT_LBUTTONDOWN;
-    int flags = 0;
-
-    mode.m_allowClicks = true; // Ensure clicks are allowed
-    mode.m_sequence.push_back(BoundingBox{type, 1, 50, 50, 100, 100}); // Add a target box
-    mode.m_sequenceIndex = 0;
-
-    // Act
-    Mode3Memory::clickCallback(event, testX, testY, flags, &mode);
-
-    // Assert
-    ASSERT_TRUE(mode.m_mouseClicked); // Verify that the mouse click was registered
-    ASSERT_EQ(mode.m_sequenceIndex, 1); // Verify that the sequence index was incremented
-}*/
-
-
 
 
 // Mock-Klassen für Abhängigkeiten
@@ -311,7 +263,8 @@ public:
     std::string lastImagePath;
     std::vector<BoundingBox> lastBoxes;
     cv::Scalar lastColor;
-    float MockGUI::getTotalReactionTime();
+   // float MockGUI::getTotalReactionTime();
+
 };
 
 class MockStartParams : public StartParams {
@@ -323,7 +276,8 @@ public:
 
 // Unit-Tests
 
-// Mode1DirectClick
+//Tests mode_1_direct_click
+//Test Mode_1_direct_click::startGame
 TEST(Mode1DirectClickTest, StartGameCorrectly) {
     MockGUI gui;
     MockStartParams params;
@@ -332,7 +286,8 @@ TEST(Mode1DirectClickTest, StartGameCorrectly) {
     EXPECT_TRUE(mode.startGame(params, gui));
 }
 
-TEST(Mode1DirectClickTest, ProcessClick_CorrectBoundingBox_AddsReactionTime) {
+//Test Mode_1_direct_click::processClick
+TEST(Mode1DirectClickTest, ProcessClick_Hit) {
     MockGUI gui;
     MockStartParams params;
     //float MockGUI::getTotalReactionTime();
@@ -347,8 +302,21 @@ TEST(Mode1DirectClickTest, ProcessClick_CorrectBoundingBox_AddsReactionTime) {
     EXPECT_GT(mode.getTotalReactionTime(), 0);
 }
 
-// Mode2ColorChange
-TEST(Mode2ColorChangeTest, StartGame_ValidParams_ReturnsTrue) {
+TEST(Mode1DirectClickTest, ProcessClick_Miss) {
+    MockGUI gui;
+    MockStartParams params;
+    Mode1DirectClick mode(params, gui);
+
+    float expectedTime = mode.getReactionTime() + mode.getPenaltyTime();
+    mode.processClick(100, 100); // Click outside any bounding box
+    // Verify penalty time was added
+    EXPECT_EQ(mode.getTotalReactionTime(), expectedTime);
+}
+
+
+//Tests mode_2_color_change
+//Test Mode_2_color_change::startGame
+TEST(Mode2ColorChangeTest, StartGameCorrectly) {
     MockGUI gui;
     MockStartParams params;
     Mode2ColorChange mode(params, gui);
@@ -356,17 +324,42 @@ TEST(Mode2ColorChangeTest, StartGame_ValidParams_ReturnsTrue) {
     EXPECT_TRUE(mode.startGame(params, gui));
 }
 
-TEST(Mode2ColorChangeTest, ProcessClick_Miss_AddsPenalty) {
+//Test Mode_2_color_change::processClick
+TEST(Mode2ColorChangeTest, ProcessClick_Hit) {
+    MockGUI gui;
+    MockStartParams params;
+    //float MockGUI::getTotalReactionTime();
+    Mode2ColorChange mode(params, gui);
+    std::string type = "TestBox";
+    
+
+    BoundingBox box(type, 1, 10, 10, 50, 50);
+    mode.processClick(20, 20); // Click within the bounding box
+    
+    // Check if reaction time was recorded (mock the timer if needed)
+    EXPECT_GT(mode.getTotalReactionTime(), 0);
+}
+
+TEST(Mode2ColorChangeTest, ProcessClick_Miss) {
     MockGUI gui;
     MockStartParams params;
     Mode2ColorChange mode(params, gui);
 
+    float expectedTime = mode.getReactionTime() + mode.getPenaltyTime();
     mode.processClick(100, 100); // Click outside any bounding box
     // Verify penalty time was added
-    EXPECT_EQ(mode.getTotalReactionTime(), 0);
+    EXPECT_EQ(mode.getTotalReactionTime(), expectedTime);
 }
 
-// Mode3Memory
+//Test Mode_2_color_change::processKeyPress
+
+
+
+
+
+
+//Tests mode_3_memory
+//Test Mode_3_memory::startGame
 TEST(Mode3MemoryTest, StartGameCorrectly) {
     MockGUI gui;
     MockStartParams params;
@@ -375,7 +368,8 @@ TEST(Mode3MemoryTest, StartGameCorrectly) {
     EXPECT_TRUE(mode.startGame(params, gui));
 }
 
-TEST(Mode3MemoryTest, ProcessClickCorrectly) {
+//Test Mode_3_memory::processClick
+/*TEST(Mode3MemoryTest, ProcessClickedCorrectSequence) {
     MockGUI gui;
     MockStartParams params;
     Mode3Memory mode(params, gui);
@@ -389,4 +383,54 @@ TEST(Mode3MemoryTest, ProcessClickCorrectly) {
     mode.processClick(70, 70); // Second box
 
     EXPECT_EQ(mode.getCurrentSequenceIndex(), 2); // All boxes clicked in sequence
+}*/
+
+TEST(Mode3MemoryTest, ProcessClick_Hit) {
+    MockGUI gui;
+    MockStartParams params;
+    //float MockGUI::getTotalReactionTime();
+    Mode3Memory mode(params, gui);
+    std::string type = "TestBox";
+    
+
+    BoundingBox box(type, 1, 10, 10, 50, 50);
+    mode.processClick(20, 20); // Click within the bounding box
+    
+    // Check if reaction time was recorded (mock the timer if needed)
+    EXPECT_GT(mode.getTotalReactionTime(), 0);
 }
+
+TEST(ModeMemoryTest, ProcessClick_Miss) {
+    MockGUI gui;
+    MockStartParams params;
+    Mode3Memory mode(params, gui);
+
+    float expectedTime = mode.getReactionTime() + mode.getPenaltyTime();
+    mode.processClick(100, 100); // Click outside any bounding box
+    // Verify penalty time was added
+    EXPECT_EQ(mode.getTotalReactionTime(), expectedTime);
+}
+
+/*TEST(Mode3MemoryTest, ClickCallbackProcessesClick) {
+    // Arrange
+    StartParams params("TestPlayer", "TestSequence", 5);
+    GUI gui;
+    Mode3Memory mode(params, gui);
+    std::string type = "TestBox";
+
+    int testX = 50, testY = 50;
+    int event = cv::EVENT_LBUTTONDOWN;
+    int flags = 0;
+
+    bool m_allowClicks = true;
+    mode.getClicksAllowed(); // Ensure clicks are allowed
+    mode.m_sequence.push_back(BoundingBox{type, 1, 50, 50, 100, 100}); // Add a target box
+    mode.getCurrentSequenceIndex(0);
+
+    // Act
+    Mode3Memory::clickCallback(event, testX, testY, flags, &mode);
+
+    // Assert
+    ASSERT_TRUE(mode.m_mouseClicked); // Verify that the mouse click was registered
+    ASSERT_EQ(mode.m_sequenceIndex, 1); // Verify that the sequence index was incremented
+}*/

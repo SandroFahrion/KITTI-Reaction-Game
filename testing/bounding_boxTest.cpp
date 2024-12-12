@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "bounding_box.hpp"
+#include "sstream"
 
 //Tests bounding_box
 //Test Bounding_box::contains

@@ -2,6 +2,7 @@
 #include <gmock/gmock.h>
 #include "mode_1_direct_click.hpp"
 #include "opencv2/opencv.hpp"
+#include "sstream"
 
 
 class MockGUI : public GUI {
@@ -20,7 +21,6 @@ public:
     std::string lastImagePath;
     std::vector<BoundingBox> lastBoxes;
     cv::Scalar lastColor;
-   // float MockGUI::getTotalReactionTime();
 
 };
 
@@ -47,16 +47,14 @@ TEST(Mode1DirectClickTest, StartGameCorrectly) {
 TEST(Mode1DirectClickTest, ProcessClick_Hit) {
     MockGUI gui;
     MockStartParams params;
-    //float MockGUI::getTotalReactionTime();
     Mode1DirectClick mode(params, gui);
     std::string type = "TestBox";
     
 
     BoundingBox box(type, 1, 10, 10, 50, 50);
-    mode.processClick(20, 20); // Click within the bounding box
+    mode.processClick(20, 20);      // innerhalb der Box klicken
     
-    // Check if reaction time was recorded (mock the timer if needed)
-    EXPECT_GT(mode.getTotalReactionTime(), 0);
+    EXPECT_GT(mode.getTotalReactionTime(), 0);      //prüfen ob Zeit>0
 }
 
 TEST(Mode1DirectClickTest, ProcessClick_Miss) {
@@ -65,7 +63,7 @@ TEST(Mode1DirectClickTest, ProcessClick_Miss) {
     Mode1DirectClick mode(params, gui);
 
     float expectedTime = mode.getReactionTime() + mode.getPenaltyTime();
-    mode.processClick(100, 100); // Click outside any bounding box
-    // Verify penalty time was added
-    EXPECT_EQ(mode.getTotalReactionTime(), expectedTime);
+    mode.processClick(100, 100);        // außerhalb der Box klicken
+    
+    EXPECT_EQ(mode.getTotalReactionTime(), expectedTime);       //entspricht Zeit der erwarteten Zeit inklusive Strafzeit?
 }

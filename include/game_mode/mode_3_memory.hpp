@@ -29,6 +29,11 @@ public:
 
 
     const std::vector<BoundingBox> &getCurrentSequenceIndex() const { return m_sequence;}
+    float getTotalReactionTime() const { return m_totalTime; }
+    float getPenaltyTime() const { return m_penaltyTime; }
+    float getReactionTime() const { return m_reactionTime; }
+    //bool getClicksAllowed() const { return m_allowClicks; }
+
 private:
     std::vector<BoundingBox> m_sequence; // Sequenz der Boxen
     int m_sequenceIndex; // Aktuelle Position in der Sequenz

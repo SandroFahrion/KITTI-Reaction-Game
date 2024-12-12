@@ -29,7 +29,8 @@ public:
 
 
     float getTotalReactionTime() const { return m_totalTime; }
-
+    float getPenaltyTime() const { return m_penaltyTime; }
+    float getReactionTime() const { return m_reactionTime; }
 private:
     // Member Variablen
     const float m_penaltyTime = 5; // Strafzeit in diesem Spielmodus

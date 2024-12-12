@@ -9,7 +9,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "/MD") # Dynamische Release-Bibliothek
 
 
 # Include directories
-include_directories(include)
+include_directories(${CMAKE_SOURCE_DIR}/include)
 
 # Source files
 set(SOURCES
@@ -26,7 +26,8 @@ set(SOURCES
     helpers/kitti_random.cpp
     helpers/time.cpp
     main.cpp
-)
+    
+    )
 
 # Debugging option
 option(ENABLE_DEBUG "Enable debugging" OFF)
@@ -50,30 +51,3 @@ target_link_libraries(KITTIReactionGame ${OpenCV_LIBS})
 
 
 
-
-# specify minimum version of cmake
-cmake_minimum_required(VERSION 3.8)
-
-# set the project name for tests
-set(gameTest gameTest)
-project(${gameTest} C CXX)
-
-# specify the C++ standard
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-# list all test source files
-set(TEST_SOURCES gameTest.cpp)
-
-# include project's source directory and googletest headers
-include_directories(${CMAKE_SOURCE_DIR}/src)
-include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
-
-# create executable for tests
-add_executable(${gameTest} ${TEST_SOURCES})
-
-# link googletest and project's static library to test executable
-target_link_libraries(${gameTest} PUBLIC gtest_main ${projectName}_lib)
-
-# add  test to the CMake testing framework
-add_test(NAME ${gameTest} COMMAND ${gameTest})

@@ -2,6 +2,7 @@
 #include <gmock/gmock.h>
 #include "mode_3_memory.hpp"
 #include "opencv2/opencv.hpp"
+#include "sstream"
 
 
 // Mock-Klassen für Abhängigkeiten
@@ -21,8 +22,6 @@ public:
     std::string lastImagePath;
     std::vector<BoundingBox> lastBoxes;
     cv::Scalar lastColor;
-   // float MockGUI::getTotalReactionTime();
-
 };
 
 class MockStartParams : public StartParams {
@@ -43,36 +42,17 @@ TEST(Mode3MemoryTest, StartGameCorrectly) {
     EXPECT_TRUE(mode.startGame(params, gui));
 }
 
-//Test Mode_3_memory::processClick
-/*TEST(Mode3MemoryTest, ProcessClickedCorrectSequence) {
-    MockGUI gui;
-    MockStartParams params;
-    Mode3Memory mode(params, gui);
-    //std::string type = "TestBox";
-
-    // Start game to initialize sequence
-    mode.startGame(params, gui);
-
-    // Mock clicks based on the initialized sequence (assume known sequence for simplicity)
-    mode.processClick(20, 20); // First box
-    mode.processClick(70, 70); // Second box
-
-    EXPECT_EQ(mode.getCurrentSequenceIndex(), 2); // All boxes clicked in sequence
-}*/
-
 TEST(Mode3MemoryTest, ProcessClick_Hit) {
     MockGUI gui;
     MockStartParams params;
-    //float MockGUI::getTotalReactionTime();
     Mode3Memory mode(params, gui);
     std::string type = "TestBox";
     
 
     BoundingBox box(type, 1, 10, 10, 50, 50);
-    mode.processClick(20, 20); // Click within the bounding box
+    mode.processClick(20, 20);      // innerhalb der Box klicken 
     
-    // Check if reaction time was recorded (mock the timer if needed)
-    EXPECT_GT(mode.getTotalReactionTime(), 0);
+    EXPECT_GT(mode.getTotalReactionTime(), 0); //prüfen ob Zeit>0
 }
 
 TEST(ModeMemoryTest, ProcessClick_Miss) {
@@ -81,9 +61,9 @@ TEST(ModeMemoryTest, ProcessClick_Miss) {
     Mode3Memory mode(params, gui);
 
     float expectedTime = mode.getReactionTime() + mode.getPenaltyTime();
-    mode.processClick(100, 100); // Click outside any bounding box
-    // Verify penalty time was added
-    EXPECT_EQ(mode.getTotalReactionTime(), expectedTime);
+    mode.processClick(100, 100);    // außerhalb der Box klicken
+    
+    EXPECT_EQ(mode.getTotalReactionTime(), expectedTime);   //entspricht Zeit der erwarteten Zeit inklusive Strafzeit?
 }
 
 /*TEST(Mode3MemoryTest, ClickCallbackProcessesClick) {
