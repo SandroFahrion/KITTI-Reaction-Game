@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
-#include "mode_1_direct_click.hpp"
+#include "game_mode/mode_1_direct_click.hpp"
 #include "opencv2/opencv.hpp"
 #include "sstream"
 
@@ -67,3 +67,4 @@ TEST(Mode1DirectClickTest, ProcessClick_Miss) {
     
     EXPECT_EQ(mode.getTotalReactionTime(), expectedTime);       //entspricht Zeit der erwarteten Zeit inklusive Strafzeit?
 }
+

@@ -4,11 +4,12 @@
 #include "helpers/debug/debug.hpp"
 #endif // DEBUG_MODE
 
-#include "gui.hpp"
+#include "include/gui.hpp"
 #include "game_mode/game_mode.hpp"
 #include "game_mode/mode_1_direct_click.hpp"
 #include "game_mode/mode_2_color_change.hpp"
 #include "game_mode/mode_3_memory.hpp"
+
 
 
 int main(int argc, char* argv[]) {

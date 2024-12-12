@@ -119,7 +119,7 @@ bool GUI::showMenu(StartParams &params) {
     const int maxSeq = 20;
     const int maxMode = 3;
 
-    std::cout << "\nWelcome to the KITTI Reaction Game! You will be shown an image from the KITTI dataset,\
+    std::cout << "\n!Welcome to the KITTI Reaction Game! You will be shown an image from the KITTI dataset,\
  a training set from the KIT (Karlsruhe Institute of Technology) about the recognition of objects in street traffic.\
  Depending on the game mode, the reaction time of your interaction with the shown data is measured in different ways.\n";
 

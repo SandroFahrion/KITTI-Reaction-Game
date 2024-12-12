@@ -14,3 +14,4 @@ TEST(BoundingBoxTest, ContainsMausklick) {
     EXPECT_FALSE(box.contains(200, 200)); // Mausklick außerhalb der Box
     EXPECT_FALSE(box.contains(49, 49)); // Mausklick knapp außerhalb der oberen linken Ecke
 }
+

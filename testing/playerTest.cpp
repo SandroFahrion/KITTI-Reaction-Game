@@ -45,3 +45,4 @@ TEST(PlayerTest, AddHitTimesCorrectly) {
     EXPECT_FLOAT_EQ(reactionTimes[2], 1.81f); // dritte Reaktionszeit korrekt?
     EXPECT_FLOAT_EQ(reactionTimes[3], 0.97f); // vierte Reaktionszeit korrekt?
 }
+

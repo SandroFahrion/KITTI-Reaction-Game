@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
-#include "mode_2_color_change.hpp"
+#include "game_mode/mode_2_color_change.hpp"
 #include "opencv2/opencv.hpp"
 #include "sstream"
 

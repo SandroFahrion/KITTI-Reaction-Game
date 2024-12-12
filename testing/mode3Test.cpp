@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
-#include "mode_3_memory.hpp"
+#include "game_mode/mode_3_memory.hpp"
 #include "opencv2/opencv.hpp"
 #include "sstream"
 
@@ -89,3 +89,4 @@ TEST(ModeMemoryTest, ProcessClick_Miss) {
     ASSERT_TRUE(mode.m_mouseClicked); // Verify that the mouse click was registered
     ASSERT_EQ(mode.m_sequenceIndex, 1); // Verify that the sequence index was incremented
 }*/
+

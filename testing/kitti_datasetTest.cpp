@@ -12,3 +12,4 @@ TEST(KittiDatasetTest, IncrementCurrentIndexCorrectly){
 
     EXPECT_EQ(newIndex, initialIndex + 1);
 }
+
